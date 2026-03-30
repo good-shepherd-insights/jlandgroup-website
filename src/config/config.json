@@ -1,0 +1,59 @@
+{
+  "site": {
+    "title": "Roofer - Roofing Service Astro Template",
+    "base_url": "https://roofer-astro.vercel.app",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.svg",
+    "logo": "/images/logo-jland.svg",
+    "footer_logo": "/images/logo-jland.svg",
+    "logo_width": "50",
+    "logo_height": "50",
+    "logo_text": "J LAND CONTRACTING"
+  },
+
+  "settings": {
+    "sticky_header": true,
+    "pagination": 6
+  },
+
+  "announcement": {
+    "enable": true,
+    "content": "<span class='text-center block'>🎉 Get 20% off on all roofing services this summer! Limited time offer. <a href='/contact' class='underline'>Book Now</a> 🎉</span>",
+    "expire_days": 7
+  },
+
+  "params": {
+    "contact_form_action": "#",
+    "footer_description": "Welcome to a place of refinement and clean. This is Roofer, we made for home and office cleaning easy for you."
+  },
+
+  "contact_info": {
+    "address": "3636 Glenoble Court, Jefferson, MD 21755",
+    "phone": "+123 456 7890",
+    "email": "info@roofer.com"
+  },
+
+  "google_map": {
+    "enable": true,
+    "embed_url": "https://maps.google.com/maps?q=3636%20Glenoble%20Court,%20Jefferson,%20MD%2021755&t=&z=13&ie=UTF8&iwloc=&output=embed"
+  },
+
+  "navigation_button": {
+    "enable": true,
+    "label": "Book A Free Consultation",
+    "link": "/contact",
+    "icon": "FaPhone"
+  },
+
+  "google_tag_manager": {
+    "enable": false,
+    "gtm_id": "GTM-XXXXXX"
+  },
+
+  "metadata": {
+    "meta_author": "themefisher",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "Roofer is a Astro template for roofing services. 8 pages, SEO-ready. Simplify website building for your business."
+  }
+}

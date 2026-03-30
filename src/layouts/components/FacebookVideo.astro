@@ -1,0 +1,95 @@
+---
+interface Props {
+  videoUrl: string;
+  thumbnail?: string;
+  description?: string;
+}
+
+const {
+  videoUrl,
+  thumbnail = "https://picsum.photos/seed/facebook-reel-demo/1200/675",
+  description = "Click to load the video",
+} = Astro.props;
+---
+
+<div
+  id="facebook-video-placeholder"
+  onclick={`
+    document.getElementById('facebook-video-placeholder').outerHTML = \`
+      <div style='width:100%;max-width:600px;margin:0 auto;'>
+        <div
+          id='facebook-video'
+          class='fb-video rounded-xl overflow-hidden shadow-lg'
+          data-href='${videoUrl}'
+          data-allowfullscreen='true'
+          data-width='auto'
+          data-show-text='true'
+        ></div>
+      </div>
+    \`;
+    if (window.FB && FB.XFBML) FB.XFBML.parse();
+  `}
+  style="
+    width:100%;
+    max-width:600px;
+    min-height: 410px;
+    margin:0 auto;
+    border-radius:16px;
+    overflow:hidden;
+    cursor:pointer;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+    position:relative;
+    background:#111;
+    aspect-ratio: 3 / 2;
+  "
+>
+  <img
+    src={thumbnail}
+    alt="Video thumbnail placeholder"
+    style="display:block;width:100%;height:100%;object-fit:cover;"
+  />
+
+  <div
+    style="
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.18);
+    "
+  >
+    <div
+      style="
+        width:72px;
+        height:72px;
+        border-radius:999px;
+        background:rgba(255,255,255,.92);
+        color:#111;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:28px;
+        font-weight:700;
+      "
+    >
+      ▶
+    </div>
+  </div>
+
+  <div
+    style="
+      position:absolute;
+      left:16px;
+      right:16px;
+      bottom:16px;
+      padding:12px 14px;
+      border-radius:12px;
+      background:rgba(0,0,0,.48);
+      color:#fff;
+      font:600 14px/1.3 system-ui,sans-serif;
+    "
+  >
+    {description}
+  </div>
+</div>

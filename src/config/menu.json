@@ -1,0 +1,72 @@
+{
+  "main": [
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "About",
+      "url": "/about"
+    },
+    {
+      "name": "Services",
+      "url": "/services"
+    },
+    {
+      "name": "Appointment",
+      "url": "/appointment"
+    },
+    {
+      "name": "Contact",
+      "url": "/contact"
+    },
+    {
+      "name": "Blog",
+      "url": "/blog"
+    }
+  ],
+  "footer": [
+    {
+      "title": "Services",
+      "children": [
+        {
+          "name": "Commercial Roofing",
+          "url": "/services/commercial-roofing"
+        },
+        {
+          "name": "Damage Repairs",
+          "url": "/services/damage-repairs"
+        },
+        {
+          "name": "Roof Renovation",
+          "url": "/services/roof-renovation"
+        }
+      ]
+    },
+    {
+      "title": "Quick Links",
+      "children": [
+        {
+          "name": "Home",
+          "url": "/"
+        },
+        {
+          "name": "About Us",
+          "url": "/about"
+        },
+        {
+          "name": "Contact",
+          "url": "/contact"
+        },
+        {
+          "name": "Privacy Policy",
+          "url": "/privacy-policy"
+        },
+        {
+          "name": "Elements",
+          "url": "/elements"
+        }
+      ]
+    }
+  ]
+}

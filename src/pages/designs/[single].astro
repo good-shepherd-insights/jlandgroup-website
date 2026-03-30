@@ -1,0 +1,74 @@
+---
+import Variation1 from "@/components/designs/service-card/variation-1/ServiceCard.astro";
+import Variation2 from "@/components/designs/service-card/variation-2/ServiceCard.astro";
+import Variation3 from "@/components/designs/service-card/variation-3/ServiceCard.astro";
+import TitleCenter from "@/components/TitleCenter.astro";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+
+export async function getStaticPaths() {
+  const designs = await getSinglePage("designpage");
+
+  const paths = designs.map((design) => ({
+    params: {
+      single: design.id,
+    },
+    props: { design },
+  }));
+  return paths;
+}
+
+const { design } = Astro.props;
+const pageIndex = await getListPage("designpage", "-index");
+
+// Modular Variation Registry
+const VariationRegistry: Record<string, any[]> = {
+  "service-card": [
+    { name: "Variation 1", Component: Variation1 },
+    { name: "Variation 2", Component: Variation2 },
+    { name: "Variation 3", Component: Variation3 },
+  ],
+};
+
+const variations = VariationRegistry[design.data.component_id] || [];
+---
+
+<Base {...pageIndex.data} title={`Design - ${design.data.title}`}>
+  <section class="section-lg">
+    <div class="container">
+      <TitleCenter
+        title={pageIndex.data.title}
+        description={pageIndex.data.description}
+        centerText
+      />
+
+      {
+        variations.map((variant) => (
+          <div class="mt-20 first:mt-16">
+            <div class="mb-8 border-b border-border pb-4">
+              <h2 class="h4 font-bold text-primary italic uppercase tracking-widest">
+                {variant.name}
+              </h2>
+            </div>
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-6">
+              {/* Deeply isolated variation components for independent development */}
+              <variant.Component data={design.data} id={design.id} />
+              <div class="opacity-10 pointer-events-none grayscale hidden md:block">
+                <variant.Component data={design.data} id={design.id} />
+              </div>
+              <div class="opacity-5 pointer-events-none grayscale hidden xl:block">
+                <variant.Component data={design.data} id={design.id} />
+              </div>
+            </div>
+          </div>
+        ))
+      }
+
+      <div class="mt-24 text-center border-t border-border pt-8">
+        <a href="/designs" class="btn btn-primary text-body inline-block">
+          &larr; Back to Design Hub
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

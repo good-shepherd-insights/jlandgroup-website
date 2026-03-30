@@ -1,0 +1,39 @@
+---
+import TitleCenter from "@/components/TitleCenter.astro";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { sortByDate } from "@/lib/utils/sortFunctions";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const pageIndex = await getListPage("designpage", "-index");
+const designs = await getSinglePage("designpage");
+const sortedDesigns = sortByDate(designs);
+---
+
+<Base {...pageIndex.data}>
+  <section class="section-lg">
+    <div class="container">
+      <TitleCenter
+        title={pageIndex.data.title}
+        description={pageIndex.data.description}
+        centerText
+      />
+
+      <div class="mt-16 space-y-8">
+        {
+          sortedDesigns?.map((design) => (
+            <div class="border border-border p-6 rounded-xl flex justify-between items-center shadow-sm hover:shadow-md transition-shadow">
+              <div>
+                 <h2 class="h4 font-semibold mb-2" set:html={markdownify(design.data.title)} />
+                 <p class="text-text-light/80" set:html={markdownify(design.data.description)} />
+              </div>
+              <a href={`/designs/${design.id}`} class="btn btn-primary">
+                Edit Design
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>

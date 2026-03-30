@@ -1,0 +1,45 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import FacebookVideo from "../components/FacebookVideo.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { FaCheck } from "react-icons/fa6";
+
+type Props = {
+  data: CollectionEntry<"aboutpage">["data"]["why_choose_us"];
+  backgroundColor?: string;
+};
+
+const { data, backgroundColor = "bg-light" } = Astro.props;
+if (!data.enable) return null;
+---
+
+<section class={`section ${backgroundColor}`}>
+  <div class="container px-6 flex max-lg:flex-col gap-16 items-center">
+    <div class="lg:w-[50%]">
+      <FacebookVideo 
+        videoUrl="https://www.facebook.com/reel/531150551239056"
+        thumbnail="/images/daniel-nam-frederick-roofing-jland-contracting.png"
+        description="Experience the JLand difference — click to load the video"
+      />
+    </div>
+    <div class="lg:w-[50%]">
+      <h2 class="text-h1" set:html={markdownify(data.title)} />
+      <p class="text-lg mt-6" set:html={markdownify(data.description)} />
+
+      <div class="mt-8 space-y-6">
+        {
+          data.features.map((feature, i) => (
+            <div
+              data-aos-delay={`${100 + i * 100}`}
+              class="flex gap-4 items-start"
+            >
+              <FaCheck className="text-primary mt-1 shrink-0" size={16} />
+              <p class="text-lg text-balance" set:html={markdownify(feature)} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
