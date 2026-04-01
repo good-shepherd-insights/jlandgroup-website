@@ -16,12 +16,22 @@ if (!data.enable) return null;
 
 <section class={`section ${backgroundColor}`}>
   <div class="container px-6 flex max-lg:flex-col gap-16 items-center">
-    <div class="lg:w-[50%]">
+    <div class="lg:w-[50%] flex flex-col items-center gap-8">
       <FacebookVideo 
         videoUrl="https://www.facebook.com/reel/531150551239056"
         thumbnail="/images/daniel-nam-frederick-roofing-jland-contracting.png"
         description="Experience the JLand difference — click to load the video"
       />
+      
+      <div class="bg-secondary px-8 py-6 rounded-3xl shadow-xl shadow-secondary/10 border-2 border-white/10">
+        <ImageMod
+          src="/images/badges/howard-county-maryland.png"
+          class="h-14 w-auto object-contain"
+          alt="Howard County Maryland"
+          width={208}
+          height={59}
+        />
+      </div>
     </div>
     <div class="lg:w-[50%]">
       <h2 class="text-h1" set:html={markdownify(data.title)} />

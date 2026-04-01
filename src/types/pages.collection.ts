@@ -35,6 +35,14 @@ export const homepage = defineCollection({
       button_solid: button,
       button_outline: button,
     }),
+    partners: z
+      .array(
+        z.object({
+          name: z.string(),
+          logo: z.string(),
+        }),
+      )
+      .optional(),
     why_choose_us: z.object({
       enable: z.boolean(),
       title: z.string(),

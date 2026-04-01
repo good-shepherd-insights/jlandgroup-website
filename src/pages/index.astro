@@ -7,6 +7,7 @@ import { markdownify } from "@/lib/utils/textConverter";
 import CallToAction from "@/partials/CallToAction.astro";
 import FAQs from "@/partials/FAQs.astro";
 import HeroBanner from "@/partials/HeroBanner.astro";
+import Partners from "@/partials/Partners.astro";
 import OurExpertise from "@/partials/OurExpertise.astro";
 import Testimonial from "@/partials/Testimonial.astro";
 import WhatWeOffer from "@/partials/WhatWeOffer.astro";
@@ -21,6 +22,7 @@ const { blog_section, why_choose_us } = homepage.data;
 
 <Base>
   <HeroBanner />
+  <Partners />
   <WhyChooseUs data={why_choose_us} />
   <WhatWeOffer />
   <OurExpertise />
