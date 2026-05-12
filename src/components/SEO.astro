@@ -1,0 +1,83 @@
+---
+// SEO component for meta tags and JSON-LD structured data
+// To verify: View page source to confirm <meta> tags and <script type="application/ld+json">
+// Use Google Rich Results Test / Search Console to validate JSON-LD
+import { SEO as SEOComponent } from "astro-seo";
+import { Schema } from "astro-seo-schema";
+
+export interface SEOProps {
+  /** Page title */
+  title?: string;
+  /** Page description */
+  description?: string;
+  /** Canonical URL */
+  canonical?: string;
+  /** Keywords */
+  keywords?: string;
+  /** Open Graph metadata */
+  openGraph?: {
+    title?: string;
+    description?: string;
+    images?: Array<{ url: string; alt?: string }>;
+    type?: string;
+    url?: string;
+    siteName?: string;
+    locale?: string;
+  };
+  /** Twitter metadata */
+  twitter?: {
+    card?: string;
+    title?: string;
+    description?: string;
+    image?: string;
+    site?: string;
+  };
+  /** JSON-LD structured data */
+  schemaData?: any;
+}
+
+const { title, description, canonical, keywords, openGraph, twitter, schemaData } = Astro.props as SEOProps;
+---
+
+<SEOComponent
+  title={title}
+  description={description}
+  canonical={canonical}
+  openGraph={openGraph}
+  twitter={twitter}
+/>
+
+<!-- Open Graph Meta Tags -->
+{openGraph && (
+  <>
+    <meta property="og:title" content={openGraph.title || title} />
+    <meta property="og:description" content={openGraph.description || description} />
+    <meta property="og:url" content={openGraph.url || canonical} />
+    <meta property="og:type" content={openGraph.type || "website"} />
+    <meta property="og:site_name" content={openGraph.siteName || "J Land Contracting"} />
+    <meta property="og:locale" content={openGraph.locale || "en_US"} />
+    {openGraph.images && openGraph.images.length > 0 && (
+      <meta property="og:image" content={openGraph.images[0].url} />
+    )}
+    {openGraph.images && openGraph.images.length > 0 && openGraph.images[0].alt && (
+      <meta property="og:image:alt" content={openGraph.images[0].alt} />
+    )}
+  </>
+)}
+
+<!-- Additional Meta Tags -->
+{keywords && <meta name="keywords" content={keywords} />}
+<meta name="language" content="en-US" />
+<meta name="geo.region" content="US-MD" />
+<meta name="geo.placename" content="Jefferson, MD" />
+<meta name="geo.position" content="39.3697;-77.5475" />
+<meta name="ICBM" content="39.3697, -77.5475" />
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+<!-- Mobile Optimization -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="J Land Contracting" />
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+{schemaData && <Schema item={schemaData} />}

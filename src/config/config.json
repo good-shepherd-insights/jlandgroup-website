@@ -1,7 +1,7 @@
 {
   "site": {
-    "title": "Roofer - Roofing Service Astro Template",
-    "base_url": "https://roofer-astro.vercel.app",
+    "title": "J Land Contracting - Professional Roofing Services",
+    "base_url": "https://jlandgroup.com",
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/images/favicon.svg",
@@ -11,49 +11,41 @@
     "logo_height": "50",
     "logo_text": "J LAND CONTRACTING"
   },
-
   "settings": {
     "sticky_header": true,
     "pagination": 6
   },
-
   "announcement": {
     "enable": true,
-    "content": "<span class='text-center block'>🎉 Get 20% off on all roofing services this summer! Limited time offer. <a href='/contact' class='underline'>Book Now</a> 🎉</span>",
+    "content": "<span class='text-center block'><a href=\"tel:(410) 292-0801\">📞 Trusted local roofers. Call for a free estimate: (410) 292-0801 📞</a></span>",
     "expire_days": 7
   },
-
   "params": {
     "contact_form_action": "#",
-    "footer_description": "Welcome to a place of refinement and clean. This is Roofer, we made for home and office cleaning easy for you."
+    "footer_description": "J Land Contracting delivers expert roofing solutions across the DMV — with the integrity your family deserves and the experience your insurance claim demands."
   },
-
   "contact_info": {
     "address": "3636 Glenoble Court, Jefferson, MD 21755",
-    "phone": "+123 456 7890",
-    "email": "info@roofer.com"
+    "phone": "(410) 292-0801",
+    "email": "info@jlandgroup.com"
   },
-
   "google_map": {
     "enable": true,
     "embed_url": "https://maps.google.com/maps?q=3636%20Glenoble%20Court,%20Jefferson,%20MD%2021755&t=&z=13&ie=UTF8&iwloc=&output=embed"
   },
-
   "navigation_button": {
     "enable": true,
     "label": "Book A Free Consultation",
     "link": "/contact",
     "icon": "FaPhone"
   },
-
   "google_tag_manager": {
     "enable": false,
     "gtm_id": "GTM-XXXXXX"
   },
-
   "metadata": {
-    "meta_author": "themefisher",
+    "meta_author": "J Land Contracting",
     "meta_image": "/images/og-image.png",
-    "meta_description": "Roofer is a Astro template for roofing services. 8 pages, SEO-ready. Simplify website building for your business."
+    "meta_description": "J Land Contracting delivers expert roofing solutions across the DMV with integrity and experience. Free inspections, insurance claim assistance, and professional roof replacements."
   }
 }

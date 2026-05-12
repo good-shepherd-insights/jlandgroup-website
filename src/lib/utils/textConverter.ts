@@ -1,5 +1,5 @@
 import { slug } from "github-slugger";
-import { marked } from "marked";
+import { parse, parseInline } from "marked";
 
 // slugify
 export const slugify = (content: string) => {
@@ -8,7 +8,7 @@ export const slugify = (content: string) => {
 
 // markdownify
 export const markdownify = (content: string, div?: boolean) => {
-  return div ? marked.parse(content) : marked.parseInline(content);
+  return div ? parse(content) : parseInline(content);
 };
 
 // humanize
@@ -33,7 +33,7 @@ export const titleify = (content: string) => {
 
 // plainify
 export const plainify = (content: string) => {
-  const parseMarkdown: any = marked.parse(content);
+  const parseMarkdown: any = parse(content);
   const filterBrackets = parseMarkdown.replace(/<\/?[^>]+(>|$)/gm, "");
   const filterSpaces = filterBrackets.replace(/[\r\n]\s*[\r\n]/gm, "");
   const stripHTML = htmlEntityDecoder(filterSpaces);

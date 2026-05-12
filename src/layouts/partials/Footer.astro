@@ -23,11 +23,9 @@ const { footer } = menu;
 
   <div class="container relative z-10">
     <div
-      
-      
       class="flex gap-6 flex-wrap justify-center max-md:text-center md:justify-between items-baseline"
     >
-      <Logo src={config.site.footer_logo} />
+      <Logo src={config.site.footer_logo} className="text-white" />
       <p
         class="text-lg max-w-xl lg:mr-40 text-balance"
         set:html={config.params.footer_description}
@@ -44,7 +42,7 @@ const { footer } = menu;
           <!-- Dynamic Menu Sections from menu.json -->
           {
             footer.map((section) => (
-              <div  >
+              <div>
                 <h3 class="text-text-light mb-6 opacity-80 uppercase text-sm tracking-wider">
                   {section.title}
                 </h3>
@@ -65,7 +63,7 @@ const { footer } = menu;
           }
 
           <!-- Column 3: Contact Info -->
-          <div   class="space-y-8">
+          <div class="space-y-8">
             <div>
               <h3
                 class="text-text-light mb-2 opacity-80 text-sm tracking-wider"
@@ -116,7 +114,7 @@ const { footer } = menu;
   </div>
 
   <!-- Desktop: Banner image out of container (left 45%) -->
-  <div class="absolute lg:bottom-0 left-0 md:-left-40 w-[55vw] z-10">
+  <div class="absolute lg:bottom-0 left-0 md:-left-40 w-[40vw] z-5">
     <div class="relative h-full rounded-lg shadow-lg flex items-end">
       <ImageMod
         height={700}

@@ -25,6 +25,8 @@
     "aos": "^2.3.4",
     "astro": "6.0.2",
     "astro-auto-import": "^0.5.1",
+    "astro-seo": "^1.1.0",
+    "astro-seo-schema": "^6.0.0",
     "astro-swiper": "^1.4.0",
     "date-fns": "^4.1.0",
     "github-slugger": "^2.0.0",
@@ -33,6 +35,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-icons": "^5.6.0",
+    "schema-dts": "^2.0.0",
     "sharp": "^0.34.5",
     "vite": "^7.3.1"
   },
