@@ -18,11 +18,17 @@ export interface SEOProps {
   openGraph?: {
     title?: string;
     description?: string;
-    images?: Array<{ url: string; alt?: string }>;
+    images?: Array<{ url: string; alt?: string; width?: number; height?: number }>;
     type?: string;
     url?: string;
     siteName?: string;
     locale?: string;
+    article?: {
+      publishedTime?: string;
+      modifiedTime?: string;
+      authors?: string[];
+      tags?: string[];
+    };
   };
   /** Twitter metadata */
   twitter?: {
@@ -32,19 +38,20 @@ export interface SEOProps {
     image?: string;
     site?: string;
   };
+  /** noindex flag */
+  noindex?: boolean;
   /** JSON-LD structured data */
   schemaData?: any;
 }
 
-const { title, description, canonical, keywords, openGraph, twitter, schemaData } = Astro.props as SEOProps;
+const { title, description, canonical, keywords, noindex, openGraph, twitter, schemaData } = Astro.props as SEOProps;
 ---
 
 <SEOComponent
   title={title}
   description={description}
   canonical={canonical}
-  openGraph={openGraph}
-  twitter={twitter}
+  noindex={noindex || false}
 />
 
 <!-- Open Graph Meta Tags -->
@@ -57,11 +64,29 @@ const { title, description, canonical, keywords, openGraph, twitter, schemaData 
     <meta property="og:site_name" content={openGraph.siteName || "J Land Contracting"} />
     <meta property="og:locale" content={openGraph.locale || "en_US"} />
     {openGraph.images && openGraph.images.length > 0 && (
-      <meta property="og:image" content={openGraph.images[0].url} />
+      <>
+        <meta property="og:image" content={openGraph.images[0].url} />
+        {openGraph.images[0].width && (
+          <meta property="og:image:width" content={String(openGraph.images[0].width)} />
+        )}
+        {openGraph.images[0].height && (
+          <meta property="og:image:height" content={String(openGraph.images[0].height)} />
+        )}
+        {openGraph.images[0].alt && (
+          <meta property="og:image:alt" content={openGraph.images[0].alt} />
+        )}
+      </>
     )}
-    {openGraph.images && openGraph.images.length > 0 && openGraph.images[0].alt && (
-      <meta property="og:image:alt" content={openGraph.images[0].alt} />
-    )}
+  </>
+)}
+
+<!-- Twitter Card Meta Tags -->
+{twitter && (
+  <>
+    <meta name="twitter:card" content={twitter.card || "summary_large_image"} />
+    <meta name="twitter:title" content={twitter.title || title} />
+    <meta name="twitter:description" content={twitter.description || description} />
+    {twitter.image && <meta name="twitter:image" content={twitter.image} />}
   </>
 )}
 
