@@ -3,7 +3,7 @@ import BlogCard from "@/components/BlogCard.astro";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
 import { sortByDate } from "@/lib/utils/sortFunctions";
-import { markdownify } from "@/lib/utils/textConverter";
+import { markdownify, plainify } from "@/lib/utils/textConverter";
 import CallToAction from "@/partials/CallToAction.astro";
 import FAQs from "@/partials/FAQs.astro";
 import HeroBanner from "@/partials/HeroBanner.astro";
@@ -19,8 +19,14 @@ const featuredBlogs = sortByDate(blogs);
 
 const { blog_section, why_choose_us } = homepage.data;
 
+const testimonialSection = await getListPage("testimonialSection", "testimonial");
+const testimonials = testimonialSection.data.testimonials || [];
+const totalReviews = testimonialSection.data.ratings?.total_reviews || "0";
+
+const faqSection = await getListPage("faqsSection", "faqs");
+const faqItems = faqSection.data.faqs_list || [];
+
 const schemaData = [
-  // LocalBusiness Schema
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -66,12 +72,16 @@ const schemaData = [
     ],
     "areaServed": [
       {
-        "@type": "City",
-        "name": "Jefferson, MD"
+        "@type": "State",
+        "name": "Maryland"
       },
       {
         "@type": "State",
-        "name": "Maryland"
+        "name": "Virginia"
+      },
+      {
+        "@type": "State",
+        "name": "District of Columbia"
       },
       {
         "@type": "GeoCircle",
@@ -80,7 +90,7 @@ const schemaData = [
           "latitude": "39.3697",
           "longitude": "-77.5475"
         },
-        "geoRadius": "50000"
+        "geoRadius": "80467"
       }
     ],
     "hasOfferCatalog": {
@@ -129,41 +139,28 @@ const schemaData = [
         }
       ]
     },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "1550",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    "review": [
-      {
-        "@type": "Review",
-        "author": {
-          "@type": "Person",
-          "name": "John Smith"
-        },
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5",
-          "bestRating": "5"
-        },
-        "reviewBody": "Outstanding service and quality work. J Land Contracting exceeded our expectations with their professional roof replacement. Highly recommend!"
+    ...(testimonials.length > 0 ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": totalReviews,
+        "bestRating": "5",
+        "worstRating": "1"
       },
-      {
+      "review": testimonials.slice(0, 3).map((t) => ({
         "@type": "Review",
         "author": {
           "@type": "Person",
-          "name": "Sarah Johnson"
+          "name": t.name
         },
         "reviewRating": {
           "@type": "Rating",
           "ratingValue": "5",
           "bestRating": "5"
         },
-        "reviewBody": "Great communication throughout the project. The team was punctual, professional, and the final result is perfect. Will definitely use again."
-      }
-    ],
+        "reviewBody": plainify(t.content)
+      }))
+    } : {}),
     "sameAs": [
       "https://facebook.com/jlandcontracting",
       "https://www.linkedin.com/company/j-land-contracting",
@@ -186,7 +183,18 @@ const schemaData = [
       }
     ]
   },
-  // BreadcrumbList Schema
+  ...(faqItems.length > 0 ? [{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": plainify(faq.answer)
+      }
+    }))
+  }] : []),
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -199,62 +207,40 @@ const schemaData = [
       }
     ]
   },
-  // SiteNavigationElement Schema
   {
     "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Home",
-    "url": "https://jlandgroup.com"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "About",
-    "url": "https://jlandgroup.com/about"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Services",
-    "url": "https://jlandgroup.com/services"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Appointment",
-    "url": "https://jlandgroup.com/appointment"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Contact",
-    "url": "https://jlandgroup.com/contact"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Blog",
-    "url": "https://jlandgroup.com/blog"
-  },
-  // Video Schema for Facebook Video
-  {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    "name": "Roofing Services by J Land Contracting",
-    "description": "Watch our roofing services and customer testimonials. Professional roof replacement, repairs, and inspections in the DMV area.",
-    "thumbnailUrl": "https://jlandgroup.com/images/og-image.png",
-    "uploadDate": "2024-01-15",
-    "duration": "PT2M30S",
-    "contentUrl": "https://www.facebook.com/watch?v=531150551239056",
-    "embedUrl": "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%3Fv%3D531150551239056",
-    "author": {
-      "@type": "Organization",
-      "name": "J Land Contracting"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "J Land Contracting"
-    }
+    "@graph": [
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Home",
+        "url": "https://jlandgroup.com"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "About",
+        "url": "https://jlandgroup.com/about"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Services",
+        "url": "https://jlandgroup.com/services"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Appointment",
+        "url": "https://jlandgroup.com/appointment"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Contact",
+        "url": "https://jlandgroup.com/contact"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Blog",
+        "url": "https://jlandgroup.com/blog"
+      }
+    ]
   }
 ];
 

@@ -4,7 +4,7 @@ import TitleCenter from "@/components/TitleCenter.astro";
 import DynamicIcon from "@/helpers/DynamicIcon";
 import Base from "@/layouts/Base.astro";
 import { getListPage } from "@/lib/contentParser.astro";
-import { markdownify } from "@/lib/utils/textConverter";
+import { markdownify, plainify } from "@/lib/utils/textConverter";
 import WhyChooseUs from "@/partials/WhyChooseUs.astro";
 import AuthorCard from "@/layouts/components/AuthorCard.astro";
 
@@ -19,16 +19,32 @@ const {
   our_team,
 } = pageIndex.data;
 
+const plainDescription = plainify(description);
+
 const schemaData = [
-  // WebPage Schema
   {
     "@context": "https://schema.org",
-    "@type": "WebPage",
+    "@type": "AboutPage",
     "name": title,
-    "description": description,
-    "url": "https://jlandgroup.com/about"
+    "description": plainDescription,
+    "url": "https://jlandgroup.com/about",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "J Land Contracting",
+      "url": "https://jlandgroup.com",
+      "logo": "https://jlandgroup.com/images/logo-jland.svg",
+      "foundingDate": "2007",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Frederick, MD"
+      },
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "minValue": 10,
+        "maxValue": 50
+      }
+    }
   },
-  // BreadcrumbList Schema
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -45,58 +61,6 @@ const schemaData = [
         "name": "About",
         "item": "https://jlandgroup.com/about"
       }
-    ]
-  },
-  // Person Schemas for Team Members
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "John Doe",
-    "jobTitle": "Founder & CEO",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "J Land Contracting"
-    },
-    "image": "https://jlandgroup.com/images/avatar/member1.png",
-    "sameAs": [
-      "https://facebook.com/",
-      "https://x.com/",
-      "https://github.com/",
-      "https://linkedin.com/"
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Jane Smith",
-    "jobTitle": "Chief Engineer",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "J Land Contracting"
-    },
-    "image": "https://jlandgroup.com/images/avatar/member2.png",
-    "sameAs": [
-      "https://facebook.com/",
-      "https://x.com/",
-      "https://github.com/",
-      "https://linkedin.com/"
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Mike Johnson",
-    "jobTitle": "Project Manager",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "J Land Contracting"
-    },
-    "image": "https://jlandgroup.com/images/avatar/member3.png",
-    "sameAs": [
-      "https://facebook.com/",
-      "https://x.com/",
-      "https://github.com/",
-      "https://linkedin.com/"
     ]
   }
 ];

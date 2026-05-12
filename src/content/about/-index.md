@@ -14,24 +14,24 @@ our_values:
   image: "/images/our-values.png"
   values:
     - title: "Our Mission"
-      description: "We believe in honesty and transparency in all our dealings with clients and partners."
+      description: "To be the roofing company DMV homeowners trust most — by showing up honestly, communicating clearly, and doing the job right every time."
       icon: "FaBullseye" # Icons from react-icons
     - title: "Our Vision"
-      description: "We strive for excellence in every project we undertake, ensuring the highest standards of workmanship."
+      description: "A community where no homeowner has to navigate roof damage or insurance claims alone — and every family has a roof they can rely on."
       icon: "FaRegEye" # Icons from react-icons
     - title: "Trusted Services"
-      description: "Our clients' satisfaction is our top priority, and we go above and beyond to meet their needs."
+      description: "Licensed, insured, and backed by over 1,500 completed projects — we earn trust one roof at a time."
       icon: "FaShieldHalved" # Icons from react-icons
 
 why_choose_us:
   enable: true
-  title: "We are on a mission."
-  description: "We have been providing professional roofing and construction services for over 27 years and we are proud to say we are experts in this field. We have a team of skilled & qualified members."
+  title: "Why homeowners choose J Land."
+  description: "For over 27 years, we've been the roofing company DMV homeowners call when they want the job done right — and done honestly."
   image: "/images/why-choose-us.jpg"
   features:
-    - "**Better Roofs**: From free inspections, claim assistance, Roof replacements and home upgrades."
-    - "**Expert Engineers**: Our experienced, knowledgeable team is here to guide you through every step of the process."
-    - "**Quality Materials**: We understand the importance of protecting your family and investment, and we treat with care."
+    - "**Full-Service Support**: From free inspections and claim assistance to roof replacements and home upgrades — we handle it all."
+    - "**Insurance Expertise**: We manage the entire insurance claim process on your behalf, so you never deal with adjusters alone."
+    - "**Quality Materials**: We use only top-grade materials from GAF and CertainTeed, and we treat every home like our own."
 
 our_team:
   enable: false

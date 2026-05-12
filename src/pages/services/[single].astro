@@ -4,7 +4,7 @@ import TitleCenter from "@/components/TitleCenter.astro";
 import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { markdownify } from "@/lib/utils/textConverter";
+import { markdownify, plainify } from "@/lib/utils/textConverter";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -23,36 +23,37 @@ const { service } = Astro.props;
 const { title, description, image, icon, contact_form } = service.data;
 const { Content } = await render(service);
 
-const servicePricing = title.includes("Free") ? "Free" : "Variable";
-const serviceDuration = "P3D"; // 3 days typical
+const plainDescription = plainify(description);
+const servicePricing = title.toLowerCase().includes("free") ? "0" : undefined;
 
 const schemaData = [
-  // Enhanced Service Schema
   {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": title,
-    "description": description,
-    "url": `https://jlandgroup.com/services/${service.slug}`,
+    "description": plainDescription,
+    "url": `https://jlandgroup.com/services/${service.id}`,
+    ...(image && { "image": `https://jlandgroup.com${image}` }),
     "provider": {
       "@type": "Organization",
       "name": "J Land Contracting",
       "telephone": "(410) 292-0801",
       "email": "info@jlandgroup.com",
+      "url": "https://jlandgroup.com",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "3636 Glenoble Court",
         "addressLocality": "Jefferson",
         "addressRegion": "MD",
-        "postalCode": "21755"
+        "postalCode": "21755",
+        "addressCountry": "US"
       }
     },
     "serviceType": "Roofing Service",
     "areaServed": [
-      {
-        "@type": "State",
-        "name": "Maryland"
-      },
+      { "@type": "State", "name": "Maryland" },
+      { "@type": "State", "name": "Virginia" },
+      { "@type": "State", "name": "District of Columbia" },
       {
         "@type": "GeoCircle",
         "geoMidpoint": {
@@ -60,25 +61,18 @@ const schemaData = [
           "latitude": "39.3697",
           "longitude": "-77.5475"
         },
-        "geoRadius": "50000"
+        "geoRadius": "80467"
       }
     ],
-    "offers": {
-      "@type": "Offer",
-      "priceSpecification": {
-        "@type": "PriceSpecification",
+    ...(servicePricing !== undefined && {
+      "offers": {
+        "@type": "Offer",
         "price": servicePricing,
-        "priceCurrency": "USD"
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
       }
-    },
-    "serviceDuration": serviceDuration,
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "150"
-    }
+    })
   },
-  // BreadcrumbList Schema
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -99,63 +93,9 @@ const schemaData = [
         "@type": "ListItem",
         "position": 3,
         "name": title,
-        "item": `https://jlandgroup.com/services/${service.slug}`
+        "item": `https://jlandgroup.com/services/${service.id}`
       }
     ]
-  },
-  // FAQ Schema
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": `How long does ${title.toLowerCase()} take?`,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": `Typically 2-5 days depending on project scope and weather conditions.`
-        }
-      },
-      {
-        "@type": "Question",
-        "name": `Is ${title.toLowerCase()} covered by insurance?`,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Many roofing services are covered by homeowner's insurance. We work directly with your insurance company to handle claims."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do you offer free estimates?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, we provide free, no-obligation estimates for all roofing services."
-        }
-      }
-    ]
-  },
-  // Review Schema
-  {
-    "@context": "https://schema.org",
-    "@type": "Review",
-    "itemReviewed": {
-      "@type": "Service",
-      "name": title,
-      "provider": {
-        "@type": "Organization",
-        "name": "J Land Contracting"
-      }
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Local Customer"
-    },
-    "reviewRating": {
-      "@type": "Rating",
-      "ratingValue": "5",
-      "bestRating": "5"
-    },
-    "reviewBody": `Excellent ${title.toLowerCase()} service from J Land Contracting. Professional, punctual, and high-quality work. Highly recommended!`
   }
 ];
 

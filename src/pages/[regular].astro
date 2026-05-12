@@ -21,15 +21,13 @@ const { page } = Astro.props;
 const { Content } = await render(page);
 
 const schemaData = [
-  // WebPage Schema
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": page.data.title,
     "description": page.data.description,
-    "url": `https://jlandgroup.com/${page.slug}`
+    "url": `https://jlandgroup.com/${page.id}`
   },
-  // BreadcrumbList Schema
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -44,7 +42,7 @@ const schemaData = [
         "@type": "ListItem",
         "position": 2,
         "name": page.data.title,
-        "item": `https://jlandgroup.com/${page.slug}`
+        "item": `https://jlandgroup.com/${page.id}`
       }
     ]
   }
@@ -52,7 +50,7 @@ const schemaData = [
 
 ---
 
-<Base {...page.data} schemaData={schemaData}>
+<Base {...page.data} schemaData={schemaData} noindex={page.id === 'privacy-policy'}>
   <section class="section-lg">
     <div class="container">
       <TitleCenter
