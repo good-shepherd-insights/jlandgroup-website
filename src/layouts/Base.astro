@@ -90,6 +90,7 @@ const { title, meta_title, description, image, keywords, noindex, canonical, sch
             description={seoDescription}
             canonical={seoCanonical}
             keywords={keywords || "roofing, roof replacement, roof repair, DMV, Maryland, Jefferson"}
+            noindex={noindex || false}
             openGraph={{
               title: seoTitle,
               description: seoDescription,
@@ -97,7 +98,7 @@ const { title, meta_title, description, image, keywords, noindex, canonical, sch
               url: ogUrl,
               siteName: "J Land Contracting",
               locale: "en_US",
-              images: ogImage ? [{ url: ogImage, alt: title || seoTitle }] : undefined
+              images: ogImage ? [{ url: ogImage, alt: title || seoTitle, width: 1200, height: 630 }] : undefined
             }}
             twitter={{
               card: "summary_large_image",
@@ -110,9 +111,6 @@ const { title, meta_title, description, image, keywords, noindex, canonical, sch
         );
       })()
     }
-
-    <!-- noindex robots -->
-    {noindex && <meta name="robots" content="noindex,nofollow" />}
 
     <ClientRouter />
 
