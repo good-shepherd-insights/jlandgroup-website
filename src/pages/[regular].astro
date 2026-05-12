@@ -19,9 +19,40 @@ export async function getStaticPaths() {
 
 const { page } = Astro.props;
 const { Content } = await render(page);
+
+const schemaData = [
+  // WebPage Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": page.data.title,
+    "description": page.data.description,
+    "url": `https://jlandgroup.com/${page.slug}`
+  },
+  // BreadcrumbList Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://jlandgroup.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": page.data.title,
+        "item": `https://jlandgroup.com/${page.slug}`
+      }
+    ]
+  }
+];
+
 ---
 
-<Base {...page.data}>
+<Base {...page.data} schemaData={schemaData}>
   <section class="section-lg">
     <div class="container">
       <TitleCenter

@@ -8,10 +8,59 @@ import FAQs from "@/partials/FAQs.astro";
 const pageIndex = await getListPage("contactpage", "-index");
 const { title, description } = pageIndex.data;
 
+const schemaData = [
+  // ContactPage Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": title,
+    "description": description,
+    "url": "https://jlandgroup.com/contact",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "J Land Contracting",
+      "telephone": "(410) 292-0801",
+      "email": "info@jlandgroup.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "3636 Glenoble Court",
+        "addressLocality": "Jefferson",
+        "addressRegion": "MD",
+        "postalCode": "21755"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "(410) 292-0801",
+        "contactType": "customer service",
+        "availableLanguage": "English"
+      }
+    }
+  },
+  // BreadcrumbList Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://jlandgroup.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Contact",
+        "item": "https://jlandgroup.com/contact"
+      }
+    ]
+  }
+];
+
 if (pageIndex.data.draft) return Astro.redirect("/404");
 ---
 
-<Base {...pageIndex.data}>
+<Base {...pageIndex.data} schemaData={schemaData}>
   <section class="section-lg">
     <div class="container">
       <div class="flex max-lg:flex-col gap-16 items-center">

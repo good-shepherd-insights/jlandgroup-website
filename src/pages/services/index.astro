@@ -12,9 +12,55 @@ const pageIndex = await getListPage("servicepage", "-index");
 if (pageIndex.data.draft) return Astro.redirect("/404");
 const services = await getSinglePage("servicepage");
 const sortedServices = sortByDate(services);
+
+const schemaData = [
+  // CollectionPage Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": pageIndex.data.title,
+    "description": pageIndex.data.description,
+    "url": "https://jlandgroup.com/services",
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": "Roofing Services",
+      "numberOfItems": sortedServices.length,
+      "itemListElement": sortedServices.map((service, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Service",
+          "name": service.data.title,
+          "description": service.data.description,
+          "url": `https://jlandgroup.com/services/${service.slug}`
+        }
+      }))
+    }
+  },
+  // BreadcrumbList Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://jlandgroup.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://jlandgroup.com/services"
+      }
+    ]
+  }
+];
+
 ---
 
-<Base {...pageIndex.data}>
+<Base {...pageIndex.data} schemaData={schemaData}>
   <section class="section-lg">
     <div class="container">
       <TitleCenter

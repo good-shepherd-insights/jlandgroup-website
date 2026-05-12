@@ -40,6 +40,14 @@
         {
           "name": "Roof Renovation",
           "url": "/services/roof-renovation"
+        },
+        {
+          "name": "Roof Replacement",
+          "url": "/services/roof-replacement"
+        },
+        {
+          "name": "Free Inspection",
+          "url": "/services/free-inspection"
         }
       ]
     },

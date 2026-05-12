@@ -9,10 +9,10 @@ banner:
     count: "1550+"
     label: "Satisfied Customers"
     images:
-      - "/images/avatar/c1.png"
-      - "/images/avatar/c2.png"
-      - "/images/avatar/c3.png"
-      - "/images/avatar/c4.png"
+      - "/images/avatar/jland-contracting-google-review-customer-gene-buckalew.png"
+      - "/images/avatar/jland-contracting-google-review-customer-leah-walker.png"
+      - "/images/avatar/jland-contracting-google-review-customer-jason-chung.png"
+      - "/images/avatar/jland-contracting-google-review-customer-mark-owens.png"
 
   button_solid:
     enable: true
@@ -24,6 +24,19 @@ banner:
     label: "Explore Our Services"
     link: "/services"
     icon: ""
+partners:
+  - name: Geico Insurance
+    logo: "https://cdn.brandfetch.io/idVducn8DJ/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1668074337186"
+  - name: Allstate Insurance
+    logo: "https://cdn.brandfetch.io/idy9-2iz_S/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1689946273103"
+  - name: Statefarm Insurance
+    logo: "https://cdn.brandfetch.io/idzveZQJ1Y/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1667664725320"
+  - name: Progressive Insurance
+    logo: "https://cdn.brandfetch.io/idFDF9ze43/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1698221441834"
+  - name: USAA Insurance
+    logo: "https://cdn.brandfetch.io/id7nXFaoJg/w/789/h/832/theme/light/logo.png?c=1bxid64Mup7aczewSAYMX&t=1752524398858"
+  - name: Nationwide Insurance
+    logo: "https://cdn.brandfetch.io/idwn-EgP88/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1668074598821"
 
 blog_section:
   enable: true

@@ -1,7 +1,7 @@
 ---
-title: "Roofer Story"
-meta_title: "About | Roofer"
-description: "**We are extremely excited to be consecutively awarded 3 years on three bestrated.com as one of the top 3 best rated roofing contractors.** <br><br> If you decide to make a claim through your insurance, we can assist to make the process as simple as possible. We can help with the initial valuation of the cost of repair and carry out the repair once approved. <br><br> As a local business that cares about our community, we are dedicated to providing the best possible service and are incredible proud of our craft. If you decide to make a claim through your insurance, we can assist to make the process as simple as possible."
+title: "Our Story"
+meta_title: "About | J Land Contracting"
+description: "At J Land Contracting, we started with a simple belief — that homeowners in the DMV deserve a roofing company they can trust and believe.<br><br>We're a small, locally rooted business based in Frederick, MD, and we're proud of that. It means every client gets our full attention, honest answers, and a team that genuinely cares about the outcome — not just the invoice.<br><br>Over the years, we've built a reputation with over 1500+ local clients — an honor we don't take lightly, because it comes directly from the communities we serve.<br><br>What sets us apart isn't just the quality of our roofwork. It's the way we show up for our clients when things get complicated. When storm damage hits and your insurance company feels impossible to deal with, we step in. We help assess the damage, communicate with your insurer, and coordinate every step of the repair — so you're never left navigating it alone.<br><br>Building roofs. Serving with integrity. That's not just our tagline — it's how we operate, every single job."
 image: "/images/expertise2.jpg"
 draft: false
 
@@ -34,7 +34,7 @@ why_choose_us:
     - "**Quality Materials**: We understand the importance of protecting your family and investment, and we treat with care."
 
 our_team:
-  enable: true
+  enable: false
   title: "Meet our professional roofing team."
   description: "Our company provides all types of roof repairs, both residential and commercial, regardless of the damage level. We also offer partial tile replacement."
   members:

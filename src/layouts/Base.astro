@@ -5,6 +5,7 @@ import theme from "@/config/theme.json";
 import { plainify } from "@/lib/utils/textConverter";
 import Footer from "@/partials/Footer.astro";
 import Header from "@/partials/Header.astro";
+import SEO from "@/components/SEO.astro";
 import "@/styles/main.css";
 import {
   GoogleTagmanager,
@@ -23,11 +24,13 @@ export interface Props {
   meta_title?: string;
   description?: string;
   image?: string;
+  keywords?: string;
   noindex?: boolean;
   canonical?: string;
+  schemaData?: any;
 }
 // destructure frontmatter
-const { title, meta_title, description, image, noindex, canonical } =
+const { title, meta_title, description, image, keywords, noindex, canonical, schemaData } =
   Astro.props;
 ---
 
@@ -72,83 +75,49 @@ const { title, meta_title, description, image, noindex, canonical } =
       content="width=device-width, initial-scale=1, maximum-scale=5"
     />
 
-    <!-- title -->
-    <title>
-      {plainify(meta_title ? meta_title : title ? title : config.site.title)}
-    </title>
+    <!-- SEO meta tags and JSON-LD -->
+    {
+      (() => {
+        const seoTitle = plainify(meta_title ? meta_title : title ? title : config.site.title);
+        const seoDescription = plainify(description ? description : config.metadata.meta_description);
+        const seoCanonical = canonical ? canonical : `${config.site.base_url}${Astro.url.pathname}`;
+        const ogUrl = `${config.site.base_url}/${Astro.url.pathname.replace("/", "")}`;
+        const ogImage = image ? `${config.site.base_url}${image}` : `${config.site.base_url}${config.metadata.meta_image}`;
 
-    <!-- canonical url -->
-    {canonical && <link rel="canonical" href={canonical} item-prop="url" />}
+        return (
+          <SEO
+            title={seoTitle}
+            description={seoDescription}
+            canonical={seoCanonical}
+            keywords={keywords || "roofing, roof replacement, roof repair, DMV, Maryland, Jefferson"}
+            openGraph={{
+              title: seoTitle,
+              description: seoDescription,
+              type: "website",
+              url: ogUrl,
+              siteName: "J Land Contracting",
+              locale: "en_US",
+              images: ogImage ? [{ url: ogImage, alt: title || seoTitle }] : undefined
+            }}
+            twitter={{
+              card: "summary_large_image",
+              title: seoTitle,
+              description: seoDescription,
+              image: ogImage
+            }}
+            schemaData={schemaData}
+          />
+        );
+      })()
+    }
 
     <!-- noindex robots -->
     {noindex && <meta name="robots" content="noindex,nofollow" />}
-
-    <!-- meta-description -->
-    <meta
-      name="description"
-      content={plainify(
-        description ? description : config.metadata.meta_description,
-      )}
-    />
 
     <ClientRouter />
 
     <!-- author from config.json -->
     <meta name="author" content={config.metadata.meta_author} />
-
-    <!-- og-title -->
-    <meta
-      property="og:title"
-      content={plainify(
-        meta_title ? meta_title : title ? title : config.site.title,
-      )}
-    />
-
-    <!-- og-description -->
-    <meta
-      property="og:description"
-      content={plainify(
-        description ? description : config.metadata.meta_description,
-      )}
-    />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content={`${config.site.base_url}/${Astro.url.pathname.replace("/", "")}`}
-    />
-
-    <!-- twitter-title -->
-    <meta
-      name="twitter:title"
-      content={plainify(
-        meta_title ? meta_title : title ? title : config.site.title,
-      )}
-    />
-
-    <!-- twitter-description -->
-    <meta
-      name="twitter:description"
-      content={plainify(
-        description ? description : config.metadata.meta_description,
-      )}
-    />
-
-    <!-- og-image -->
-    <meta
-      property="og:image"
-      content={`${config.site.base_url}${
-        image ? image : config.metadata.meta_image
-      }`}
-    />
-
-    <!-- twitter-image -->
-    <meta
-      name="twitter:image"
-      content={`${config.site.base_url}${
-        image ? image : config.metadata.meta_image
-      }`}
-    />
-    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <div id="fb-root"></div>

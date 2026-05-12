@@ -13,9 +13,58 @@ const posts = await getSinglePage("blogpage");
 const sortedPosts = sortByDate(posts);
 const totalPages: number = Math.ceil(posts.length / config.settings.pagination);
 const currentPosts = sortedPosts.slice(0, config.settings.pagination);
+
+const schemaData = [
+  // Blog Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": pageIndex.data.title,
+    "description": pageIndex.data.description,
+    "url": "https://jlandgroup.com/blog",
+    "publisher": {
+      "@type": "Organization",
+      "name": "J Land Contracting",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://jlandgroup.com/images/logo-jland.svg"
+      }
+    },
+    "blogPost": currentPosts.map(post => ({
+      "@type": "BlogPosting",
+      "headline": post.data.title,
+      "url": `https://jlandgroup.com/blog/${post.slug}`,
+      "datePublished": post.data.date,
+      "author": {
+        "@type": "Organization",
+        "name": "J Land Contracting"
+      }
+    }))
+  },
+  // BreadcrumbList Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://jlandgroup.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://jlandgroup.com/blog"
+      }
+    ]
+  }
+];
+
 ---
 
-<Base {...pageIndex.data}>
+<Base {...pageIndex.data} schemaData={schemaData}>
   <section class="section-lg">
     <div class="container">
       <TitleCenter

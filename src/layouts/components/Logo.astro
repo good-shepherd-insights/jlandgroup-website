@@ -2,19 +2,23 @@
 import config from "@/config/config.json";
 import ImageMod from "./ImageMod.astro";
 
-const {
-  src,
-  className,
-  width,
-  height,
-  style,
-}: {
-  src?: string;
-  className?: string;
-  width?: number;
-  height?: number;
-  style?: any;
-} = Astro.props;
+  const {
+    src,
+    className,
+    width,
+    height,
+    style,
+  }: {
+    src?: string;
+    className?: string;
+    width?: number;
+    height?: number;
+    style?: any;
+  } = Astro.props;
+
+const colorClass = className ?? "";
+
+const textColorClass = colorClass || "text-black";
 
 const {
   logo,
@@ -55,7 +59,7 @@ const {
   }
   {
     logo_text ? (
-      <span class="text-xl font-bold uppercase tracking-wider text-dark dark:text-white">
+      <span class={`text-xl font-bold uppercase tracking-wider ${textColorClass}`}>
         {logo_text}
       </span>
     ) : (

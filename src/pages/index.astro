@@ -7,6 +7,7 @@ import { markdownify } from "@/lib/utils/textConverter";
 import CallToAction from "@/partials/CallToAction.astro";
 import FAQs from "@/partials/FAQs.astro";
 import HeroBanner from "@/partials/HeroBanner.astro";
+import Partners from "@/partials/Partners.astro";
 import OurExpertise from "@/partials/OurExpertise.astro";
 import Testimonial from "@/partials/Testimonial.astro";
 import WhatWeOffer from "@/partials/WhatWeOffer.astro";
@@ -17,10 +18,251 @@ const blogs = await getSinglePage("blogpage");
 const featuredBlogs = sortByDate(blogs);
 
 const { blog_section, why_choose_us } = homepage.data;
+
+const schemaData = [
+  // LocalBusiness Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://jlandgroup.com/#organization",
+    "name": "J Land Contracting",
+    "alternateName": "J Land Roofing",
+    "description": "J Land Contracting delivers expert roofing solutions across the DMV with integrity and experience. Free inspections, insurance claim assistance, and professional roof replacements.",
+    "url": "https://jlandgroup.com",
+    "telephone": "(410) 292-0801",
+    "email": "info@jlandgroup.com",
+    "foundingDate": "2007",
+    "priceRange": "$$",
+    "paymentAccepted": ["Cash", "Credit Card", "Check"],
+    "currenciesAccepted": "USD",
+    "logo": "https://jlandgroup.com/images/logo-jland.svg",
+    "image": "https://jlandgroup.com/images/og-image.png",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "3636 Glenoble Court",
+      "addressLocality": "Jefferson",
+      "addressRegion": "MD",
+      "postalCode": "21755",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "39.3697",
+      "longitude": "-77.5475"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "08:00",
+        "closes": "12:00"
+      }
+    ],
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Jefferson, MD"
+      },
+      {
+        "@type": "State",
+        "name": "Maryland"
+      },
+      {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": "39.3697",
+          "longitude": "-77.5475"
+        },
+        "geoRadius": "50000"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Roofing Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Roof Replacement",
+            "description": "Professional roof replacement services to ensure the durability and safety of your home."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Roof Renovation",
+            "description": "Professional roof renovation services to enhance the appearance and functionality of your home."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Commercial Roofing",
+            "description": "Professional commercial roofing services for businesses and commercial properties."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Damage Repairs",
+            "description": "Expert damage repair services to restore your roof after storm damage or accidents."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Free Inspection",
+            "description": "Schedule a free roof inspection to assess the condition of your roofing system."
+          }
+        }
+      ]
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "1550",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "John Smith"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "Outstanding service and quality work. J Land Contracting exceeded our expectations with their professional roof replacement. Highly recommend!"
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Sarah Johnson"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "Great communication throughout the project. The team was punctual, professional, and the final result is perfect. Will definitely use again."
+      }
+    ],
+    "sameAs": [
+      "https://facebook.com/jlandcontracting",
+      "https://www.linkedin.com/company/j-land-contracting",
+      "https://twitter.com/jlandcontracting"
+    ],
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "GAF Certified Plus",
+        "url": "https://gaf.com/certified-plus"
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "CertainTeed Shingle Master",
+        "url": "https://certainteed.com/shingle-master"
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "BBB Accredited Business"
+      }
+    ]
+  },
+  // BreadcrumbList Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://jlandgroup.com"
+      }
+    ]
+  },
+  // SiteNavigationElement Schema
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Home",
+    "url": "https://jlandgroup.com"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "About",
+    "url": "https://jlandgroup.com/about"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Services",
+    "url": "https://jlandgroup.com/services"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Appointment",
+    "url": "https://jlandgroup.com/appointment"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Contact",
+    "url": "https://jlandgroup.com/contact"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Blog",
+    "url": "https://jlandgroup.com/blog"
+  },
+  // Video Schema for Facebook Video
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "Roofing Services by J Land Contracting",
+    "description": "Watch our roofing services and customer testimonials. Professional roof replacement, repairs, and inspections in the DMV area.",
+    "thumbnailUrl": "https://jlandgroup.com/images/og-image.png",
+    "uploadDate": "2024-01-15",
+    "duration": "PT2M30S",
+    "contentUrl": "https://www.facebook.com/watch?v=531150551239056",
+    "embedUrl": "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%3Fv%3D531150551239056",
+    "author": {
+      "@type": "Organization",
+      "name": "J Land Contracting"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "J Land Contracting"
+    }
+  }
+];
+
 ---
 
-<Base>
+<Base schemaData={schemaData}>
   <HeroBanner />
+  <Partners />
   <WhyChooseUs data={why_choose_us} />
   <WhatWeOffer />
   <OurExpertise />
