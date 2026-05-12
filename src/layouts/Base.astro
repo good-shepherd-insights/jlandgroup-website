@@ -28,9 +28,11 @@ export interface Props {
   noindex?: boolean;
   canonical?: string;
   schemaData?: any;
+  ogType?: string;
+  articlePublishedTime?: string;
 }
 // destructure frontmatter
-const { title, meta_title, description, image, keywords, noindex, canonical, schemaData } =
+const { title, meta_title, description, image, keywords, noindex, canonical, schemaData, ogType, articlePublishedTime } =
   Astro.props;
 ---
 
@@ -81,8 +83,9 @@ const { title, meta_title, description, image, keywords, noindex, canonical, sch
         const seoTitle = plainify(meta_title ? meta_title : title ? title : config.site.title);
         const seoDescription = plainify(description ? description : config.metadata.meta_description);
         const seoCanonical = canonical ? canonical : `${config.site.base_url}${Astro.url.pathname}`;
-        const ogUrl = `${config.site.base_url}/${Astro.url.pathname.replace("/", "")}`;
-        const ogImage = image ? `${config.site.base_url}${image}` : `${config.site.base_url}${config.metadata.meta_image}`;
+        const ogImage = image
+          ? `${config.site.base_url}${image}`
+          : `${config.site.base_url}${config.metadata.meta_image}`;
 
         return (
           <SEO
@@ -90,15 +93,29 @@ const { title, meta_title, description, image, keywords, noindex, canonical, sch
             description={seoDescription}
             canonical={seoCanonical}
             keywords={keywords || "roofing, roof replacement, roof repair, DMV, Maryland, Jefferson"}
-            noindex={noindex || false}
             openGraph={{
-              title: seoTitle,
-              description: seoDescription,
-              type: "website",
-              url: ogUrl,
-              siteName: "J Land Contracting",
-              locale: "en_US",
-              images: ogImage ? [{ url: ogImage, alt: title || seoTitle, width: 1200, height: 630 }] : undefined
+              basic: {
+                title: seoTitle,
+                type: ogType || "website",
+                image: ogImage,
+                url: seoCanonical
+              },
+              optional: {
+                description: seoDescription,
+                siteName: "J Land Contracting",
+                locale: "en_US"
+              },
+              image: {
+                url: ogImage,
+                alt: seoTitle,
+                width: 1200,
+                height: 630
+              },
+              ...(articlePublishedTime && {
+                article: {
+                  publishedTime: articlePublishedTime
+                }
+              })
             }}
             twitter={{
               card: "summary_large_image",
@@ -106,10 +123,11 @@ const { title, meta_title, description, image, keywords, noindex, canonical, sch
               description: seoDescription,
               image: ogImage
             }}
+            noindex={noindex || false}
+            robotsExtras="max-snippet:-1, max-image-preview:large, max-video-preview:-1"
             schemaData={schemaData}
           />
-        );
-      })()
+        )})()
     }
 
     <ClientRouter />

@@ -1,11 +1,11 @@
 ---
 enable: true
-title: "Are you ready to get your roofing service?"
+title: "Not sure if your roof qualifies for an insurance claim?"
 image: "/images/call-to-action.png"
-description: "Our company provides all types of roof repairs, both residential and commercial, regardless of the damage level. We also offer partial tile replacement."
+description: "Most storm damage is covered by homeowner's insurance — but the window to file is limited. Schedule a free inspection and we'll assess the damage, document everything, and handle the claim process on your behalf."
 button:
   enable: true
   label: "Book A Free Consultation"
-  link: "/"
+  link: "/appointment"
   icon: "FaPhone" # Icon name from react-icons
 ---

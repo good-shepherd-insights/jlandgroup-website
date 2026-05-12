@@ -1,16 +1,8 @@
 ---
 import Base from "@/layouts/Base.astro";
-
-const schemaData = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Page Not Found",
-  "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
-  "url": "https://jlandgroup.com/404"
-};
 ---
 
-<Base title="Page Not Found" schemaData={schemaData}>
+<Base title="Page Not Found" noindex={true}>
   <section class="section-lg text-center">
     <div class="container">
       <div class="row justify-center">

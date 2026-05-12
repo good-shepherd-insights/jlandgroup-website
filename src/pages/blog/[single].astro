@@ -6,9 +6,10 @@ import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import dateFormat from "@/lib/utils/dateFormat";
 import similarItems from "@/lib/utils/similarItems";
-import { markdownify } from "@/lib/utils/textConverter";
+import { markdownify, plainify } from "@/lib/utils/textConverter";
 import { render } from "astro:content";
 import { FaRegClock } from "react-icons/fa6";
+import config from "@/config/config.json";
 
 export async function getStaticPaths() {
   const posts = await getSinglePage("blogpage");
@@ -28,9 +29,74 @@ const { title, date, description, image } = post.data;
 const posts = await getSinglePage("blogpage");
 const similarPosts = similarItems(post, posts);
 const { Content } = await render(post);
+
+const plainDescription = plainify(description);
+const imageUrl = image
+  ? `${config.site.base_url}${image}`
+  : `${config.site.base_url}${config.metadata.meta_image}`;
+const datePublished = date ? new Date(date).toISOString() : undefined;
+
+const schemaData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": plainDescription,
+    "url": `https://jlandgroup.com/blog/${post.id}`,
+    "datePublished": datePublished,
+    "author": {
+      "@type": "Organization",
+      "name": "J Land Contracting",
+      "url": "https://jlandgroup.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "J Land Contracting",
+      "url": "https://jlandgroup.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://jlandgroup.com/images/logo-jland.svg"
+      }
+    },
+    ...(image && {
+      "image": {
+        "@type": "ImageObject",
+        "url": imageUrl
+      }
+    }),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://jlandgroup.com/blog/${post.id}`
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://jlandgroup.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://jlandgroup.com/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": title,
+        "item": `https://jlandgroup.com/blog/${post.id}`
+      }
+    ]
+  }
+];
 ---
 
-<Base {...post.data}>
+<Base {...post.data} ogType="article" articlePublishedTime={datePublished} schemaData={schemaData}>
   <section class="section-lg">
     <div class="container">
       <article class="lg:w-[80%] mx-auto">

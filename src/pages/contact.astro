@@ -3,40 +3,75 @@ import TitleCenter from "@/components/TitleCenter.astro";
 import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 import { getListPage } from "@/lib/contentParser.astro";
+import { plainify } from "@/lib/utils/textConverter";
 import FAQs from "@/partials/FAQs.astro";
 
 const pageIndex = await getListPage("contactpage", "-index");
 const { title, description } = pageIndex.data;
 
+const plainDescription = plainify(description);
+
 const schemaData = [
-  // ContactPage Schema
   {
     "@context": "https://schema.org",
     "@type": "ContactPage",
     "name": title,
-    "description": description,
+    "description": plainDescription,
     "url": "https://jlandgroup.com/contact",
     "mainEntity": {
       "@type": "Organization",
       "name": "J Land Contracting",
       "telephone": "(410) 292-0801",
       "email": "info@jlandgroup.com",
+      "url": "https://jlandgroup.com",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "3636 Glenoble Court",
         "addressLocality": "Jefferson",
         "addressRegion": "MD",
-        "postalCode": "21755"
+        "postalCode": "21755",
+        "addressCountry": "US"
       },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "(410) 292-0801",
-        "contactType": "customer service",
-        "availableLanguage": "English"
-      }
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "(410) 292-0801",
+          "contactType": "customer service",
+          "availableLanguage": "English",
+          "areaServed": [
+            { "@type": "State", "name": "Maryland" },
+            { "@type": "State", "name": "Virginia" },
+            { "@type": "State", "name": "District of Columbia" }
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "(410) 292-0801",
+          "contactType": "sales",
+          "availableLanguage": "English",
+          "areaServed": [
+            { "@type": "State", "name": "Maryland" },
+            { "@type": "State", "name": "Virginia" },
+            { "@type": "State", "name": "District of Columbia" }
+          ]
+        }
+      ],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "08:00",
+          "closes": "17:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "08:00",
+          "closes": "12:00"
+        }
+      ]
     }
   },
-  // BreadcrumbList Schema
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

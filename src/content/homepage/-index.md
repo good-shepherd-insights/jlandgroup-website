@@ -2,11 +2,11 @@
 # Banner
 banner:
   title: "Building Roofs. Serving with <span class='bg-light px-4 pt-0 pb-3.5 rounded-xl text-secondary inline-block mx-2 shadow-sm align-middle' style='clip-path: inset(8px 4px 0 4px round 12px);'>Integrity.</span>"
-  content: "From handling insurance communications to coordinating with trusted and vetted contractors are taken care of."
+  content: "From handling insurance communications to coordinating with trusted, vetted contractors — we take care of it all."
   image: "/images/banner.png"
   satisfied_customers:
     enable: true
-    count: "1550+"
+    count: "1,500+"
     label: "Satisfied Customers"
     images:
       - "/images/avatar/jland-contracting-google-review-customer-gene-buckalew.png"
@@ -17,7 +17,7 @@ banner:
   button_solid:
     enable: true
     label: "Book A Free Consultation"
-    link: "/"
+    link: "/appointment"
     icon: "FaPhone" # Icon name from react-icons
   button_outline:
     enable: true
@@ -41,7 +41,7 @@ partners:
 blog_section:
   enable: true
   title: "Our latest news"
-  description: "Our customers are at the heart of our company, and with over 27 years of experience in the industry we understand every articles in details."
+  description: "Roofing tips, storm preparedness guides, and insurance claim advice from our 27 years of experience serving DMV homeowners."
 
 why_choose_us:
   enable: true
@@ -51,7 +51,7 @@ why_choose_us:
   features:
     - "**Affordable Prices**: From free inspections, claim assistance, Roof replacements and home upgrades."
     - "**Expert Engineers**: Our experienced, knowledgeable team is here to guide you through every step of the process."
-    - "**Quality Materials**: We understand the importance of protecting your family and investment, and we treat with care."
+    - "**Quality Materials**: We understand the importance of protecting your family and investment, and we treat every project with care."
 
 what_we_offer:
   enable: true
@@ -75,11 +75,11 @@ our_expertise:
     - "/images/expertise2.jpg"
     - "/images/expertise3.jpg"
   skills:
-    - title: "Solutions"
+    - title: "Certified Expertise"
       description: "Our team consists of certified roofing professionals with extensive experience in the industry."
-    - title: "Commercial Services"
-      description: "We are committed to providing honest and transparent services to our clients."
-    - title: "Supervision"
-      description: "We use only the highest quality materials and workmanship for all our roofing projects."
+    - title: "Insurance Claim Support"
+      description: "We handle all communications with your insurance provider so you never have to navigate the claims process alone."
+    - title: "Quality Materials"
+      description: "We use only the highest quality materials from manufacturers like GAF and CertainTeed for all our roofing projects."
 
 ---

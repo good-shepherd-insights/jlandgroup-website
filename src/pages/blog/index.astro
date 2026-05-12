@@ -6,6 +6,7 @@ import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
 import { sortByDate } from "@/lib/utils/sortFunctions";
+import { plainify } from "@/lib/utils/textConverter";
 
 const pageIndex = await getListPage("blogpage", "-index");
 if (pageIndex.data.draft) return Astro.redirect("/404");
@@ -15,7 +16,6 @@ const totalPages: number = Math.ceil(posts.length / config.settings.pagination);
 const currentPosts = sortedPosts.slice(0, config.settings.pagination);
 
 const schemaData = [
-  // Blog Schema
   {
     "@context": "https://schema.org",
     "@type": "Blog",
@@ -25,6 +25,7 @@ const schemaData = [
     "publisher": {
       "@type": "Organization",
       "name": "J Land Contracting",
+      "url": "https://jlandgroup.com",
       "logo": {
         "@type": "ImageObject",
         "url": "https://jlandgroup.com/images/logo-jland.svg"
@@ -33,15 +34,22 @@ const schemaData = [
     "blogPost": currentPosts.map(post => ({
       "@type": "BlogPosting",
       "headline": post.data.title,
-      "url": `https://jlandgroup.com/blog/${post.slug}`,
-      "datePublished": post.data.date,
+      ...(post.data.description && { "description": plainify(post.data.description) }),
+      "url": `https://jlandgroup.com/blog/${post.id}`,
+      ...(post.data.date && { "datePublished": new Date(post.data.date).toISOString() }),
+      ...(post.data.image && {
+        "image": {
+          "@type": "ImageObject",
+          "url": `https://jlandgroup.com${post.data.image}`
+        }
+      }),
       "author": {
         "@type": "Organization",
-        "name": "J Land Contracting"
+        "name": "J Land Contracting",
+        "url": "https://jlandgroup.com"
       }
     }))
   },
-  // BreadcrumbList Schema
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

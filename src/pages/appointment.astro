@@ -11,15 +11,26 @@ const pageIndex = await getListPage("appointmentpage", "-index");
 if (pageIndex.data.draft) return Astro.redirect("/404");
 
 const schemaData = [
-  // WebPage Schema
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": pageIndex.data.title,
     "description": pageIndex.data.description,
-    "url": "https://jlandgroup.com/appointment"
+    "url": "https://jlandgroup.com/appointment",
+    "potentialAction": {
+      "@type": "ReserveAction",
+      "name": "Book a Free Roof Inspection",
+      "description": "Schedule a free roof inspection with J Land Contracting",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://jlandgroup.com/appointment",
+        "actionPlatform": [
+          "https://schema.org/DesktopWebPlatform",
+          "https://schema.org/MobileWebPlatform"
+        ]
+      }
+    }
   },
-  // BreadcrumbList Schema
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

@@ -5,7 +5,7 @@ meta_title: "Services | Free Inspection"
 description: "Schedule a free roof inspection to assess the condition of your roof and identify any potential issues."
 image: "/images/services/free-inspection.png"
 date: 2026-01-29T05:00:00Z
-draft: false
+draft: true
 
 featured: true
 icon: "/images/icons/inspection.svg"
