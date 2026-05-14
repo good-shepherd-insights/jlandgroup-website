@@ -13,19 +13,43 @@
       "url": "/services"
     },
     {
-      "name": "Appointment",
-      "url": "/appointment"
+      "name": "Locations",
+      "url": "/locations"
     },
     {
       "name": "Contact",
       "url": "/contact"
     },
     {
-      "name": "Blog",
-      "url": "/blog"
+      "name": "Resources",
+      "url": "#",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Blog",
+          "url": "/blog"
+        },
+        {
+          "name": "Appointment",
+          "url": "/appointment"
+        }
+      ]
     }
   ],
   "footer": [
+    {
+      "title": "Service Areas",
+      "children": [
+        {
+          "name": "Frederick, MD",
+          "url": "/locations/frederick-md"
+        },
+        {
+          "name": "All Locations",
+          "url": "/locations"
+        }
+      ]
+    },
     {
       "title": "Services",
       "children": [

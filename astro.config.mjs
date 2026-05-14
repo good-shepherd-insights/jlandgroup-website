@@ -50,7 +50,12 @@ export default defineConfig({
   base: config.site.base_path ? config.site.base_path : "/",
   trailingSlash: config.site.trailing_slash ? "always" : "never",
   image: { service: sharpImageService() },
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+    resolve: {
+      dedupe: ["react", "react-dom"],
+    },
+  },
   fonts: fontsConfig,
   integrations: [
     react(),

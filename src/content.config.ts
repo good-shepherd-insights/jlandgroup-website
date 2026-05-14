@@ -4,6 +4,7 @@ import {
   blogpage,
   contactpage,
   homepage,
+  locationpage,
   regularpage,
   servicepage,
   designpage,
@@ -25,6 +26,7 @@ export const collections = {
   contactpage,
   regularpage,
   designpage,
+  locationpage,
 
   // sections
   ctaSection,

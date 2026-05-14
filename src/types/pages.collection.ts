@@ -208,3 +208,92 @@ export const regularpage = defineCollection({
     ...commonFields,
   }),
 });
+
+export const locationpage = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/locations" }),
+  schema: z.object({
+    title: z.string(),
+    meta_title: z.string().optional(),
+    description: z.string(),
+    image: z.string().optional(),
+    draft: z.boolean(),
+    date: z.coerce.date().optional(),
+
+    city: z.string().optional(),
+    state: z.string().optional(),
+    state_full: z.string().optional(),
+    county: z.string().optional(),
+
+    geo: z
+      .object({
+        latitude: z.string(),
+        longitude: z.string(),
+      })
+      .optional(),
+
+    population: z.string().optional(),
+
+    hero: z
+      .object({
+        title: z.string(),
+        subtitle: z.string(),
+        image: z.string(),
+      })
+      .optional(),
+
+    services: z
+      .array(
+        z.object({
+          slug: z.string(),
+          title_override: z.string().optional(),
+          description_override: z.string().optional(),
+        }),
+      )
+      .optional(),
+
+    faqs: z
+      .array(
+        z.object({
+          question: z.string(),
+          answer: z.string(),
+        }),
+      )
+      .optional(),
+
+    nearby_areas: z
+      .array(
+        z.object({
+          name: z.string(),
+          slug: z.string(),
+        }),
+      )
+      .optional(),
+
+    testimonials: z
+      .array(
+        z.object({
+          name: z.string(),
+          designation: z.string(),
+          avatar: z.string(),
+          content: z.string(),
+        }),
+      )
+      .optional(),
+
+    contact_form: z
+      .object({
+        enable: z.boolean(),
+        title: z.string(),
+        description: z.string(),
+        button_label: z.string(),
+      })
+      .optional(),
+
+    google_map: z
+      .object({
+        enable: z.boolean(),
+        embed_url: z.string().optional(),
+      })
+      .optional(),
+  }),
+});

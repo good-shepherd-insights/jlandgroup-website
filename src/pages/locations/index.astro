@@ -1,0 +1,87 @@
+---
+import TitleCenter from "@/components/TitleCenter.astro";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import Testimonial from "@/partials/Testimonial.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+
+const pageIndex = await getListPage("locationpage", "-index");
+if (pageIndex.data.draft) return Astro.redirect("/404");
+const locations = await getSinglePage("locationpage");
+
+const schemaData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": pageIndex.data.title,
+    "description": pageIndex.data.description,
+    "url": "https://jlandgroup.com/locations",
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": "Service Areas",
+      "numberOfItems": locations.length,
+      "itemListElement": locations.map((loc, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "City",
+          "name": `${loc.data.city}, ${loc.data.state}`,
+          "url": `https://jlandgroup.com/locations/${loc.id}`
+        }
+      }))
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://jlandgroup.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Locations",
+        "item": "https://jlandgroup.com/locations"
+      }
+    ]
+  }
+];
+---
+
+<Base {...pageIndex.data} schemaData={schemaData}>
+  <section class="section-lg">
+    <div class="container">
+      <TitleCenter
+        title={pageIndex.data.title}
+        description={pageIndex.data.description}
+        centerText
+      />
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-3 mt-16 gap-8 md:gap-6">
+        {
+          locations?.map((loc) => (
+            <div class="border border-border rounded-xl p-8 flex flex-col">
+              <h3 class="h5 font-semibold mb-4">{loc.data.city}, {loc.data.state}</h3>
+              <p class="mb-6 grow">{loc.data.description}</p>
+              <a
+                href={`/locations/${loc.id}`}
+                class="mt-auto inline-block text-text-dark/75 font-medium group"
+              >
+                Learn More
+                <span class="inline-block transition-transform group-hover:translate-x-2 duration-300 text-xl ml-1">
+                  &rarr;
+                </span>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <Testimonial />
+  <CallToAction />
+</Base>

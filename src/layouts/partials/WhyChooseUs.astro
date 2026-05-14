@@ -2,11 +2,16 @@
 import ImageMod from "@/components/ImageMod.astro";
 import FacebookVideo from "../components/FacebookVideo.astro";
 import { markdownify } from "@/lib/utils/textConverter";
-import type { CollectionEntry } from "astro:content";
 import { FaCheck } from "react-icons/fa6";
 
 type Props = {
-  data: CollectionEntry<"aboutpage">["data"]["why_choose_us"];
+  data: {
+    enable: boolean;
+    title: string;
+    description: string;
+    image: string;
+    features: string[];
+  };
   backgroundColor?: string;
 };
 

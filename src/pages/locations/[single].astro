@@ -1,0 +1,534 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import TitleCenter from "@/components/TitleCenter.astro";
+import Button from "@/components/Button.astro";
+import ServiceCard from "@/layouts/components/ServiceCard.astro";
+import Base from "@/layouts/Base.astro";
+import config from "@/config/config.json";
+import { getSinglePage, getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import CallToAction from "@/partials/CallToAction.astro";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const locations = await getSinglePage("locationpage");
+  return locations.map((loc) => ({
+    params: { single: loc.id },
+    props: { location: loc },
+  }));
+}
+
+const { location } = Astro.props;
+const { Content } = await render(location);
+const {
+  city, state, geo, hero,
+  services, faqs, nearby_areas,
+  testimonials, contact_form, google_map,
+} = location.data;
+
+const locationSlug = location.id;
+
+const allServices = await getSinglePage("servicepage");
+const locationServices = (services || [])
+  .map(s => {
+    const svc = allServices.find(svc => svc.id === s.slug);
+    if (!svc) return null;
+    return {
+      ...svc,
+      data: {
+        ...svc.data,
+        title: s.title_override || svc.data.title,
+        description: s.description_override || svc.data.description,
+      }
+    };
+  })
+  .filter(Boolean);
+
+const faqSection = await getListPage("faqsSection", "faqs");
+const effectiveFaqs = (faqs && faqs.length > 0) ? faqs : faqSection.data.faqs_list;
+
+const testimonialSection = await getListPage("testimonialSection", "testimonial");
+const effectiveTestimonials = (testimonials && testimonials.length > 0)
+  ? testimonials
+  : testimonialSection.data.testimonials;
+
+const schemaData = [
+  ...(geo ? [{
+    "@context": "https://schema.org",
+    "@type": "HomeAndContractTrade",
+    "name": "J Land Contracting",
+    "url": `https://jlandgroup.com/locations/${locationSlug}`,
+    "telephone": "(410) 292-0801",
+    "email": "info@jlandgroup.com",
+    "image": hero?.image
+      ? `https://jlandgroup.com${hero.image}`
+      : "https://jlandgroup.com/images/og-image.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": city || "Jefferson",
+      "addressRegion": state || "MD",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": geo.latitude,
+      "longitude": geo.longitude
+    },
+    "areaServed": {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": geo.latitude,
+        "longitude": geo.longitude
+      },
+      "geoRadius": "32187"
+    },
+    "priceRange": "$$",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "08:00",
+        "closes": "12:00"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": `Roofing Services in ${city}, ${state}`,
+      "itemListElement": locationServices.map((svc, i) => ({
+        "@type": "Offer",
+        "position": i + 1,
+        "itemOffered": {
+          "@type": "Service",
+          "name": svc.data.title,
+          "description": svc.data.description,
+          "url": `https://jlandgroup.com/services/${svc.id}`
+        }
+      }))
+    }
+  }] : []),
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://jlandgroup.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Locations",
+        "item": "https://jlandgroup.com/locations"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": `${city}, ${state}`,
+        "item": `https://jlandgroup.com/locations/${locationSlug}`
+      }
+    ]
+  }
+];
+---
+
+<Base {...location.data} schemaData={schemaData}>
+  <!-- HERO (inline — TODO: extract LocationHero.astro) -->
+  {
+    hero && (
+      <section class="relative pt-40 pb-12 lg:pb-16 lg:pt-56 overflow-hidden">
+        <ImageMod
+          src={hero.image}
+          alt={`${city}, ${state}`}
+          class="absolute inset-0 w-full h-full object-cover"
+          width={1900}
+          height={800}
+          format="webp"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-dark/70 to-dark/30" />
+        <div class="container relative z-10">
+          <div class="lg:max-w-[65%]">
+            <h1
+              class="mb-4 lg:text-[80px] lg:leading-24 text-text-light max-lg:text-center"
+              set:html={markdownify(hero.title)}
+            />
+            <p
+              class="mb-10 text-text-light text-xl max-lg:text-center"
+              set:html={markdownify(hero.subtitle)}
+            />
+            <div class="flex gap-6 flex-wrap max-lg:justify-center">
+              <Button data={{ enable: true, label: "Book A Free Consultation", link: "/appointment", icon: "FaPhone" }} />
+              <Button data={{ enable: true, label: "Explore Our Services", link: "/services", icon: "" }} variant="outline" />
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- INTRO -->
+  <section class="section-lg">
+    <div class="container">
+      <TitleCenter
+        title={location.data.title}
+        description={location.data.description}
+        className="mb-26"
+        centerText
+      />
+      <div class="lg:w-[80%] mx-auto">
+        <div class="content">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CallToAction />
+
+  <!-- SERVICES AT THIS LOCATION -->
+  {
+    locationServices.length > 0 && (
+      <section class="section bg-light">
+        <div class="container">
+          <TitleCenter
+            title={`Our services in ${city}, ${state}`}
+            description=""
+            centerText
+          />
+          <div class="grid md:grid-cols-2 xl:grid-cols-3 mt-16 gap-8 md:gap-6">
+            {locationServices.map(svc => <ServiceCard data={svc.data} id={svc.id} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- FAQ (inline — TODO: extract FAQAccordion.astro) -->
+  <section class="section border-t border-border">
+    <div class="container">
+      <h2 class="h2 text-center">
+        {faqs && faqs.length > 0
+          ? `Frequently asked questions about roofing in ${city}, ${state}`
+          : "Frequently asked questions."
+        }
+      </h2>
+      <p class="text-lg mt-6 mb-6 lg:mb-12 max-w-[80%] mx-auto text-center text-balance">
+        We offer a wide range of roofing services and products from trusted manufacturers.
+      </p>
+      <div class="w-full lg:max-w-218 mx-auto flex flex-col">
+        {
+          effectiveFaqs.map((faq, i) => (
+            <div
+              role="button"
+              tabindex="0"
+              aria-expanded="false"
+              aria-controls={`loc-faq-answer-${i}`}
+              class="group p-7 border-b border-border cursor-pointer transition-all duration-300 flex flex-col faq-item-fix"
+              data-faq-id={i}
+            >
+              <div class="flex justify-between items-center">
+                <h6 set:html={markdownify(faq.question)} />
+                <span
+                  class="toggle-icon text-text-dark text-[32px] transition-all duration-300 rotate-0"
+                  aria-hidden="true"
+                >
+                  +
+                </span>
+              </div>
+              <p
+                id={`loc-faq-answer-${i}`}
+                class="faq-answer overflow-hidden max-h-0 opacity-0 transition-[max-height,opacity] duration-[600ms,400ms] ease-in-out max-w-195"
+                set:html={markdownify(faq.answer)}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS (inline — TODO: extract TestimonialCarousel.astro) -->
+  <section class="section bg-light">
+    <div class="container">
+      <div class="flex max-lg:flex-col max-lg:text-center gap-6 items-center mb-12 lg:mb-20">
+        <div class="flex-2">
+          <h2 class="h1 mb-6">See what our clients in {city} say</h2>
+          <p class="text-balance text-lg">
+            We are proud of the trust we've built with our community. Here is what some of our satisfied customers have to say about our roofing and restoration services.
+          </p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {
+          effectiveTestimonials.map((item) => (
+            <div class="rounded-2xl bg-body p-10 relative">
+              <div class="flex items-center relative z-10">
+                <div class="text-text-dark">
+                  <ImageMod
+                    height={70}
+                    width={70}
+                    class="rounded-full"
+                    src={item.avatar}
+                    alt={item.name}
+                    format="webp"
+                  />
+                </div>
+                <div class="ml-4">
+                  <h3 set:text={item.name} class="h6 font-primary font-semibold" />
+                  <p set:text={item.designation} class="text-text-dark/80" />
+                </div>
+              </div>
+              <blockquote class="mt-8" set:html={markdownify(item.content)} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM + MAP -->
+  {
+    contact_form && contact_form.enable && (
+      <section class="section-lg">
+        <div class="container">
+          <div class="flex max-lg:flex-col gap-16 items-center">
+            <div class="lg:w-[45%]">
+              <TitleCenter
+                title={contact_form.title}
+                description={contact_form.description}
+                className="xl:w-[80%]"
+              />
+            </div>
+            <div class="w-[90%] md:w-[70%] lg:w-[55%]">
+              <form
+                action={config.params.contact_form_action}
+                method="POST"
+                class="bg-dark px-10 py-12 rounded-2xl"
+              >
+                <fieldset class="mb-8">
+                  <label for="loc-name" class="sr-only" aria-label="Full Name" />
+                  <input
+                    id="loc-name"
+                    name="name"
+                    class="form-input"
+                    placeholder="Full Name"
+                    type="text"
+                    required
+                  />
+                </fieldset>
+                <fieldset class="mb-8">
+                  <label for="loc-phone" class="sr-only" aria-label="Phone Number" />
+                  <input
+                    id="loc-phone"
+                    name="phone"
+                    class="form-input"
+                    placeholder="Phone Number"
+                    type="tel"
+                    required
+                  />
+                </fieldset>
+                <fieldset class="mb-8">
+                  <label for="loc-service" class="sr-only" aria-label="Service You Need" />
+                  <input
+                    id="loc-service"
+                    name="service_needed"
+                    class="form-input"
+                    placeholder="Service You Need"
+                    type="text"
+                    required
+                  />
+                </fieldset>
+                <button class="btn btn-primary w-full" type="submit">
+                  {contact_form.button_label}
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {
+            google_map?.enable && google_map.embed_url && (
+              <div class="mt-16">
+                <div class="w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <iframe
+                    src={google_map.embed_url}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowfullscreen={true}
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title={`${city}, ${state} map`}
+                  />
+                </div>
+              </div>
+            )
+          }
+        </div>
+      </section>
+    )
+  }
+
+  <!-- NEARBY AREAS (inline — TODO: extract NearbyAreas.astro) -->
+  {
+    nearby_areas && nearby_areas.length > 0 && (
+      <section class="section bg-light">
+        <div class="container">
+          <h2 class="h2 text-center">Also serving nearby areas</h2>
+          <div class="grid md:grid-cols-3 xl:grid-cols-5 gap-6 mt-12">
+            {
+              nearby_areas.map(area => (
+                <a
+                  href={`/locations/${area.slug}`}
+                  class="block p-6 bg-body rounded-xl hover:shadow-lg transition-shadow text-center"
+                >
+                  <h3 class="h5">{area.name}, {state}</h3>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  </Base>
+
+<script>
+  interface FAQElements {
+    item: HTMLElement;
+    answer: HTMLElement;
+    icon: HTMLElement;
+  }
+
+  class FAQAccordion {
+    private items: HTMLElement[];
+    private activeItem: HTMLElement | null = null;
+
+    constructor() {
+      this.items = Array.from(
+        document.querySelectorAll<HTMLElement>(".faq-item-fix"),
+      );
+      this.init();
+    }
+
+    private init(): void {
+      if (this.items.length === 0) return;
+
+      this.openItem(this.items[0]);
+
+      this.items.forEach((item) => {
+        item.addEventListener("click", (e) => this.handleClick(e, item));
+        item.addEventListener("keydown", (e) => this.handleKeydown(e, item));
+      });
+    }
+
+    private getElements(item: HTMLElement): FAQElements | null {
+      const answer = item.querySelector<HTMLElement>(".faq-answer");
+      const icon = item.querySelector<HTMLElement>(".toggle-icon");
+
+      if (!answer || !icon) {
+        console.warn("FAQ item missing required elements");
+        return null;
+      }
+
+      return { item, answer, icon };
+    }
+
+    private handleClick(e: Event, item: HTMLElement): void {
+      e.preventDefault();
+      this.toggleItem(item);
+    }
+
+    private handleKeydown(e: KeyboardEvent, item: HTMLElement): void {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        this.toggleItem(item);
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        this.focusNext(item);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        this.focusPrevious(item);
+      }
+    }
+
+    private focusNext(currentItem: HTMLElement): void {
+      const currentIndex = this.items.indexOf(currentItem);
+      const nextIndex = (currentIndex + 1) % this.items.length;
+      this.items[nextIndex].focus();
+    }
+
+    private focusPrevious(currentItem: HTMLElement): void {
+      const currentIndex = this.items.indexOf(currentItem);
+      const previousIndex =
+        currentIndex === 0 ? this.items.length - 1 : currentIndex - 1;
+      this.items[previousIndex].focus();
+    }
+
+    private toggleItem(item: HTMLElement): void {
+      const isCurrentlyActive = this.activeItem === item;
+
+      this.items.forEach((i) => this.closeItem(i));
+
+      if (!isCurrentlyActive) {
+        this.openItem(item);
+      }
+    }
+
+    private openItem(item: HTMLElement): void {
+      const elements = this.getElements(item);
+      if (!elements) return;
+
+      const { answer, icon } = elements;
+
+      item.setAttribute("aria-expanded", "true");
+      answer.style.maxHeight = `${answer.scrollHeight}px`;
+      answer.classList.remove("opacity-0");
+      answer.classList.add("opacity-100");
+      icon.classList.remove("rotate-0");
+      icon.classList.add("rotate-180");
+      icon.textContent = "−";
+      item.classList.remove("bg-transparent", "gap-0");
+      item.classList.add("bg-body", "gap-2");
+
+      this.activeItem = item;
+    }
+
+    private closeItem(item: HTMLElement): void {
+      const elements = this.getElements(item);
+      if (!elements) return;
+
+      const { answer, icon } = elements;
+
+      item.setAttribute("aria-expanded", "false");
+      answer.style.maxHeight = "0";
+      answer.classList.remove("opacity-100");
+      answer.classList.add("opacity-0");
+      icon.classList.remove("rotate-180");
+      icon.classList.add("rotate-0");
+      icon.textContent = "+";
+      item.classList.remove("bg-dark", "gap-2");
+      item.classList.add("bg-body", "gap-2");
+
+      if (this.activeItem === item) {
+        this.activeItem = null;
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    new FAQAccordion();
+  });
+
+  document.addEventListener("astro:page-load", () => {
+    new FAQAccordion();
+  });
+</script>
