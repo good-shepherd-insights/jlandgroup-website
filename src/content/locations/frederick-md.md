@@ -21,6 +21,29 @@ hero:
   subtitle: "From downtown historic homes to new builds in Urbana — J Land Contracting has served Frederick County homeowners for over 27 years."
   image: "/images/locations/frederick-md-hero.jpg"
 
+intro_image: "/images/locations/frederick-md-hero.jpg"
+
+intro:
+  body: "Frederick is the second-largest city in Maryland — and one of the fastest-growing. That growth means more homes, more roofs, and more storm exposure across the I-270 corridor and the Catoctin Mountain foothills.\n\nJ Land Contracting is based right here in Jefferson, just minutes from downtown Frederick. We've inspected, repaired, and replaced roofs in every neighborhood from Baker Park to Wormans Mill, from Ballenger Creek to Tuscarora. When Frederick homeowners need a roofer they can trust, they call us — and we show up."
+  challenges_title: "Frederick's Roofing Challenges"
+  challenges_body: "Frederick's location at the foot of the Catoctin Mountains creates unique roofing challenges. The mountain corridors funnel high winds, summer thunderstorms bring heavy rain and hail, and winter freeze-thaw cycles are harder on roofing materials than in milder parts of Maryland. Homes in valley areas like Jefferson and Adamstown experience strong downdrafts that can damage shingles without visible signs from the ground."
+  service_area_title: "Our Frederick Service Area"
+  service_area_intro: "We serve all of Frederick County, including:"
+  service_area_neighborhoods:
+    - name: "Downtown Frederick and the historic district"
+    - name: "Urbana and Urbana Highlands"
+      slug: "urbana-md"
+    - name: "Ballenger Creek and Tuscarora"
+    - name: "Spring Ridge and Lake Linganore"
+    - name: "Walkersville and Woodsboro"
+      slug: "walkersville-md"
+    - name: "Thurmont and Emmitsburg"
+    - name: "Brunswick and Point of Rocks"
+    - name: "Middletown and Myersville"
+      slug: "middletown-md"
+    - name: "New Market and Mount Airy"
+      slug: "mount-airy-md"
+
 services:
   - slug: roof-replacement
     title_override: "Roof Replacement in Frederick, MD"
@@ -70,27 +93,3 @@ google_map:
   enable: true
   embed_url: "https://maps.google.com/maps?q=Frederick,+MD&t=&z=13&ie=UTF8&iwloc=&output=embed"
 ---
-
-## Serving Frederick, MD
-
-Frederick is the second-largest city in Maryland — and one of the fastest-growing. That growth means more homes, more roofs, and more storm exposure across the I-270 corridor and the Catoctin Mountain foothills.
-
-J Land Contracting is based right here in Jefferson, just minutes from downtown Frederick. We've inspected, repaired, and replaced roofs in every neighborhood from Baker Park to Wormans Mill, from Ballenger Creek to Tuscarora. When Frederick homeowners need a roofer they can trust, they call us — and we show up.
-
-### Frederick's Roofing Challenges
-
-Frederick's location at the foot of the Catoctin Mountains creates unique roofing challenges. The mountain corridors funnel high winds, summer thunderstorms bring heavy rain and hail, and winter freeze-thaw cycles are harder on roofing materials than in milder parts of Maryland. Homes in valley areas like Jefferson and Adamstown experience strong downdrafts that can damage shingles without visible signs from the ground.
-
-### Our Frederick Service Area
-
-We serve all of Frederick County, including:
-
-- Downtown Frederick and the historic district
-- Urbana and Urbana Highlands
-- Ballenger Creek and Tuscarora
-- Spring Ridge and Lake Linganore
-- Walkersville and Woodsboro
-- Thurmont and Emmitsburg
-- Brunswick and Point of Rocks
-- Middletown and Myersville
-- New Market and Mount Airy

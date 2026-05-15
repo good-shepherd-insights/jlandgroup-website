@@ -178,12 +178,48 @@ export const designpage = defineCollection({
         .optional(),
     }),
     z.object({
+      component_id: z.literal("location-intro"),
+      title: z.string(),
+      description: z.string(),
+      meta_title: z.string().optional(),
+      date: z.coerce.date().optional(),
+      image: z.string().optional(),
+      draft: z.boolean(),
+      city: z.string().optional(),
+      state: z.string().optional(),
+      county: z.string().optional(),
+    }),
+    z.object({
       component_id: z.literal("metadata"),
       title: z.string(),
       meta_title: z.string().optional(),
       description: z.string().optional(),
       image: z.string().optional(),
       draft: z.boolean(),
+    }),
+    z.object({
+      component_id: z.literal("location-content"),
+      title: z.string(),
+      description: z.string(),
+      meta_title: z.string().optional(),
+      date: z.coerce.date().optional(),
+      image: z.string().optional(),
+      draft: z.boolean(),
+      city: z.string().optional(),
+      state: z.string().optional(),
+      county: z.string().optional(),
+      challenges_title: z.string().optional(),
+      challenges_body: z.string().optional(),
+      service_area_title: z.string().optional(),
+      service_area_intro: z.string().optional(),
+      service_area_neighborhoods: z
+        .array(
+          z.object({
+            name: z.string(),
+            slug: z.string().optional(),
+          }),
+        )
+        .optional(),
     }),
   ]),
 });
@@ -238,6 +274,26 @@ export const locationpage = defineCollection({
         title: z.string(),
         subtitle: z.string(),
         image: z.string(),
+      })
+      .optional(),
+
+    intro_image: z.string().optional(),
+
+    intro: z
+      .object({
+        body: z.string().optional(),
+        challenges_title: z.string().optional(),
+        challenges_body: z.string().optional(),
+        service_area_title: z.string().optional(),
+        service_area_intro: z.string().optional(),
+        service_area_neighborhoods: z
+          .array(
+            z.object({
+              name: z.string(),
+              slug: z.string().optional(),
+            }),
+          )
+          .optional(),
       })
       .optional(),
 

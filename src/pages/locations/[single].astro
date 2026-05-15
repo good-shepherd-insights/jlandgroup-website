@@ -3,12 +3,12 @@ import ImageMod from "@/components/ImageMod.astro";
 import TitleCenter from "@/components/TitleCenter.astro";
 import Button from "@/components/Button.astro";
 import ServiceCard from "@/layouts/components/ServiceCard.astro";
+import LocationIntro from "@/layouts/components/designs/location-intro/LocationIntro.astro";
 import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
 import { getSinglePage, getListPage } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import CallToAction from "@/partials/CallToAction.astro";
-import { render } from "astro:content";
 
 export async function getStaticPaths() {
   const locations = await getSinglePage("locationpage");
@@ -19,14 +19,16 @@ export async function getStaticPaths() {
 }
 
 const { location } = Astro.props;
-const { Content } = await render(location);
 const {
-  city, state, geo, hero,
+  city, state, county, geo, hero, intro_image, intro,
   services, faqs, nearby_areas,
   testimonials, contact_form, google_map,
 } = location.data;
 
 const locationSlug = location.id;
+
+const homepage = await getListPage("homepage", "-index");
+const experience = homepage.data.our_expertise?.experience;
 
 const allServices = await getSinglePage("servicepage");
 const locationServices = (services || [])
@@ -174,22 +176,18 @@ const schemaData = [
     )
   }
 
-  <!-- INTRO -->
-  <section class="section-lg">
-    <div class="container">
-      <TitleCenter
-        title={location.data.title}
-        description={location.data.description}
-        className="mb-26"
-        centerText
-      />
-      <div class="lg:w-[80%] mx-auto">
-        <div class="content">
-          <Content />
-        </div>
-      </div>
-    </div>
-  </section>
+  <LocationIntro
+    title={location.data.title}
+    description={location.data.description}
+    city={city}
+    state={state}
+    county={county}
+    intro_image={intro_image}
+    hero_image={hero?.image}
+    experience={experience}
+    intro={intro}
+    variant={2}
+  />
 
   <CallToAction />
 

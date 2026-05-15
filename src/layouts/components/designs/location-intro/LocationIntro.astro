@@ -1,0 +1,54 @@
+---
+import Variation1 from "./variation-1/LocationIntro.astro";
+import Variation2 from "./variation-2/LocationIntro.astro";
+import Variation3 from "./variation-3/LocationIntro.astro";
+
+interface IntroData {
+  body?: string;
+  challenges_title?: string;
+  challenges_body?: string;
+  service_area_title?: string;
+  service_area_intro?: string;
+  service_area_neighborhoods?: { name: string; slug?: string }[];
+}
+
+interface Props {
+  title: string;
+  description: string;
+  city?: string;
+  state?: string;
+  county?: string;
+  intro_image?: string;
+  hero_image?: string;
+  experience?: { years: string; label: string } | null;
+  intro?: IntroData;
+  variant?: number;
+}
+
+const { variant: forcedVariant, ...data } = Astro.props;
+
+const activeVariant = forcedVariant !== undefined ? forcedVariant : 1;
+
+const VariationMap: Record<number, any> = {
+  1: Variation1,
+  2: Variation2,
+  3: Variation3,
+};
+
+const CurrentVariation = VariationMap[activeVariant];
+---
+
+{
+  CurrentVariation ? (
+    <CurrentVariation {...data} />
+  ) : (
+    <section class="section">
+      <div class="container">
+        <div class="lg:w-[80%] mx-auto">
+          <h2 set:html={data.title} />
+          <p class="text-lg mt-4" set:html={data.description} />
+        </div>
+      </div>
+    </section>
+  )
+}

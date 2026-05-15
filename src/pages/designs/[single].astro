@@ -2,9 +2,16 @@
 import Variation1 from "@/components/designs/service-card/variation-1/ServiceCard.astro";
 import Variation2 from "@/components/designs/service-card/variation-2/ServiceCard.astro";
 import Variation3 from "@/components/designs/service-card/variation-3/ServiceCard.astro";
+import LocationIntro1 from "@/components/designs/location-intro/variation-1/LocationIntro.astro";
+import LocationIntro2 from "@/components/designs/location-intro/variation-2/LocationIntro.astro";
+import LocationIntro3 from "@/components/designs/location-intro/variation-3/LocationIntro.astro";
+import LocationContent1 from "@/components/designs/location-content/variation-1/LocationContent.astro";
+import LocationContent2 from "@/components/designs/location-content/variation-2/LocationContent.astro";
+import LocationContent3 from "@/components/designs/location-content/variation-3/LocationContent.astro";
 import TitleCenter from "@/components/TitleCenter.astro";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { render } from "astro:content";
 
 export async function getStaticPaths() {
   const designs = await getSinglePage("designpage");
@@ -21,16 +28,61 @@ export async function getStaticPaths() {
 const { design } = Astro.props;
 const pageIndex = await getListPage("designpage", "-index");
 
-// Modular Variation Registry
+const homepage = await getListPage("homepage", "-index");
+const experience = homepage.data.our_expertise?.experience;
+
+const locationIntroProps = {
+  title: design.data.title,
+  description: design.data.description,
+  city: design.data.city,
+  state: design.data.state,
+  county: design.data.county,
+  intro_image: design.data.image,
+  hero_image: design.data.image,
+  experience,
+};
+
+const locationIntroContent = design.data.component_id === "location-intro"
+  ? (await render(design)).Content
+  : null;
+
 const VariationRegistry: Record<string, any[]> = {
   "service-card": [
     { name: "Variation 1", Component: Variation1 },
     { name: "Variation 2", Component: Variation2 },
     { name: "Variation 3", Component: Variation3 },
   ],
+  "location-intro": [
+    { name: "Variation 1 — About Pattern", Component: LocationIntro1 },
+    { name: "Variation 2 — Service Pattern", Component: LocationIntro2 },
+    { name: "Variation 3 — Image-First Split", Component: LocationIntro3 },
+  ],
+  "location-content": [
+    { name: "Variation 1 — Gradient Accent + Numbered Grid", Component: LocationContent1 },
+    { name: "Variation 2 — Callout Bar + Dot Leaders", Component: LocationContent2 },
+    { name: "Variation 3 — Timeline Dot Leaders", Component: LocationContent3 },
+  ],
 };
 
 const variations = VariationRegistry[design.data.component_id] || [];
+const isFullWidthComponent = design.data.component_id === "location-intro" || design.data.component_id === "location-content";
+
+const locationContentProps = design.data.component_id === "location-content"
+  ? {
+      challenges_title: design.data.challenges_title,
+      challenges_body: design.data.challenges_body,
+      service_area_title: design.data.service_area_title,
+      service_area_intro: design.data.service_area_intro,
+      service_area_neighborhoods: design.data.service_area_neighborhoods,
+      city: design.data.city,
+      state: design.data.state,
+      county: design.data.county,
+    }
+  : null;
+
+const locationContentSlot = design.data.component_id === "location-content"
+  ? (await render(design)).Content
+  : null;
 ---
 
 <Base {...pageIndex.data} title={`Design - ${design.data.title}`}>
@@ -50,16 +102,31 @@ const variations = VariationRegistry[design.data.component_id] || [];
                 {variant.name}
               </h2>
             </div>
-            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-6">
-              {/* Deeply isolated variation components for independent development */}
-              <variant.Component data={design.data} id={design.id} />
-              <div class="opacity-10 pointer-events-none grayscale hidden md:block">
-                <variant.Component data={design.data} id={design.id} />
-              </div>
-              <div class="opacity-5 pointer-events-none grayscale hidden xl:block">
-                <variant.Component data={design.data} id={design.id} />
-              </div>
-            </div>
+            {
+              isFullWidthComponent ? (
+                <div class="border border-border rounded-2xl overflow-hidden">
+                  {design.data.component_id === "location-content" ? (
+                    <variant.Component {...locationContentProps}>
+                      <locationContentSlot />
+                    </variant.Component>
+                  ) : (
+                    <variant.Component {...locationIntroProps}>
+                      <locationIntroContent />
+                    </variant.Component>
+                  )}
+                </div>
+              ) : (
+                <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-6">
+                  <variant.Component data={design.data} id={design.id} />
+                  <div class="opacity-10 pointer-events-none grayscale hidden md:block">
+                    <variant.Component data={design.data} id={design.id} />
+                  </div>
+                  <div class="opacity-5 pointer-events-none grayscale hidden xl:block">
+                    <variant.Component data={design.data} id={design.id} />
+                  </div>
+                </div>
+              )
+            }
           </div>
         ))
       }
