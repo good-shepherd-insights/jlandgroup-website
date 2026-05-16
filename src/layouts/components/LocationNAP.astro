@@ -1,0 +1,124 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+import config from "@/config/config.json";
+
+interface Props {
+  city?: string;
+  state?: string;
+  county?: string;
+  geo?: {
+    latitude: string;
+    longitude: string;
+  };
+  phone?: string;
+  email?: string;
+  address?: string;
+}
+
+const {
+  city,
+  state,
+  county,
+  geo,
+  phone = config.contact_info.phone,
+  email = config.contact_info.email,
+  address = config.contact_info.address,
+} = Astro.props;
+
+const directionsUrl = geo
+  ? `https://www.google.com/maps/dir/?api=1&destination=${geo.latitude},${geo.longitude}`
+  : `https://www.google.com/maps/place/${encodeURIComponent(address)}`;
+
+// Use address as base, append city/state only if not already present
+const formattedAddress = address.includes(city || "")
+  ? address
+  : [address, city, state].filter(Boolean).join(", ");
+---
+
+<section class="py-12 border-t border-border">
+  <div class="container">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16">
+      <!-- Name & Address -->
+      <div>
+        <h3 class="h4 mb-4">Get in Touch</h3>
+        <div class="space-y-3">
+          <p class="font-semibold text-text-dark">
+            J Land Contracting
+          </p>
+          {city && state && (
+            <p class="text-text">
+              {county && <span>{county}, </span>}
+              {city}, {state}
+            </p>
+          )}
+          <a
+            href={`https://www.google.com/maps/place/${encodeURIComponent(formattedAddress)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 text-sm"
+          >
+            <DynamicIcon icon="FaLocationDot" className="text-base" />
+            <span>{address}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Phone & Email -->
+      <div>
+        <h3 class="h4 mb-4">Contact Us</h3>
+        <div class="space-y-3">
+          <a
+            href={`tel:${phone.replace(/[^+\d]/g, "")}`}
+            class="flex items-center gap-3 group"
+          >
+            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200">
+              <DynamicIcon icon="FaPhone" className="text-sm" />
+            </span>
+            <span class="font-semibold text-text-dark group-hover:text-primary transition-colors duration-200">
+              {phone}
+            </span>
+          </a>
+          <a
+            href={`mailto:${email}`}
+            class="flex items-center gap-3 group"
+          >
+            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200">
+              <DynamicIcon icon="FaEnvelope" className="text-sm" />
+            </span>
+            <span class="font-semibold text-text-dark group-hover:text-primary transition-colors duration-200">
+              {email}
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Business Hours -->
+      <div>
+        <h3 class="h4 mb-4">Business Hours</h3>
+        <ul class="space-y-2 text-sm">
+          <li class="flex justify-between max-w-xs">
+            <span class="text-text">Monday – Friday</span>
+            <span class="font-semibold text-text-dark">8:00 AM – 5:00 PM</span>
+          </li>
+          <li class="flex justify-between max-w-xs">
+            <span class="text-text">Saturday</span>
+            <span class="font-semibold text-text-dark">8:00 AM – 12:00 PM</span>
+          </li>
+          <li class="flex justify-between max-w-xs">
+            <span class="text-text">Sunday</span>
+            <span class="font-semibold text-text-dark">Closed</span>
+          </li>
+        </ul>
+        <a
+          href={directionsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 mt-6 btn btn-primary text-sm"
+        >
+          <DynamicIcon icon="FaRoute" className="text-sm" />
+          Get Directions
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
