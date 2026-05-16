@@ -1,0 +1,81 @@
+paths:
+  static: public
+  uploads: public/uploads
+timezone: America/New_York
+markdown:
+  engine: commonmark
+  options:
+    gfm: true
+collections_config:
+  pages:
+    path: src/pages
+    icon: wysiwyg
+  source:
+    path: ''
+    icon: package_2
+  about:
+    path: src/content/about
+    icon: bolt
+  appointment:
+    path: src/content/appointment
+    icon: apartment
+  blog:
+    path: src/content/blog
+    icon: event_available
+  config:
+    path: src/config
+    icon: coffee
+  contact:
+    path: src/content/contact
+    icon: contacts
+  content_pages:
+    path: src/content/pages
+    icon: contact_page
+  designs:
+    path: src/content/designs
+    icon: devices
+  homepage:
+    path: src/content/homepage
+    icon: compare
+  lib:
+    path: src/lib
+    icon: adb
+  roofer_astro_original_about:
+    path: roofer-astro-original/src/content/about
+    icon: battery_android_bolt
+  roofer_astro_original_appointment:
+    path: roofer-astro-original/src/content/appointment
+    icon: format_align_center
+  roofer_astro_original_blog:
+    path: roofer-astro-original/src/content/blog
+    icon: move_to_inbox
+  roofer_astro_original_config:
+    path: roofer-astro-original/src/config
+    icon: contrast_rtl_off
+  roofer_astro_original_contact:
+    path: roofer-astro-original/src/content/contact
+    icon: connect_without_contact
+  roofer_astro_original_homepage:
+    path: roofer-astro-original/src/content/homepage
+    icon: broadcast_on_home
+  roofer_astro_original_lib:
+    path: roofer-astro-original/src/lib
+    icon: border_horizontal
+  roofer_astro_original_pages:
+    path: roofer-astro-original/src/pages
+    icon: personal_places
+  roofer_astro_original_sections:
+    path: roofer-astro-original/src/content/sections
+    icon: integration_instructions
+  roofer_astro_original_services:
+    path: roofer-astro-original/src/content/services
+    icon: electrical_services
+  roofer_astro_original_src_content_pages:
+    path: roofer-astro-original/src/content/pages
+    icon: format_align_center
+  sections:
+    path: src/content/sections
+    icon: directions
+  services:
+    path: src/content/services
+    icon: devices
