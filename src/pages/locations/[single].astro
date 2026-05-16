@@ -4,6 +4,7 @@ import TitleCenter from "@/components/TitleCenter.astro";
 import Button from "@/components/Button.astro";
 import ServiceCard from "@/layouts/components/ServiceCard.astro";
 import LocationIntro from "@/layouts/components/designs/location-intro/LocationIntro.astro";
+import LocationNAP from "@/components/LocationNAP.astro";
 import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
 import { getSinglePage, getListPage } from "@/lib/contentParser.astro";
@@ -187,6 +188,13 @@ const schemaData = [
     experience={experience}
     intro={intro}
     variant={2}
+  />
+
+  <LocationNAP
+    city={city}
+    state={state}
+    county={county}
+    geo={geo}
   />
 
   <CallToAction />
