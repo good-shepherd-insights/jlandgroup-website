@@ -1,0 +1,77 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import DynamicIcon from "@/helpers/DynamicIcon";
+
+interface Props {
+  city?: string;
+  state?: string;
+  geo?: {
+    latitude: string;
+    longitude: string;
+  };
+  directions?: string;
+}
+
+const {
+  city,
+  state,
+  geo,
+  directions,
+} = Astro.props;
+
+// Build Google Maps URLs
+// Use search/?api=1&query for precise coordinate-based place lookup
+const mapUrl = geo
+  ? `https://www.google.com/maps/search/?api=1&query=${geo.latitude},${geo.longitude}`
+  : `https://www.google.com/maps/place/${encodeURIComponent(`${city}, ${state}`)}`;
+
+// Use dir/?api=1 for navigation
+const directionsUrl = geo
+  ? `https://www.google.com/maps/dir/?api=1&destination=${geo.latitude},${geo.longitude}`
+  : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${city}, ${state}`)}`;
+
+const hasContent = directions || geo;
+---
+
+{
+  hasContent && (
+    <section class="section border-t border-border">
+      <div class="container">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="h2 text-center mb-4">
+            {city && state
+              ? `Directions to ${city}, ${state}`
+              : "Getting Here"}
+          </h2>
+
+          {directions && (
+            <div class="prose prose-lg max-w-none mt-8 text-text" set:html={markdownify(directions)} />
+          )}
+
+          <div class="mt-10 flex flex-wrap gap-4 justify-center">
+            <a
+              href={directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 btn btn-primary"
+            >
+              <DynamicIcon icon="FaRoute" className="text-sm" />
+              Get Directions
+            </a>
+            {city && state && (
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 btn btn-outline"
+              >
+                <DynamicIcon icon="FaMapLocationDot" className="text-sm" />
+                View on Google Maps
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

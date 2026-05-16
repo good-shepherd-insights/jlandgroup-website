@@ -351,5 +351,7 @@ export const locationpage = defineCollection({
         embed_url: z.string().optional(),
       })
       .optional(),
+
+    directions: z.string().optional(),
   }),
 });
