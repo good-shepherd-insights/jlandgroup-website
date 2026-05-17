@@ -5,6 +5,7 @@ import Button from "@/components/Button.astro";
 import ServiceCard from "@/layouts/components/ServiceCard.astro";
 import LocationIntro from "@/layouts/components/designs/location-intro/LocationIntro.astro";
 import LocationNAP from "@/components/LocationNAP.astro";
+import LocationDirections from "@/components/LocationDirections.astro";
 import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
 import { getSinglePage, getListPage } from "@/lib/contentParser.astro";
@@ -23,7 +24,7 @@ const { location } = Astro.props;
 const {
   city, state, county, geo, hero, intro_image, intro,
   services, faqs, nearby_areas,
-  testimonials, contact_form, google_map,
+  testimonials, contact_form, google_map, directions,
 } = location.data;
 
 const locationSlug = location.id;
@@ -381,6 +382,13 @@ const schemaData = [
       </section>
     )
   }
+
+  <LocationDirections
+    city={city}
+    state={state}
+    geo={geo}
+    directions={directions}
+  />
 
   <!-- NEARBY AREAS (inline — TODO: extract NearbyAreas.astro) -->
   {
