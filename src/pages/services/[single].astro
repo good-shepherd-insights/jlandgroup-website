@@ -1,6 +1,7 @@
 ---
 import ImageMod from "@/components/ImageMod.astro";
 import TitleCenter from "@/components/TitleCenter.astro";
+import ServiceAreaLocations from "@/components/ServiceAreaLocations.astro";
 import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
@@ -22,6 +23,17 @@ export async function getStaticPaths() {
 const { service } = Astro.props;
 const { title, description, image, icon, contact_form } = service.data;
 const { Content } = await render(service);
+
+const allLocations = await getSinglePage("locationpage");
+const servingLocations = allLocations.filter((loc) =>
+  loc.data.services?.some((s) => s.slug === service.id)
+);
+
+const cityAreas = servingLocations.map((loc) => ({
+  "@type": "City",
+  "name": loc.data.city || "",
+  "sameAs": `https://jlandgroup.com/locations/${loc.id}`,
+}));
 
 const plainDescription = plainify(description);
 const servicePricing = title.toLowerCase().includes("free") ? "0" : undefined;
@@ -62,7 +74,8 @@ const schemaData = [
           "longitude": "-77.5475"
         },
         "geoRadius": "80467"
-      }
+      },
+      ...cityAreas
     ],
     ...(servicePricing !== undefined && {
       "offers": {
@@ -205,4 +218,13 @@ const schemaData = [
       </div>
     </div>
   </section>
+
+  <ServiceAreaLocations
+    service_title={title}
+    locations={servingLocations.map((loc) => ({
+      id: loc.id,
+      city: loc.data.city || "",
+      state: loc.data.state || "",
+    }))}
+  />
 </Base>
