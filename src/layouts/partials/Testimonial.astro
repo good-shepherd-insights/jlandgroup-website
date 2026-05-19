@@ -15,6 +15,9 @@ const sectionData = await getListPage("testimonialSection", "testimonial");
 if (!sectionData.data.enable) return null;
 const { ratings, title, description, testimonials } = sectionData.data;
 
+const totalReviews = ratings.total_reviews || testimonials.length.toString();
+const interpolatedDescription = description.replace("{totalReviews}", totalReviews);
+
 const swiperOptions: SwiperOptions = {
   spaceBetween: 24,
   loop: true,
@@ -45,7 +48,7 @@ const swiperOptions: SwiperOptions = {
     >
       <div class="flex-2">
         <h2 set:html={markdownify(title)} class="h1 mb-6" />
-        <p set:html={markdownify(description)} class="text-balance text-lg" />
+        <p set:html={markdownify(interpolatedDescription)} class="text-balance text-lg" />
       </div>
       <div class="flex-1">
         {
@@ -61,7 +64,7 @@ const swiperOptions: SwiperOptions = {
               <div class="flex max-lg:flex-col items-center lg:items-end">
                 <p
                   class="text-h1 lg:text-[104px] font-semibold text-text-dark/40 leading-none lg:-mb-2"
-                  set:html={markdownify(ratings.total_reviews)}
+                  set:html={markdownify(totalReviews)}
                 />
                 <p
                   class="text-text-dark font-bold"
