@@ -92,4 +92,12 @@ contact_form:
 google_map:
   enable: true
   embed_url: "https://maps.google.com/maps?q=Frederick,+MD&t=&z=13&ie=UTF8&iwloc=&output=embed"
+
+# Review URLs rendered by LocationReviews.astro.
+# - gbp_url:            Google Business Profile (Maps) listing.
+# - google_reviews_url: Direct "write a review" link from Google.
+# - yelp_url:           Yelp "write a review" link.
+gbp_url: "https://share.google/t5XRHNMXFF4V58J2P"
+google_reviews_url: "https://search.google.com/local/reviews?placeid=ChIJVVVBeNQhyIkRo2psINwJ6Bc"
+yelp_url: "https://www.yelp.com/writeareview/biz/lOGDO6TbiaKGBVH6rSqZcw?return_url=%2Fbiz%2FlOGDO6TbiaKGBVH6rSqZcw&review_origin=biz-details-war-button"
 ---

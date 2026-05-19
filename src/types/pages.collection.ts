@@ -354,6 +354,18 @@ export const locationpage = defineCollection({
 
     directions: z.string().optional(),
 
+    // Review URLs surfaced by `LocationReviews.astro` on each location page.
+    // Populate these per-location in the frontmatter of files under
+    // `src/content/locations/<slug>.md`. All three are optional — the component
+    // hides any link whose URL is missing.
+    //   gbp_url             — Google Business Profile listing (the public GBP/Maps page).
+    //                         Used for the "See our reviews on Google" outbound link.
+    //   google_reviews_url  — Direct "write a review" link from Google
+    //                         (e.g. https://search.google.com/local/reviews?placeid=...).
+    //                         Used for the "Leave us a review on Google" CTA.
+    //   yelp_url            — Yelp "write a review" link
+    //                         (e.g. https://www.yelp.com/writeareview/biz/<id>).
+    //                         Used for the "See our reviews on Yelp" outbound link.
     gbp_url: z.string().optional(),
     google_reviews_url: z.string().optional(),
     yelp_url: z.string().optional(),
