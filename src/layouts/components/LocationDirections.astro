@@ -2,6 +2,23 @@
 import { markdownify } from "@/lib/utils/textConverter";
 import DynamicIcon from "@/helpers/DynamicIcon";
 
+interface DirectionItem {
+  title: string;
+  description: string;
+  drive_time?: string;
+  distance?: string;
+}
+
+interface DirectionFromOther extends DirectionItem {
+  origin: string;
+}
+
+interface Directions {
+  from_dc?: DirectionItem;
+  from_baltimore?: DirectionItem;
+  from_other?: DirectionFromOther[];
+}
+
 interface Props {
   city?: string;
   state?: string;
@@ -9,7 +26,7 @@ interface Props {
     latitude: string;
     longitude: string;
   };
-  directions?: string;
+  directions?: Directions;
 }
 
 const {
@@ -30,7 +47,16 @@ const directionsUrl = geo
   ? `https://www.google.com/maps/dir/?api=1&destination=${geo.latitude},${geo.longitude}`
   : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${city}, ${state}`)}`;
 
-const hasContent = directions || geo;
+// Flatten the structured `directions` object (per locationContactFields schema)
+// into an ordered list of items so the template can render uniformly.
+const directionItems: DirectionItem[] = [
+  ...(directions?.from_dc ? [directions.from_dc] : []),
+  ...(directions?.from_baltimore ? [directions.from_baltimore] : []),
+  ...(directions?.from_other ?? []),
+];
+
+const hasDirectionItems = directionItems.length > 0;
+const hasContent = hasDirectionItems || geo;
 ---
 
 {
@@ -44,8 +70,20 @@ const hasContent = directions || geo;
               : "Getting Here"}
           </h2>
 
-          {directions && (
-            <div class="prose prose-lg max-w-none mt-8 text-text" set:html={markdownify(directions)} />
+          {hasDirectionItems && (
+            <div class="mt-8 space-y-8">
+              {directionItems.map((item) => (
+                <div class="prose prose-lg max-w-none text-text">
+                  <h3 class="h4" set:html={markdownify(item.title)} />
+                  {(item.drive_time || item.distance) && (
+                    <p class="text-text/60 text-sm">
+                      {[item.drive_time, item.distance].filter(Boolean).join(" • ")}
+                    </p>
+                  )}
+                  <p set:html={markdownify(item.description)} />
+                </div>
+              ))}
+            </div>
           )}
 
           <div class="mt-10 flex flex-wrap gap-4 justify-center">
