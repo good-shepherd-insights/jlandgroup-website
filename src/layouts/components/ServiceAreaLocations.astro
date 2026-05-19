@@ -1,0 +1,57 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+
+interface Props {
+  service_title: string;
+  locations: {
+    id: string;
+    city: string;
+    state: string;
+  }[];
+}
+
+const {
+  service_title,
+  locations,
+} = Astro.props;
+---
+
+{
+  locations.length > 0 && (
+    <section class="section border-t border-border">
+      <div class="container">
+        <h2 class="h2 text-center mb-4">
+          Areas we serve for {service_title}
+        </h2>
+        <p class="text-lg mt-2 mb-12 max-w-[80%] mx-auto text-center text-balance text-text">
+          We provide {service_title.toLowerCase()} in the following areas. Click a location to learn more about our services near you.
+        </p>
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {
+            locations.map((loc) => (
+              <a
+                href={`/locations/${loc.id}`}
+                class="group block p-6 bg-body rounded-xl border border-border hover:shadow-lg hover:border-primary/30 transition-all duration-200"
+              >
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200">
+                    <DynamicIcon icon="FaLocationDot" className="text-lg" />
+                  </span>
+                  <div>
+                    <h3 class="h5 font-semibold text-text-dark group-hover:text-primary transition-colors duration-200">
+                      {loc.city}, {loc.state}
+                    </h3>
+                    <span class="inline-flex items-center gap-1 text-sm text-text mt-1 group-hover:text-primary/80 transition-colors duration-200">
+                      <DynamicIcon icon="FaArrowRight" className="text-xs" />
+                      View location
+                    </span>
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  )
+}
