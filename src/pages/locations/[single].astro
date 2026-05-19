@@ -6,6 +6,7 @@ import ServiceCard from "@/layouts/components/ServiceCard.astro";
 import LocationIntro from "@/layouts/components/designs/location-intro/LocationIntro.astro";
 import LocationNAP from "@/components/LocationNAP.astro";
 import LocationDirections from "@/components/LocationDirections.astro";
+import LocationSocialLinks from "@/components/LocationSocialLinks.astro";
 import LocationReviews from "@/components/LocationReviews.astro";
 import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
@@ -144,11 +145,9 @@ const schemaData = [
         "reviewBody": plainify(t.content)
       }))
     } : {}),
-    "sameAs": [
-      "https://facebook.com/jlandcontracting",
-      "https://www.linkedin.com/company/j-land-contracting",
-      "https://twitter.com/jlandcontracting"
-    ]
+    "sameAs": (config.social || [])
+      .filter((s: { url: string; platform: string }) => s.url && s.url.trim() !== "" && s.platform !== "Google Business")
+      .map((s: { url: string }) => s.url)
   }] : []),
   ...(effectiveFaqs.length > 0 ? [{
     "@context": "https://schema.org",
@@ -405,6 +404,8 @@ const schemaData = [
     geo={geo}
     directions={directions}
   />
+
+  <LocationSocialLinks />
 
   <!-- NEARBY AREAS (inline — TODO: extract NearbyAreas.astro) -->
   {
