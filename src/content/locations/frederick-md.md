@@ -78,10 +78,6 @@ testimonials:
     designation: "Homeowner, Frederick, MD"
     avatar: "/images/avatar/jland-contracting-google-review-customer-gene-buckalew.png"
     content: "Jland Contracting did a professional and noteworthy job of replacing my storm damaged roofing and siding. There were no 'games' played with the inspection and interaction with my home insurer."
-  - name: "Leah Walker"
-    designation: "Homeowner, Urbana, MD"
-    avatar: "/images/avatar/jland-contracting-google-review-customer-leah-walker.png"
-    content: "During the stressful time dealing with roof related issues, it was very helpful to have Danny constantly checking in with me and providing an honest and reliable service."
 
 contact_form:
   enable: true
