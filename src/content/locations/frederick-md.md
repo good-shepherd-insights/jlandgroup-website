@@ -95,5 +95,5 @@ google_map:
 # - yelp_url:           Yelp "write a review" link.
 gbp_url: "https://share.google/t5XRHNMXFF4V58J2P"
 google_reviews_url: "https://search.google.com/local/reviews?placeid=ChIJVVVBeNQhyIkRo2psINwJ6Bc"
-yelp_url: "https://www.yelp.com/writeareview/biz/lOGDO6TbiaKGBVH6rSqZcw?return_url=%2Fbiz%2FlOGDO6TbiaKGBVH6rSqZcw&review_origin=biz-details-war-button"
+yelp_url: "https://www.yelp.com/biz/j-land-contracting-ellicott-city"
 ---
