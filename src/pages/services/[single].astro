@@ -32,7 +32,7 @@ const servingLocations = allLocations.filter((loc) =>
 const cityAreas = servingLocations.map((loc) => ({
   "@type": "City",
   "name": loc.data.city || "",
-  "sameAs": `https://jlandgroup.com/locations/${loc.id}`,
+  "sameAs": `${config.site.base_url}/locations/${loc.id}`,
 }));
 
 const plainDescription = plainify(description);
@@ -44,14 +44,14 @@ const schemaData = [
     "@type": "Service",
     "name": title,
     "description": plainDescription,
-    "url": `https://jlandgroup.com/services/${service.id}`,
-    ...(image && { "image": `https://jlandgroup.com${image}` }),
+    "url": `${config.site.base_url}/services/${service.id}`,
+    ...(image && { "image": `${config.site.base_url}${image}` }),
     "provider": {
       "@type": "Organization",
       "name": "J Land Contracting",
       "telephone": "(410) 292-0801",
       "email": "info@jlandgroup.com",
-      "url": "https://jlandgroup.com",
+      "url": config.site.base_url,
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "3636 Glenoble Court",
@@ -94,19 +94,19 @@ const schemaData = [
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://jlandgroup.com"
+        "item": config.site.base_url
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Services",
-        "item": "https://jlandgroup.com/services"
+        "item": `${config.site.base_url}/services`
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": title,
-        "item": `https://jlandgroup.com/services/${service.id}`
+        "item": `${config.site.base_url}/services/${service.id}`
       }
     ]
   }

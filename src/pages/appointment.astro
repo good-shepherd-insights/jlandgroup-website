@@ -16,14 +16,14 @@ const schemaData = [
     "@type": "WebPage",
     "name": pageIndex.data.title,
     "description": pageIndex.data.description,
-    "url": "https://jlandgroup.com/appointment",
+    "url": `${config.site.base_url}/appointment`,
     "potentialAction": {
       "@type": "ReserveAction",
       "name": "Book a Free Roof Inspection",
       "description": "Schedule a free roof inspection with J Land Contracting",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://jlandgroup.com/appointment",
+        "urlTemplate": `${config.site.base_url}/appointment`,
         "actionPlatform": [
           "https://schema.org/DesktopWebPlatform",
           "https://schema.org/MobileWebPlatform"
@@ -39,13 +39,13 @@ const schemaData = [
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://jlandgroup.com"
+        "item": config.site.base_url
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Appointment",
-        "item": "https://jlandgroup.com/appointment"
+        "item": `${config.site.base_url}/appointment`
       }
     ]
   }

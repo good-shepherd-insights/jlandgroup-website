@@ -21,32 +21,32 @@ const schemaData = [
     "@type": "Blog",
     "name": pageIndex.data.title,
     "description": pageIndex.data.description,
-    "url": "https://jlandgroup.com/blog",
+    "url": `${config.site.base_url}/blog`,
     "publisher": {
       "@type": "Organization",
       "name": "J Land Contracting",
-      "url": "https://jlandgroup.com",
+      "url": config.site.base_url,
       "logo": {
         "@type": "ImageObject",
-        "url": "https://jlandgroup.com/images/logo-jland.svg"
+        "url": `${config.site.base_url}/images/logo-jland.svg`
       }
     },
     "blogPost": currentPosts.map(post => ({
       "@type": "BlogPosting",
       "headline": post.data.title,
       ...(post.data.description && { "description": plainify(post.data.description) }),
-      "url": `https://jlandgroup.com/blog/${post.id}`,
+      "url": `${config.site.base_url}/blog/${post.id}`,
       ...(post.data.date && { "datePublished": new Date(post.data.date).toISOString() }),
       ...(post.data.image && {
         "image": {
           "@type": "ImageObject",
-          "url": `https://jlandgroup.com${post.data.image}`
+          "url": `${config.site.base_url}${post.data.image}`
         }
       }),
       "author": {
         "@type": "Organization",
         "name": "J Land Contracting",
-        "url": "https://jlandgroup.com"
+        "url": config.site.base_url
       }
     }))
   },
@@ -58,13 +58,13 @@ const schemaData = [
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://jlandgroup.com"
+        "item": config.site.base_url
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Blog",
-        "item": "https://jlandgroup.com/blog"
+        "item": `${config.site.base_url}/blog`
       }
     ]
   }
