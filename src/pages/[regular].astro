@@ -1,6 +1,7 @@
 ---
 import TitleCenter from "@/components/TitleCenter.astro";
 import Base from "@/layouts/Base.astro";
+import config from "@/config/config.json";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { render } from "astro:content";
 
@@ -26,7 +27,7 @@ const schemaData = [
     "@type": "WebPage",
     "name": page.data.title,
     "description": page.data.description,
-    "url": `https://jlandgroup.com/${page.id}`
+    "url": `${config.site.base_url}/${page.id}`
   },
   {
     "@context": "https://schema.org",
@@ -36,13 +37,13 @@ const schemaData = [
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://jlandgroup.com"
+        "item": config.site.base_url
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": page.data.title,
-        "item": `https://jlandgroup.com/${page.id}`
+        "item": `${config.site.base_url}/${page.id}`
       }
     ]
   }

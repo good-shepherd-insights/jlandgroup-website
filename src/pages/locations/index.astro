@@ -1,6 +1,7 @@
 ---
 import TitleCenter from "@/components/TitleCenter.astro";
 import Base from "@/layouts/Base.astro";
+import config from "@/config/config.json";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
 import Testimonial from "@/partials/Testimonial.astro";
 import CallToAction from "@/partials/CallToAction.astro";
@@ -15,7 +16,7 @@ const schemaData = [
     "@type": "CollectionPage",
     "name": pageIndex.data.title,
     "description": pageIndex.data.description,
-    "url": "https://jlandgroup.com/locations",
+    "url": `${config.site.base_url}/locations`,
     "mainEntity": {
       "@type": "ItemList",
       "name": "Service Areas",
@@ -26,7 +27,7 @@ const schemaData = [
         "item": {
           "@type": "City",
           "name": `${loc.data.city}, ${loc.data.state}`,
-          "url": `https://jlandgroup.com/locations/${loc.id}`
+          "url": `${config.site.base_url}/locations/${loc.id}`
         }
       }))
     }
@@ -39,13 +40,13 @@ const schemaData = [
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://jlandgroup.com"
+        "item": config.site.base_url
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Locations",
-        "item": "https://jlandgroup.com/locations"
+        "item": `${config.site.base_url}/locations`
       }
     ]
   }

@@ -19,6 +19,66 @@ export const button = z.object({
   icon: z.string().optional(),
 });
 
+export const dayHoursSchema = z.object({
+  open: z.string().optional(),
+  close: z.string().optional(),
+  closed: z.boolean().optional(),
+});
+
+export const openingHoursSchema = z.object({
+  monday: dayHoursSchema.optional(),
+  tuesday: dayHoursSchema.optional(),
+  wednesday: dayHoursSchema.optional(),
+  thursday: dayHoursSchema.optional(),
+  friday: dayHoursSchema.optional(),
+  saturday: dayHoursSchema.optional(),
+  sunday: dayHoursSchema.optional(),
+  holidays: z
+    .array(
+      z.object({
+        date: z.string(),
+        closed: z.boolean().optional(),
+        open: z.string().optional(),
+        close: z.string().optional(),
+      }),
+    )
+    .optional(),
+});
+
+export const directionItemSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  drive_time: z.string().optional(),
+  distance: z.string().optional(),
+});
+
+export const locationContactFields = {
+  street_address: z.string().optional(),
+  phone: z
+    .string()
+    .regex(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)
+    .optional(),
+  zip_codes: z.array(z.string().regex(/^\d{5}(-\d{4})?$/)).optional(),
+  opening_hours: openingHoursSchema.optional(),
+  gbp_url: z.string().url().optional(),
+  google_reviews_url: z.string().url().optional(),
+  yelp_url: z.string().url().optional(),
+  directions: z
+    .object({
+      from_dc: directionItemSchema.optional(),
+      from_baltimore: directionItemSchema.optional(),
+      from_other: z
+        .array(
+          z.object({
+            origin: z.string(),
+            ...directionItemSchema.shape,
+          }),
+        )
+        .optional(),
+    })
+    .optional(),
+};
+
 export const homepage = defineCollection({
   loader: glob({ pattern: "**/-*.{md,mdx}", base: "src/content/homepage" }),
   schema: z.object({
@@ -208,6 +268,7 @@ export const designpage = defineCollection({
       city: z.string().optional(),
       state: z.string().optional(),
       county: z.string().optional(),
+      ...locationContactFields,
       challenges_title: z.string().optional(),
       challenges_body: z.string().optional(),
       service_area_title: z.string().optional(),
@@ -352,8 +413,6 @@ export const locationpage = defineCollection({
       })
       .optional(),
 
-    directions: z.string().optional(),
-
     // Review URLs surfaced by `LocationReviews.astro` on each location page.
     // Populate these per-location in the frontmatter of files under
     // `src/content/locations/<slug>.md`. All three are optional — the component
@@ -366,8 +425,6 @@ export const locationpage = defineCollection({
     //   yelp_url            — Yelp "write a review" link
     //                         (e.g. https://www.yelp.com/writeareview/biz/<id>).
     //                         Used for the "See our reviews on Yelp" outbound link.
-    gbp_url: z.string().optional(),
-    google_reviews_url: z.string().optional(),
-    yelp_url: z.string().optional(),
+    ...locationContactFields,
   }),
 });
