@@ -9,7 +9,7 @@ import LocationDirections from "@/components/LocationDirections.astro";
 import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
 import { getSinglePage, getListPage } from "@/lib/contentParser.astro";
-import { markdownify } from "@/lib/utils/textConverter";
+import { markdownify, plainify } from "@/lib/utils/textConverter";
 import CallToAction from "@/partials/CallToAction.astro";
 
 export async function getStaticPaths() {
@@ -55,11 +55,13 @@ const testimonialSection = await getListPage("testimonialSection", "testimonial"
 const effectiveTestimonials = (testimonials && testimonials.length > 0)
   ? testimonials
   : testimonialSection.data.testimonials;
+const totalReviews = testimonialSection.data.ratings?.total_reviews || "0";
 
 const schemaData = [
   ...(geo ? [{
     "@context": "https://schema.org",
-    "@type": "HomeAndContractTrade",
+    "@type": "LocalBusiness",
+    "@id": `https://jlandgroup.com/locations/${locationSlug}/#localbusiness`,
     "name": "J Land Contracting",
     "url": `https://jlandgroup.com/locations/${locationSlug}`,
     "telephone": "(410) 292-0801",
@@ -69,8 +71,10 @@ const schemaData = [
       : "https://jlandgroup.com/images/og-image.png",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "3636 Glenoble Court",
       "addressLocality": city || "Jefferson",
       "addressRegion": state || "MD",
+      "postalCode": "21755",
       "addressCountry": "US"
     },
     "geo": {
@@ -115,7 +119,46 @@ const schemaData = [
           "url": `https://jlandgroup.com/services/${svc.id}`
         }
       }))
-    }
+    },
+    ...(effectiveTestimonials.length > 0 ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": totalReviews,
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": effectiveTestimonials.slice(0, 3).map((t) => ({
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": t.name
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": plainify(t.content)
+      }))
+    } : {}),
+    "sameAs": [
+      "https://facebook.com/jlandcontracting",
+      "https://www.linkedin.com/company/j-land-contracting",
+      "https://twitter.com/jlandcontracting"
+    ]
+  }] : []),
+  ...(effectiveFaqs.length > 0 ? [{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": effectiveFaqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": plainify(faq.answer)
+      }
+    }))
   }] : []),
   {
     "@context": "https://schema.org",
