@@ -78,10 +78,6 @@ testimonials:
     designation: "Homeowner, Frederick, MD"
     avatar: "/images/avatar/jland-contracting-google-review-customer-gene-buckalew.png"
     content: "Jland Contracting did a professional and noteworthy job of replacing my storm damaged roofing and siding. There were no 'games' played with the inspection and interaction with my home insurer."
-  - name: "Leah Walker"
-    designation: "Homeowner, Urbana, MD"
-    avatar: "/images/avatar/jland-contracting-google-review-customer-leah-walker.png"
-    content: "During the stressful time dealing with roof related issues, it was very helpful to have Danny constantly checking in with me and providing an honest and reliable service."
 
 contact_form:
   enable: true
@@ -92,4 +88,12 @@ contact_form:
 google_map:
   enable: true
   embed_url: "https://maps.google.com/maps?q=Frederick,+MD&t=&z=13&ie=UTF8&iwloc=&output=embed"
+
+# Review URLs rendered by LocationReviews.astro.
+# - gbp_url:            Google Business Profile (Maps) listing.
+# - google_reviews_url: Direct "write a review" link from Google.
+# - yelp_url:           Yelp "write a review" link.
+gbp_url: "https://share.google/t5XRHNMXFF4V58J2P"
+google_reviews_url: "https://search.google.com/local/reviews?placeid=ChIJVVVBeNQhyIkRo2psINwJ6Bc"
+yelp_url: "https://www.yelp.com/biz/j-land-contracting-ellicott-city"
 ---
