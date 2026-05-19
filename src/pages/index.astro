@@ -22,7 +22,7 @@ const { blog_section, why_choose_us } = homepage.data;
 
 const testimonialSection = await getListPage("testimonialSection", "testimonial");
 const testimonials = testimonialSection.data.testimonials || [];
-const totalReviews = testimonialSection.data.ratings?.total_reviews || "0";
+const totalReviews = testimonialSection.data.ratings?.total_reviews || testimonials.length.toString();
 
 const faqSection = await getListPage("faqsSection", "faqs");
 const faqItems = faqSection.data.faqs_list || [];

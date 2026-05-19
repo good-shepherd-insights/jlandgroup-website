@@ -75,10 +75,26 @@ const faqSection = await getListPage("faqsSection", "faqs");
 const effectiveFaqs = (faqs && faqs.length > 0) ? faqs : faqSection.data.faqs_list;
 
 const testimonialSection = await getListPage("testimonialSection", "testimonial");
-const effectiveTestimonials = (testimonials && testimonials.length > 0)
-  ? testimonials
-  : testimonialSection.data.testimonials;
-const totalReviews = testimonialSection.data.ratings?.total_reviews || "0";
+const allTestimonials = testimonialSection.data.testimonials;
+
+// Slug-aware filtering: use page override when provided, otherwise prefer
+// testimonials tagged with this location's slug (plus untagged general ones),
+// falling back to all testimonials when no slug-tagged entries exist.
+const overrideTestimonials = testimonials && testimonials.length > 0 ? testimonials : null;
+let effectiveTestimonials;
+if (overrideTestimonials) {
+  effectiveTestimonials = overrideTestimonials;
+} else {
+  const slugMatched = allTestimonials.filter(t => t.location_slug === locationSlug);
+  const general = allTestimonials.filter(t => !t.location_slug);
+  effectiveTestimonials = slugMatched.length > 0
+    ? [...slugMatched, ...general]
+    : allTestimonials;
+}
+
+// JSON-LD reviewCount strictly reflects the local set so structured data only
+// emits location-relevant reviews (per spec File-by-File reasoning).
+const totalReviews = effectiveTestimonials.length.toString();
 
 const schemaData = [
   ...(geo ? [{
