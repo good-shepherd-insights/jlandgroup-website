@@ -12,6 +12,7 @@ import OurExpertise from "@/partials/OurExpertise.astro";
 import Testimonial from "@/partials/Testimonial.astro";
 import WhatWeOffer from "@/partials/WhatWeOffer.astro";
 import WhyChooseUs from "@/partials/WhyChooseUs.astro";
+import config from "@/config/config.json";
 
 const homepage = await getListPage("homepage", "-index");
 const blogs = await getSinglePage("blogpage");
@@ -30,19 +31,19 @@ const schemaData = [
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://jlandgroup.com/#organization",
+    "@id": `${config.site.base_url}/#organization`,
     "name": "J Land Contracting",
     "alternateName": "J Land Roofing",
     "description": "J Land Contracting delivers expert roofing solutions across the DMV with integrity and experience. Free inspections, insurance claim assistance, and professional roof replacements.",
-    "url": "https://jlandgroup.com",
+    "url": config.site.base_url,
     "telephone": "(410) 292-0801",
     "email": "info@jlandgroup.com",
     "foundingDate": "2007",
     "priceRange": "$$",
     "paymentAccepted": ["Cash", "Credit Card", "Check"],
     "currenciesAccepted": "USD",
-    "logo": "https://jlandgroup.com/images/logo-jland.svg",
-    "image": "https://jlandgroup.com/images/og-image.png",
+    "logo": `${config.site.base_url}/images/logo-jland.svg`,
+    "image": `${config.site.base_url}/images/og-image.png`,
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "3636 Glenoble Court",
@@ -203,7 +204,7 @@ const schemaData = [
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://jlandgroup.com"
+        "item": config.site.base_url
       }
     ]
   },
@@ -213,32 +214,32 @@ const schemaData = [
       {
         "@type": "SiteNavigationElement",
         "name": "Home",
-        "url": "https://jlandgroup.com"
+        "url": config.site.base_url
       },
       {
         "@type": "SiteNavigationElement",
         "name": "About",
-        "url": "https://jlandgroup.com/about"
+        "url": `${config.site.base_url}/about`
       },
       {
         "@type": "SiteNavigationElement",
         "name": "Services",
-        "url": "https://jlandgroup.com/services"
+        "url": `${config.site.base_url}/services`
       },
       {
         "@type": "SiteNavigationElement",
         "name": "Appointment",
-        "url": "https://jlandgroup.com/appointment"
+        "url": `${config.site.base_url}/appointment`
       },
       {
         "@type": "SiteNavigationElement",
         "name": "Contact",
-        "url": "https://jlandgroup.com/contact"
+        "url": `${config.site.base_url}/contact`
       },
       {
         "@type": "SiteNavigationElement",
         "name": "Blog",
-        "url": "https://jlandgroup.com/blog"
+        "url": `${config.site.base_url}/blog`
       }
     ]
   }

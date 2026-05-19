@@ -7,6 +7,7 @@ import { getListPage } from "@/lib/contentParser.astro";
 import { markdownify, plainify } from "@/lib/utils/textConverter";
 import WhyChooseUs from "@/partials/WhyChooseUs.astro";
 import AuthorCard from "@/layouts/components/AuthorCard.astro";
+import config from "@/config/config.json";
 
 const pageIndex = await getListPage("aboutpage", "-index");
 const {
@@ -27,12 +28,12 @@ const schemaData = [
     "@type": "AboutPage",
     "name": title,
     "description": plainDescription,
-    "url": "https://jlandgroup.com/about",
+    "url": `${config.site.base_url}/about`,
     "mainEntity": {
       "@type": "Organization",
       "name": "J Land Contracting",
-      "url": "https://jlandgroup.com",
-      "logo": "https://jlandgroup.com/images/logo-jland.svg",
+      "url": config.site.base_url,
+      "logo": `${config.site.base_url}/images/logo-jland.svg`,
       "foundingDate": "2007",
       "foundingLocation": {
         "@type": "Place",
@@ -53,13 +54,13 @@ const schemaData = [
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://jlandgroup.com"
+        "item": config.site.base_url
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "About",
-        "item": "https://jlandgroup.com/about"
+        "item": `${config.site.base_url}/about`
       }
     ]
   }

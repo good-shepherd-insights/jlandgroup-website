@@ -61,12 +61,12 @@ const schemaData = [
     "@context": "https://schema.org",
     "@type": "HomeAndContractTrade",
     "name": "J Land Contracting",
-    "url": `https://jlandgroup.com/locations/${locationSlug}`,
+    "url": `${config.site.base_url}/locations/${locationSlug}`,
     "telephone": "(410) 292-0801",
     "email": "info@jlandgroup.com",
     "image": hero?.image
-      ? `https://jlandgroup.com${hero.image}`
-      : "https://jlandgroup.com/images/og-image.png",
+      ? `${config.site.base_url}${hero.image}`
+      : `${config.site.base_url}/images/og-image.png`,
     "address": {
       "@type": "PostalAddress",
       "addressLocality": city || "Jefferson",
@@ -112,7 +112,7 @@ const schemaData = [
           "@type": "Service",
           "name": svc.data.title,
           "description": svc.data.description,
-          "url": `https://jlandgroup.com/services/${svc.id}`
+          "url": `${config.site.base_url}/services/${svc.id}`
         }
       }))
     }
@@ -125,19 +125,19 @@ const schemaData = [
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://jlandgroup.com"
+        "item": config.site.base_url
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Locations",
-        "item": "https://jlandgroup.com/locations"
+        "item": `${config.site.base_url}/locations`
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": `${city}, ${state}`,
-        "item": `https://jlandgroup.com/locations/${locationSlug}`
+        "item": `${config.site.base_url}/locations/${locationSlug}`
       }
     ]
   }
