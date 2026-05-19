@@ -1,6 +1,6 @@
 ---
 title: "Roofing Services in Frederick, MD"
-meta_title: "Roofing Contractor Frederick MD | J Land Contracting"
+meta_title: "Roofing Contractor Near Frederick MD | J Land Contracting"
 description: "Professional roofing services in Frederick, MD — roof replacement, storm damage repair, free inspections, and insurance claim support. J Land Contracting has served 1,500+ Frederick County homeowners with integrity."
 image: "/images/locations/frederick-md-hero.jpg"
 draft: false
@@ -17,8 +17,8 @@ geo:
 population: "~90,000"
 
 hero:
-  title: "Trusted Roofing in Frederick, MD"
-  subtitle: "From downtown historic homes to new builds in Urbana — J Land Contracting has served Frederick County homeowners for over 27 years."
+  title: "Roofing Contractor Near Frederick, MD"
+  subtitle: "Trusted local roofing services near you — free inspections, storm damage repair, and full roof replacements in Frederick County."
   image: "/images/locations/frederick-md-hero.jpg"
 
 intro_image: "/images/locations/frederick-md-hero.jpg"
@@ -88,6 +88,56 @@ contact_form:
 google_map:
   enable: true
   embed_url: "https://maps.google.com/maps?q=Frederick,+MD&t=&z=13&ie=UTF8&iwloc=&output=embed"
+
+# NAP (Name, Address, Phone) data — overrides config.json defaults.
+# Used by LocationNAP.astro and LocalBusiness schema in [single].astro.
+street_address: "3636 Glenoble Court"
+phone: "(410) 292-0801"
+zip_codes:
+  - "21701"
+  - "21702"
+  - "21703"
+  - "21704"
+  - "21705"
+  - "21709"
+
+# Business hours — rendered by LocationNAP.astro (once Task 9 wires the prop).
+# Follows openingHoursSchema: day-keyed with open/close/closed sub-fields.
+opening_hours:
+  monday:
+    open: "08:00"
+    close: "17:00"
+  tuesday:
+    open: "08:00"
+    close: "17:00"
+  wednesday:
+    open: "08:00"
+    close: "17:00"
+  thursday:
+    open: "08:00"
+    close: "17:00"
+  friday:
+    open: "08:00"
+    close: "17:00"
+  saturday:
+    open: "08:00"
+    close: "12:00"
+  sunday:
+    closed: true
+
+# Driving directions — rendered by LocationDirections.astro.
+# Follows the structured directions schema (directionItemSchema per origin).
+directions:
+  from_dc:
+    title: "From Washington, DC"
+    description: "Take I-270 N for approximately 50 miles. Take exit 31A for MD-85 S/Buckeystown Pike toward Urbana. Turn right onto MD-355 N/Urbana Pike. Continue for 6 miles, then turn left onto W Patrick St. Turn right onto S Market St, then left onto E Church St. Turn right onto N East St and continue for 2 miles. Turn right onto Glenoble Ct."
+    drive_time: "~1 hour"
+    distance: "~52 miles"
+  from_baltimore:
+    title: "From Baltimore, MD"
+    description: "Take I-70 W for approximately 45 miles. Take exit 54 for MD-75 S/New Design Rd. Turn right onto MD-355 S/Urbana Pike. Turn left onto W Patrick St, then right onto S Market St. Continue for 1.5 miles, then turn left onto Glenoble Ct."
+    drive_time: "~50 minutes"
+    distance: "~47 miles"
 
 # Review URLs rendered by LocationReviews.astro.
 # - gbp_url:            Google Business Profile (Maps) listing.
