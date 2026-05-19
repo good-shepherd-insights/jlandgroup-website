@@ -353,5 +353,9 @@ export const locationpage = defineCollection({
       .optional(),
 
     directions: z.string().optional(),
+
+    gbp_url: z.string().optional(),
+    google_reviews_url: z.string().optional(),
+    yelp_url: z.string().optional(),
   }),
 });

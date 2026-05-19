@@ -6,6 +6,7 @@ import ServiceCard from "@/layouts/components/ServiceCard.astro";
 import LocationIntro from "@/layouts/components/designs/location-intro/LocationIntro.astro";
 import LocationNAP from "@/components/LocationNAP.astro";
 import LocationDirections from "@/components/LocationDirections.astro";
+import LocationReviews from "@/components/LocationReviews.astro";
 import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
 import { getSinglePage, getListPage } from "@/lib/contentParser.astro";
@@ -25,6 +26,7 @@ const {
   city, state, county, geo, hero, intro_image, intro,
   services, faqs, nearby_areas,
   testimonials, contact_form, google_map, directions,
+  gbp_url, google_reviews_url, yelp_url,
 } = location.data;
 
 const locationSlug = location.id;
@@ -306,43 +308,14 @@ const schemaData = [
   </section>
 
   <!-- TESTIMONIALS (inline — TODO: extract TestimonialCarousel.astro) -->
-  <section class="section bg-light">
-    <div class="container">
-      <div class="flex max-lg:flex-col max-lg:text-center gap-6 items-center mb-12 lg:mb-20">
-        <div class="flex-2">
-          <h2 class="h1 mb-6">See what our clients in {city} say</h2>
-          <p class="text-balance text-lg">
-            We are proud of the trust we've built with our community. Here is what some of our satisfied customers have to say about our roofing and restoration services.
-          </p>
-        </div>
-      </div>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {
-          effectiveTestimonials.map((item) => (
-            <div class="rounded-2xl bg-body p-10 relative">
-              <div class="flex items-center relative z-10">
-                <div class="text-text-dark">
-                  <ImageMod
-                    height={70}
-                    width={70}
-                    class="rounded-full"
-                    src={item.avatar}
-                    alt={item.name}
-                    format="webp"
-                  />
-                </div>
-                <div class="ml-4">
-                  <h3 set:text={item.name} class="h6 font-primary font-semibold" />
-                  <p set:text={item.designation} class="text-text-dark/80" />
-                </div>
-              </div>
-              <blockquote class="mt-8" set:html={markdownify(item.content)} />
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  <LocationReviews
+    city={city}
+    state={state}
+    gbp_url={gbp_url}
+    google_reviews_url={google_reviews_url}
+    yelp_url={yelp_url}
+    testimonials={effectiveTestimonials}
+  />
 
   <!-- CONTACT FORM + MAP -->
   {
