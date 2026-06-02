@@ -1,5 +1,5 @@
 ---
-title: "Roofing Services in Frederick, MD"
+title: "Local Roofing Experts in Frederick"
 meta_title: "Roofing Contractor Near Frederick MD | J Land Contracting"
 description: "Professional roofing services in Frederick, MD — roof replacement, storm damage repair, free inspections, and insurance claim support. J Land Contracting has served 1,500+ Frederick County homeowners with integrity."
 image: "/images/locations/frederick-md-hero.jpg"
