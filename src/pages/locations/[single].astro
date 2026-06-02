@@ -43,14 +43,75 @@ export async function getStaticPaths() {
 
 const { location } = Astro.props;
 const {
-  city, state, county, geo, hero, intro_image, intro,
+  city, state, state_full, county, geo, hero, intro_image, intro,
   services, services_section_title, faqs, nearby_areas,
   testimonials, contact_form, google_map, directions,
   gbp_url, google_reviews_url, yelp_url,
   zip_codes,
+  street_address, phone, opening_hours,
+  population, canonical_url, robots, service_radius_miles,
 } = location.data;
 
 const locationSlug = location.id;
+
+// Resolved values with config.json fallbacks
+const resolvedStreetAddress = street_address || config.contact_info.address.split(",")[0].trim();
+const resolvedPhone = phone || config.contact_info.phone;
+const resolvedStateFull = state_full || state || "MD";
+
+// Compute service radius in meters (default 20 miles → 32187 m)
+const radiusMiles = service_radius_miles ?? 20;
+const radiusMeters = Math.round(radiusMiles * 1609.34);
+
+// Build opening hours specification from frontmatter or defaults
+const dayMap: Record<string, string> = {
+  monday: "Monday",
+  tuesday: "Tuesday",
+  wednesday: "Wednesday",
+  thursday: "Thursday",
+  friday: "Friday",
+  saturday: "Saturday",
+  sunday: "Sunday",
+};
+
+const defaultHours: Record<string, { open: string; close: string; closed?: boolean }> = {
+  monday: { open: "08:00", close: "17:00" },
+  tuesday: { open: "08:00", close: "17:00" },
+  wednesday: { open: "08:00", close: "17:00" },
+  thursday: { open: "08:00", close: "17:00" },
+  friday: { open: "08:00", close: "17:00" },
+  saturday: { open: "08:00", close: "12:00" },
+  sunday: { closed: true },
+};
+
+const hoursSource = opening_hours || defaultHours;
+
+const weekdayEntries: { day: string; open: string; close: string }[] = [];
+for (const [key, label] of Object.entries(dayMap)) {
+  const entry = hoursSource[key];
+  if (entry && !entry.closed && entry.open && entry.close) {
+    weekdayEntries.push({ day: label, open: entry.open, close: entry.close });
+  }
+}
+
+// Group weekdays with identical hours
+const openingHoursSpec: Record<string, string[]> = {};
+for (const { day, open, close } of weekdayEntries) {
+  const key = `${open}-${close}`;
+  if (!openingHoursSpec[key]) openingHoursSpec[key] = [];
+  openingHoursSpec[key].push(day);
+}
+
+const openingHoursSchema = Object.entries(openingHoursSpec).map(([key, days]) => {
+  const [opens, closes] = key.split("-");
+  const spec: Record<string, string | string[]> = {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": days.length === 1 ? days[0] : days,
+    opens,
+    closes,
+  };
+  return spec;
+});
 
 const homepage = await getListPage("homepage", "-index");
 const experience = homepage.data.our_expertise?.experience;
@@ -92,10 +153,6 @@ if (overrideTestimonials) {
     : allTestimonials;
 }
 
-// JSON-LD reviewCount strictly reflects the local set so structured data only
-// emits location-relevant reviews (per spec File-by-File reasoning).
-const totalReviews = effectiveTestimonials.length.toString();
-
 const schemaData = [
   ...(geo ? [{
     "@context": "https://schema.org",
@@ -103,14 +160,14 @@ const schemaData = [
     "@id": `https://jlandgroup.com/locations/${locationSlug}/#localbusiness`,
     "name": "J Land Contracting",
     "url": `${config.site.base_url}/locations/${locationSlug}`,
-    "telephone": "(410) 292-0801",
+    "telephone": resolvedPhone,
     "email": "info@jlandgroup.com",
     "image": hero?.image
       ? `${config.site.base_url}${hero.image}`
       : `${config.site.base_url}/images/og-image.png`,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "3636 Glenoble Court",
+      "streetAddress": resolvedStreetAddress,
       "addressLocality": city || "Jefferson",
       "addressRegion": state || "MD",
       "postalCode": (zip_codes && zip_codes.length > 0) ? zip_codes[0] : "21755",
@@ -128,24 +185,11 @@ const schemaData = [
         "latitude": geo.latitude,
         "longitude": geo.longitude
       },
-      "geoRadius": "32187",
+      "geoRadius": radiusMeters.toString(),
       ...(zip_codes && zip_codes.length > 0 ? { "description": `Serving areas including zip codes: ${zip_codes.join(", ")}` } : {})
     },
     "priceRange": "$$",
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "08:00",
-        "closes": "17:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Saturday",
-        "opens": "08:00",
-        "closes": "12:00"
-      }
-    ],
+    ...(openingHoursSchema.length > 0 ? { "openingHoursSpecification": openingHoursSchema } : {}),
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": `Roofing Services in ${city}, ${state}`,
@@ -160,28 +204,6 @@ const schemaData = [
         }
       }))
     },
-    ...(effectiveTestimonials.length > 0 ? {
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5",
-        "reviewCount": totalReviews,
-        "bestRating": "5",
-        "worstRating": "1"
-      },
-      "review": effectiveTestimonials.slice(0, 3).map((t) => ({
-        "@type": "Review",
-        "author": {
-          "@type": "Person",
-          "name": t.name
-        },
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5",
-          "bestRating": "5"
-        },
-        "reviewBody": plainify(t.content)
-      }))
-    } : {}),
     "sameAs": (config.social || [])
       .filter((s: { url: string; platform: string }) => s.url && s.url.trim() !== "" && s.platform !== "Google Business")
       .map((s: { url: string }) => s.url)
@@ -221,18 +243,59 @@ const schemaData = [
         "item": `${config.site.base_url}/locations/${locationSlug}`
       }
     ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemPage",
+    "@id": `${config.site.base_url}/locations/${locationSlug}#webpage`,
+    "url": `${config.site.base_url}/locations/${locationSlug}`,
+    "name": location.data.title || `${city}, ${state} — J Land Contracting`,
+    "description": plainify(location.data.description),
+    "isPartOf": { "@id": `${config.site.base_url}/#website` },
+    "about": { "@id": `https://jlandgroup.com/locations/${locationSlug}/#localbusiness` },
+    "breadcrumb": { "@id": `${config.site.base_url}/locations/${locationSlug}#breadcrumb` },
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["h1", ".faq-answer"]
+    }
   }
 ];
+
+// Build SEO keywords from location data
+const seoKeywords = [
+  "roofing", "roof replacement", "roof repair",
+  ...(city ? [city] : []),
+  ...(state ? [state] : []),
+  ...(resolvedStateFull && resolvedStateFull !== state ? [resolvedStateFull] : []),
+  "J Land Contracting"
+];
+
+// Build robots directive from per-page overrides
+const robotsDirective = robots
+  ? [
+      ...(robots.noindex ? ["noindex"] : []),
+      ...(robots.nofollow ? ["nofollow"] : []),
+      "max-snippet:-1",
+      "max-image-preview:large",
+      "max-video-preview:-1",
+    ].join(", ")
+  : undefined;
 ---
 
-<Base {...location.data} schemaData={schemaData}>
+<Base
+  {...location.data}
+  schemaData={schemaData}
+  keywords={seoKeywords}
+  canonical={canonical_url || undefined}
+  robots={robotsDirective}
+>
   <!-- HERO (inline — TODO: extract LocationHero.astro) -->
   {
     hero && (
       <section class="relative pt-40 pb-12 lg:pb-16 lg:pt-56 overflow-hidden">
         <ImageMod
           src={hero.image}
-          alt={`Roofing contractor serving ${city}, ${state}`}
+          alt={`Roofing contractor serving ${city}, ${resolvedStateFull}`}
           class="absolute inset-0 w-full h-full object-cover"
           width={1900}
           height={800}
@@ -277,6 +340,10 @@ const schemaData = [
     state={state}
     county={county}
     geo={geo}
+    street_address={resolvedStreetAddress}
+    phone={resolvedPhone}
+    opening_hours={opening_hours}
+    zip_codes={zip_codes}
   />
 
   <CallToAction />
@@ -304,7 +371,7 @@ const schemaData = [
     <div class="container">
       <h2 class="h2 text-center">
         {faqs && faqs.length > 0
-          ? `Frequently asked questions about roofing in ${city}, ${state}`
+          ? `Frequently asked questions about roofing in ${city}, ${resolvedStateFull}`
           : "Frequently asked questions."
         }
       </h2>
@@ -467,7 +534,7 @@ const schemaData = [
     )
   }
 
-  </Base>
+</Base>
 
 <script>
   interface FAQElements {

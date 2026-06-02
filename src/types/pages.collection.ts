@@ -44,6 +44,7 @@ export const openingHoursSchema = z.object({
     )
     .optional(),
 });
+export type OpeningHours = z.infer<typeof openingHoursSchema>;
 
 export const directionItemSchema = z.object({
   title: z.string(),
@@ -394,6 +395,7 @@ export const locationpage = defineCollection({
           designation: z.string(),
           avatar: z.string(),
           content: z.string(),
+          location_slug: z.string().optional(),
         }),
       )
       .optional(),
@@ -426,6 +428,12 @@ export const locationpage = defineCollection({
     //   yelp_url            — Yelp "write a review" link
     //                         (e.g. https://www.yelp.com/writeareview/biz/<id>).
     //                         Used for the "See our reviews on Yelp" outbound link.
+    canonical_url: z.string().url().optional(),
+    robots: z.object({
+      noindex: z.boolean().default(false).optional(),
+      nofollow: z.boolean().default(false).optional(),
+    }).optional(),
+    service_radius_miles: z.number().default(20).optional(),
     ...locationContactFields,
   }),
 });
