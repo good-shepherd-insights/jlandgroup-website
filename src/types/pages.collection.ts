@@ -368,6 +368,7 @@ export const locationpage = defineCollection({
       )
       .optional(),
 
+    services_section_title: z.string().optional(),
     faqs: z
       .array(
         z.object({

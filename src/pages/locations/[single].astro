@@ -44,7 +44,7 @@ export async function getStaticPaths() {
 const { location } = Astro.props;
 const {
   city, state, county, geo, hero, intro_image, intro,
-  services, faqs, nearby_areas,
+  services, services_section_title, faqs, nearby_areas,
   testimonials, contact_form, google_map, directions,
   gbp_url, google_reviews_url, yelp_url,
   zip_codes,
@@ -287,7 +287,7 @@ const schemaData = [
       <section class="section bg-light">
         <div class="container">
           <TitleCenter
-            title={`Our services in ${city}, ${state}`}
+            title={services_section_title || `Our Roofing Services in ${city}, ${state}`}
             description=""
             centerText
           />
