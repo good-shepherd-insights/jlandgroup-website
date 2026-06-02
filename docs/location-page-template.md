@@ -1,6 +1,6 @@
 # Location Page Template
 
-> **Source of truth:** DOCS(location-copy-strategy) — GOO-86
+> **Source of truth:** DOCS(location-copy-strategy) / FEATURE(location-services-naming) — GOO-86
 >
 > Copy this template as `src/content/locations/<slug>.md` (e.g. `urbana-md.md`)
 > and replace every `{PLACEHOLDER}` with real data.
@@ -22,6 +22,27 @@
 - **Neighborhoods:** 5–8 specific neighborhoods (e.g., Baker Park, Wormans Mill)
 - **Landmarks:** 2+ local landmarks (e.g., Catoctin Mountain)
 - **Transit:** Major corridors (e.g., I-270, US-15)
+
+## Service Naming Strategy
+
+Every service listed in the `services` array **must** include a `title_override` that
+incorporates the city and state. This ensures each H3 service card title is a
+localized entity signal for 'near me' queries.
+
+**Required pattern:**
+```yaml
+services:
+  - slug: roof-replacement
+    title_override: "Roof Replacement in {City}, {State}"
+  - slug: free-inspection
+    title_override: "Free Roof Inspection in {City}, {State}"
+  - slug: damage-repairs
+    title_override: "Storm Damage Repair in {City}, {State}"
+  - slug: commercial-roofing
+    title_override: "Commercial Roofing in {City}, {State}"
+  - slug: roof-renovation
+    title_override: "Roof Renovation in {City}, {State}"
+```
 
 ## Frontmatter Template
 
@@ -67,16 +88,19 @@ intro:
     - name: "{Neighborhood 7}"
     - name: "{Neighborhood 8}"
 
+services_section_title: "Our Roofing Services in {City}, {State}"
+
 services:
   - slug: roof-replacement
     title_override: "Roof Replacement in {City}, {State}"
   - slug: free-inspection
+    title_override: "Free Roof Inspection in {City}, {State}"
   - slug: damage-repairs
     title_override: "Storm Damage Repair in {City}, {State}"
   - slug: commercial-roofing
+    title_override: "Commercial Roofing in {City}, {State}"
   - slug: roof-renovation
-
-services_section_title: "Our Roofing Services in {City}, {State}"
+    title_override: "Roof Renovation in {City}, {State}"
 
 faqs:
   - question: "Do you offer free roof inspections in {City}, {State}?"
@@ -149,7 +173,7 @@ yelp_url: "{Yelp URL}"
 - [ ] H1 matches `{Category} Near {City}, {State}`
 - [ ] Intro H2 matches `Local {Category} Experts in {City}`
 - [ ] Services H2 matches `Our {Category} Services in {City}, {State}`
-- [ ] Each service H3 uses `title_override` with `{Service Name} in {City}, {State}`
+- [ ] **Every service has a `title_override`** with `{Service Name} in {City}, {State}`
 - [ ] Challenges H3 matches `{City}'s Roofing Challenges`
 - [ ] 5–8 neighborhoods listed
 - [ ] 2+ local landmarks referenced in intro body

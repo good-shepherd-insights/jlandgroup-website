@@ -49,10 +49,13 @@ services:
   - slug: roof-replacement
     title_override: "Roof Replacement in Frederick, MD"
   - slug: free-inspection
+    title_override: "Free Roof Inspection in Frederick, MD"
   - slug: damage-repairs
     title_override: "Storm Damage Repair in Frederick, MD"
   - slug: commercial-roofing
+    title_override: "Commercial Roofing in Frederick, MD"
   - slug: roof-renovation
+    title_override: "Roof Renovation in Frederick, MD"
 
 faqs:
   - question: "Do you offer free roof inspections in Frederick, MD?"
