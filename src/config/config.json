@@ -47,5 +47,11 @@
     "meta_author": "J Land Contracting",
     "meta_image": "/images/og-image.png",
     "meta_description": "J Land Contracting delivers expert roofing solutions across the DMV with integrity and experience. Free inspections, insurance claim assistance, and professional roof replacements."
-  }
+  },
+  "social": [
+    { "platform": "Facebook", "url": "https://facebook.com/jlandcontracting", "icon": "FaFacebook" },
+    { "platform": "LinkedIn", "url": "https://linkedin.com/company/jlandcontracting", "icon": "FaLinkedin" },
+    { "platform": "X (Twitter)", "url": "https://x.com/jlandgroup", "icon": "FaXTwitter" },
+    { "platform": "Google Business", "url": "https://g.page/jlandcontracting", "icon": "FaGoogle" }
+  ]
 }

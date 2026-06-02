@@ -37,6 +37,7 @@ export const testimonialSection = defineCollection({
         designation: z.string(),
         avatar: z.string(),
         content: z.string(),
+        location_slug: z.string().optional(),
       }),
     ),
   }),

@@ -1,0 +1,36 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+import config from "@/config/config.json";
+
+interface Props {
+  social_links?: { platform: string; url: string; icon: string }[];
+}
+
+const {
+  social_links = config.social || [],
+} = Astro.props;
+---
+{
+  social_links && social_links.length > 0 && (
+    <section class="py-12 border-t border-border">
+      <div class="container">
+        <h3 class="h4 mb-4 text-center">Follow Us</h3>
+        <ul class="flex flex-wrap justify-center gap-4">
+          {social_links.map((social: { platform: string; url: string; icon: string }) => (
+            <li>
+              <a
+                aria-label={social.platform}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors duration-200"
+              >
+                <DynamicIcon className="text-sm" icon={social.icon} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
