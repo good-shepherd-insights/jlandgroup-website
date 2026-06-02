@@ -1,0 +1,669 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import TitleCenter from "@/components/TitleCenter.astro";
+import Button from "@/components/Button.astro";
+import ServiceCard from "@/layouts/components/ServiceCard.astro";
+import LocationIntro from "@/layouts/components/designs/location-intro/LocationIntro.astro";
+import LocationNAP from "@/components/LocationNAP.astro";
+import LocationDirections from "@/components/LocationDirections.astro";
+import LocationSocialLinks from "@/components/LocationSocialLinks.astro";
+import LocationReviews from "@/components/LocationReviews.astro";
+import Base from "@/layouts/Base.astro";
+import config from "@/config/config.json";
+import { getSinglePage, getListPage } from "@/lib/contentParser.astro";
+import { markdownify, plainify } from "@/lib/utils/textConverter";
+import CallToAction from "@/partials/CallToAction.astro";
+
+export async function getStaticPaths() {
+  const locations = await getSinglePage("locationpage");
+
+  // Dedup guard: prevent duplicate city+state combinations
+  const seen = new Map<string, string>();
+  for (const loc of locations) {
+    const city = loc.data.city;
+    const state = loc.data.state;
+
+    // Only guard if both city and state are provided
+    if (city && state) {
+      const key = `${city.toLowerCase()},${state.toLowerCase()}`;
+      if (seen.has(key)) {
+        throw new Error(
+          `Duplicate location detected: "${loc.id}" conflicts with "${seen.get(key)}" (both serving ${city}, ${state}). Each city+state combination must be unique.`
+        );
+      }
+      seen.set(key, loc.id);
+    }
+  }
+
+  return locations.map((loc) => ({
+    params: { single: loc.id },
+    props: { location: loc },
+  }));
+}
+
+const { location } = Astro.props;
+const {
+  city, state, state_full, county, geo, hero, intro_image, intro,
+  services, services_section_title, faqs, nearby_areas,
+  testimonials, contact_form, google_map, directions,
+  gbp_url, google_reviews_url, yelp_url,
+  zip_codes,
+  street_address, phone, opening_hours,
+  population, canonical_url, robots, service_radius_miles,
+} = location.data;
+
+const locationSlug = location.id;
+
+// Resolved values with config.json fallbacks
+const resolvedStreetAddress = street_address || config.contact_info.address.split(",")[0].trim();
+const resolvedPhone = phone || config.contact_info.phone;
+const resolvedStateFull = state_full || state || "MD";
+
+// Compute service radius in meters (default 20 miles → 32187 m)
+const radiusMiles = service_radius_miles ?? 20;
+const radiusMeters = Math.round(radiusMiles * 1609.34);
+
+// Build opening hours specification from frontmatter or defaults
+const dayMap: Record<string, string> = {
+  monday: "Monday",
+  tuesday: "Tuesday",
+  wednesday: "Wednesday",
+  thursday: "Thursday",
+  friday: "Friday",
+  saturday: "Saturday",
+  sunday: "Sunday",
+};
+
+const defaultHours: Record<string, { open: string; close: string; closed?: boolean }> = {
+  monday: { open: "08:00", close: "17:00" },
+  tuesday: { open: "08:00", close: "17:00" },
+  wednesday: { open: "08:00", close: "17:00" },
+  thursday: { open: "08:00", close: "17:00" },
+  friday: { open: "08:00", close: "17:00" },
+  saturday: { open: "08:00", close: "12:00" },
+  sunday: { closed: true },
+};
+
+const hoursSource = opening_hours || defaultHours;
+
+const weekdayEntries: { day: string; open: string; close: string }[] = [];
+for (const [key, label] of Object.entries(dayMap)) {
+  const entry = hoursSource[key];
+  if (entry && !entry.closed && entry.open && entry.close) {
+    weekdayEntries.push({ day: label, open: entry.open, close: entry.close });
+  }
+}
+
+// Group weekdays with identical hours
+const openingHoursSpec: Record<string, string[]> = {};
+for (const { day, open, close } of weekdayEntries) {
+  const key = `${open}-${close}`;
+  if (!openingHoursSpec[key]) openingHoursSpec[key] = [];
+  openingHoursSpec[key].push(day);
+}
+
+const openingHoursSchema = Object.entries(openingHoursSpec).map(([key, days]) => {
+  const [opens, closes] = key.split("-");
+  const spec: Record<string, string | string[]> = {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": days.length === 1 ? days[0] : days,
+    opens,
+    closes,
+  };
+  return spec;
+});
+
+const homepage = await getListPage("homepage", "-index");
+const experience = homepage.data.our_expertise?.experience;
+
+const allServices = await getSinglePage("servicepage");
+const locationServices = (services || [])
+  .map(s => {
+    const svc = allServices.find(svc => svc.id === s.slug);
+    if (!svc) return null;
+    return {
+      ...svc,
+      data: {
+        ...svc.data,
+        title: s.title_override || svc.data.title,
+        description: s.description_override || svc.data.description,
+      }
+    };
+  })
+  .filter(Boolean);
+
+const faqSection = await getListPage("faqsSection", "faqs");
+const effectiveFaqs = (faqs && faqs.length > 0) ? faqs : faqSection.data.faqs_list;
+
+const testimonialSection = await getListPage("testimonialSection", "testimonial");
+const allTestimonials = testimonialSection.data.testimonials;
+
+// Slug-aware filtering: use page override when provided, otherwise prefer
+// testimonials tagged with this location's slug (plus untagged general ones),
+// falling back to all testimonials when no slug-tagged entries exist.
+const overrideTestimonials = testimonials && testimonials.length > 0 ? testimonials : null;
+let effectiveTestimonials;
+if (overrideTestimonials) {
+  effectiveTestimonials = overrideTestimonials;
+} else {
+  const slugMatched = allTestimonials.filter(t => t.location_slug === locationSlug);
+  const general = allTestimonials.filter(t => !t.location_slug);
+  effectiveTestimonials = slugMatched.length > 0
+    ? [...slugMatched, ...general]
+    : allTestimonials;
+}
+
+const schemaData = [
+  ...(geo ? [{
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `https://jlandgroup.com/locations/${locationSlug}/#localbusiness`,
+    "name": "J Land Contracting",
+    "url": `${config.site.base_url}/locations/${locationSlug}`,
+    "telephone": resolvedPhone,
+    "email": "info@jlandgroup.com",
+    "image": hero?.image
+      ? `${config.site.base_url}${hero.image}`
+      : `${config.site.base_url}/images/og-image.png`,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": resolvedStreetAddress,
+      "addressLocality": city || "Jefferson",
+      "addressRegion": state || "MD",
+      "postalCode": (zip_codes && zip_codes.length > 0) ? zip_codes[0] : "21755",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": geo.latitude,
+      "longitude": geo.longitude
+    },
+    "areaServed": {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": geo.latitude,
+        "longitude": geo.longitude
+      },
+      "geoRadius": radiusMeters.toString(),
+      ...(zip_codes && zip_codes.length > 0 ? { "description": `Serving areas including zip codes: ${zip_codes.join(", ")}` } : {})
+    },
+    "priceRange": "$$",
+    ...(openingHoursSchema.length > 0 ? { "openingHoursSpecification": openingHoursSchema } : {}),
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": `Roofing Services in ${city}, ${state}`,
+      "itemListElement": locationServices.map((svc, i) => ({
+        "@type": "Offer",
+        "position": i + 1,
+        "itemOffered": {
+          "@type": "Service",
+          "name": svc.data.title,
+          "description": svc.data.description,
+          "url": `${config.site.base_url}/services/${svc.id}`
+        }
+      }))
+    },
+    "sameAs": (config.social || [])
+      .filter((s: { url: string; platform: string }) => s.url && s.url.trim() !== "" && s.platform !== "Google Business")
+      .map((s: { url: string }) => s.url)
+  }] : []),
+  ...(effectiveFaqs.length > 0 ? [{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": effectiveFaqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": plainify(faq.answer)
+      }
+    }))
+  }] : []),
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": config.site.base_url
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Locations",
+        "item": `${config.site.base_url}/locations`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": `${city}, ${state}`,
+        "item": `${config.site.base_url}/locations/${locationSlug}`
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemPage",
+    "@id": `${config.site.base_url}/locations/${locationSlug}#webpage`,
+    "url": `${config.site.base_url}/locations/${locationSlug}`,
+    "name": location.data.title || `${city}, ${state} — J Land Contracting`,
+    "description": plainify(location.data.description),
+    "isPartOf": { "@id": `${config.site.base_url}/#website` },
+    "about": { "@id": `https://jlandgroup.com/locations/${locationSlug}/#localbusiness` },
+    "breadcrumb": { "@id": `${config.site.base_url}/locations/${locationSlug}#breadcrumb` },
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["h1", ".faq-answer"]
+    }
+  }
+];
+
+// Build SEO keywords from location data
+const seoKeywords = [
+  "roofing", "roof replacement", "roof repair",
+  ...(city ? [city] : []),
+  ...(state ? [state] : []),
+  ...(resolvedStateFull && resolvedStateFull !== state ? [resolvedStateFull] : []),
+  "J Land Contracting"
+];
+
+// Build robots directive from per-page overrides
+const robotsDirective = robots
+  ? [
+      ...(robots.noindex ? ["noindex"] : []),
+      ...(robots.nofollow ? ["nofollow"] : []),
+      "max-snippet:-1",
+      "max-image-preview:large",
+      "max-video-preview:-1",
+    ].join(", ")
+  : undefined;
+---
+
+<Base
+  {...location.data}
+  schemaData={schemaData}
+  keywords={seoKeywords}
+  canonical={canonical_url || undefined}
+  robots={robotsDirective}
+>
+  <!-- HERO (inline — TODO: extract LocationHero.astro) -->
+  {
+    hero && (
+      <section class="relative pt-40 pb-12 lg:pb-16 lg:pt-56 overflow-hidden">
+        <ImageMod
+          src={hero.image}
+          alt={`Roofing contractor serving ${city}, ${resolvedStateFull}`}
+          class="absolute inset-0 w-full h-full object-cover"
+          width={1900}
+          height={800}
+          format="webp"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-dark/70 to-dark/30" />
+        <div class="container relative z-10">
+          <div class="lg:max-w-[65%]">
+            <h1
+              class="mb-4 lg:text-[80px] lg:leading-24 text-text-light max-lg:text-center"
+              set:html={markdownify(hero.title)}
+            />
+            <p
+              class="mb-10 text-text-light text-xl max-lg:text-center"
+              set:html={markdownify(hero.subtitle)}
+            />
+            <div class="flex gap-6 flex-wrap max-lg:justify-center">
+              <Button data={{ enable: true, label: "Book A Free Consultation", link: "/appointment", icon: "FaPhone" }} />
+              <Button data={{ enable: true, label: "Explore Our Services", link: "/services", icon: "" }} variant="outline" />
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <LocationIntro
+    title={location.data.title}
+    description={location.data.description}
+    city={city}
+    state={state}
+    county={county}
+    intro_image={intro_image}
+    hero_image={hero?.image}
+    experience={experience}
+    intro={intro}
+    variant={2}
+  />
+
+  <LocationNAP
+    city={city}
+    state={state}
+    county={county}
+    geo={geo}
+    street_address={resolvedStreetAddress}
+    phone={resolvedPhone}
+    opening_hours={opening_hours}
+    zip_codes={zip_codes}
+  />
+
+  <CallToAction />
+
+  <!-- SERVICES AT THIS LOCATION -->
+  {
+    locationServices.length > 0 && (
+      <section class="section bg-light">
+        <div class="container">
+          <TitleCenter
+            title={services_section_title || `Our Roofing Services in ${city}, ${state}`}
+            description=""
+            centerText
+          />
+          <div class="grid md:grid-cols-2 xl:grid-cols-3 mt-16 gap-8 md:gap-6">
+            {locationServices.map(svc => <ServiceCard data={svc.data} id={svc.id} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- FAQ (inline — TODO: extract FAQAccordion.astro) -->
+  <section class="section border-t border-border">
+    <div class="container">
+      <h2 class="h2 text-center">
+        {faqs && faqs.length > 0
+          ? `Frequently asked questions about roofing in ${city}, ${resolvedStateFull}`
+          : "Frequently asked questions."
+        }
+      </h2>
+      <p class="text-lg mt-6 mb-6 lg:mb-12 max-w-[80%] mx-auto text-center text-balance">
+        We offer a wide range of roofing services and products from trusted manufacturers.
+      </p>
+      <div class="w-full lg:max-w-218 mx-auto flex flex-col">
+        {
+          effectiveFaqs.map((faq, i) => (
+            <div
+              role="button"
+              tabindex="0"
+              aria-expanded="false"
+              aria-controls={`loc-faq-answer-${i}`}
+              class="group p-7 border-b border-border cursor-pointer transition-all duration-300 flex flex-col faq-item-fix"
+              data-faq-id={i}
+            >
+              <div class="flex justify-between items-center">
+                <h6 set:html={markdownify(faq.question)} />
+                <span
+                  class="toggle-icon text-text-dark text-[32px] transition-all duration-300 rotate-0"
+                  aria-hidden="true"
+                >
+                  +
+                </span>
+              </div>
+              <p
+                id={`loc-faq-answer-${i}`}
+                class="faq-answer overflow-hidden max-h-0 opacity-0 transition-[max-height,opacity] duration-[600ms,400ms] ease-in-out max-w-195"
+                set:html={markdownify(faq.answer)}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS (inline — TODO: extract TestimonialCarousel.astro) -->
+  <LocationReviews
+    city={city}
+    state={state}
+    gbp_url={gbp_url}
+    google_reviews_url={google_reviews_url}
+    yelp_url={yelp_url}
+    testimonials={effectiveTestimonials}
+  />
+
+  <!-- CONTACT FORM + MAP -->
+  {
+    contact_form && contact_form.enable && (
+      <section class="section-lg">
+        <div class="container">
+          <div class="flex max-lg:flex-col gap-16 items-center">
+            <div class="lg:w-[45%]">
+              <TitleCenter
+                title={contact_form.title}
+                description={contact_form.description}
+                className="xl:w-[80%]"
+              />
+            </div>
+            <div class="w-[90%] md:w-[70%] lg:w-[55%]">
+              <form
+                action={config.params.contact_form_action}
+                method="POST"
+                class="bg-dark px-10 py-12 rounded-2xl"
+              >
+                <fieldset class="mb-8">
+                  <label for="loc-name" class="sr-only" aria-label="Full Name" />
+                  <input
+                    id="loc-name"
+                    name="name"
+                    class="form-input"
+                    placeholder="Full Name"
+                    type="text"
+                    required
+                  />
+                </fieldset>
+                <fieldset class="mb-8">
+                  <label for="loc-phone" class="sr-only" aria-label="Phone Number" />
+                  <input
+                    id="loc-phone"
+                    name="phone"
+                    class="form-input"
+                    placeholder="Phone Number"
+                    type="tel"
+                    required
+                  />
+                </fieldset>
+                <fieldset class="mb-8">
+                  <label for="loc-service" class="sr-only" aria-label="Service You Need" />
+                  <input
+                    id="loc-service"
+                    name="service_needed"
+                    class="form-input"
+                    placeholder="Service You Need"
+                    type="text"
+                    required
+                  />
+                </fieldset>
+                <button class="btn btn-primary w-full" type="submit">
+                  {contact_form.button_label}
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {
+            google_map?.enable && google_map.embed_url && (
+              <div class="mt-16">
+                <div class="w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <iframe
+                    src={google_map.embed_url}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowfullscreen={true}
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title={`${city}, ${state} map`}
+                  />
+                </div>
+              </div>
+            )
+          }
+        </div>
+      </section>
+    )
+  }
+
+  <LocationDirections
+    city={city}
+    state={state}
+    geo={geo}
+    directions={directions}
+  />
+
+  <LocationSocialLinks />
+
+  <!-- NEARBY AREAS (inline — TODO: extract NearbyAreas.astro) -->
+  {
+    nearby_areas && nearby_areas.length > 0 && (
+      <section class="section bg-light">
+        <div class="container">
+          <h2 class="h2 text-center">Also serving nearby areas</h2>
+          <div class="grid md:grid-cols-3 xl:grid-cols-5 gap-6 mt-12">
+            {
+              nearby_areas.map(area => (
+                <a
+                  href={`/locations/${area.slug}`}
+                  class="block p-6 bg-body rounded-xl hover:shadow-lg transition-shadow text-center"
+                >
+                  <h3 class="h5">{area.name}, {state}</h3>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+</Base>
+
+<script>
+  interface FAQElements {
+    item: HTMLElement;
+    answer: HTMLElement;
+    icon: HTMLElement;
+  }
+
+  class FAQAccordion {
+    private items: HTMLElement[];
+    private activeItem: HTMLElement | null = null;
+
+    constructor() {
+      this.items = Array.from(
+        document.querySelectorAll<HTMLElement>(".faq-item-fix"),
+      );
+      this.init();
+    }
+
+    private init(): void {
+      if (this.items.length === 0) return;
+
+      this.openItem(this.items[0]);
+
+      this.items.forEach((item) => {
+        item.addEventListener("click", (e) => this.handleClick(e, item));
+        item.addEventListener("keydown", (e) => this.handleKeydown(e, item));
+      });
+    }
+
+    private getElements(item: HTMLElement): FAQElements | null {
+      const answer = item.querySelector<HTMLElement>(".faq-answer");
+      const icon = item.querySelector<HTMLElement>(".toggle-icon");
+
+      if (!answer || !icon) {
+        console.warn("FAQ item missing required elements");
+        return null;
+      }
+
+      return { item, answer, icon };
+    }
+
+    private handleClick(e: Event, item: HTMLElement): void {
+      e.preventDefault();
+      this.toggleItem(item);
+    }
+
+    private handleKeydown(e: KeyboardEvent, item: HTMLElement): void {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        this.toggleItem(item);
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        this.focusNext(item);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        this.focusPrevious(item);
+      }
+    }
+
+    private focusNext(currentItem: HTMLElement): void {
+      const currentIndex = this.items.indexOf(currentItem);
+      const nextIndex = (currentIndex + 1) % this.items.length;
+      this.items[nextIndex].focus();
+    }
+
+    private focusPrevious(currentItem: HTMLElement): void {
+      const currentIndex = this.items.indexOf(currentItem);
+      const previousIndex =
+        currentIndex === 0 ? this.items.length - 1 : currentIndex - 1;
+      this.items[previousIndex].focus();
+    }
+
+    private toggleItem(item: HTMLElement): void {
+      const isCurrentlyActive = this.activeItem === item;
+
+      this.items.forEach((i) => this.closeItem(i));
+
+      if (!isCurrentlyActive) {
+        this.openItem(item);
+      }
+    }
+
+    private openItem(item: HTMLElement): void {
+      const elements = this.getElements(item);
+      if (!elements) return;
+
+      const { answer, icon } = elements;
+
+      item.setAttribute("aria-expanded", "true");
+      answer.style.maxHeight = `${answer.scrollHeight}px`;
+      answer.classList.remove("opacity-0");
+      answer.classList.add("opacity-100");
+      icon.classList.remove("rotate-0");
+      icon.classList.add("rotate-180");
+      icon.textContent = "−";
+      item.classList.remove("bg-transparent", "gap-0");
+      item.classList.add("bg-body", "gap-2");
+
+      this.activeItem = item;
+    }
+
+    private closeItem(item: HTMLElement): void {
+      const elements = this.getElements(item);
+      if (!elements) return;
+
+      const { answer, icon } = elements;
+
+      item.setAttribute("aria-expanded", "false");
+      answer.style.maxHeight = "0";
+      answer.classList.remove("opacity-100");
+      answer.classList.add("opacity-0");
+      icon.classList.remove("rotate-180");
+      icon.classList.add("rotate-0");
+      icon.textContent = "+";
+      item.classList.remove("bg-dark", "gap-2");
+      item.classList.add("bg-body", "gap-2");
+
+      if (this.activeItem === item) {
+        this.activeItem = null;
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    new FAQAccordion();
+  });
+
+  document.addEventListener("astro:page-load", () => {
+    new FAQAccordion();
+  });
+</script>

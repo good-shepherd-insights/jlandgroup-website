@@ -1,0 +1,212 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+import config from "@/config/config.json";
+import type { OpeningHours } from "@/types/pages.collection";
+
+interface Props {
+  city?: string;
+  state?: string;
+  county?: string;
+  geo?: {
+    latitude: string;
+    longitude: string;
+  };
+  phone?: string;
+  email?: string;
+  address?: string;
+  street_address?: string;
+  opening_hours?: OpeningHours;
+  zip_codes?: string[];
+}
+
+const {
+  city,
+  state,
+  county,
+  geo,
+  phone = config.contact_info.phone,
+  email = config.contact_info.email,
+  street_address,
+  opening_hours,
+  zip_codes,
+} = Astro.props;
+
+const resolvedAddress = street_address || config.contact_info.address;
+
+const directionsUrl = geo
+  ? `https://www.google.com/maps/dir/?api=1&destination=${geo.latitude},${geo.longitude}`
+  : `https://www.google.com/maps/place/${encodeURIComponent(resolvedAddress)}`;
+
+const formattedAddress = resolvedAddress.includes(city || "")
+  ? resolvedAddress
+  : [resolvedAddress, city, state].filter(Boolean).join(", ");
+
+// Convert 24h time string (e.g. "08:00") to 12h display (e.g. "8:00 AM")
+function to12h(time: string): string {
+  const [h, m] = time.split(":").map(Number);
+  const hour = h > 12 ? h - 12 : h === 0 ? 12 : h;
+  const period = h >= 12 ? "PM" : "AM";
+  return `${hour}:${String(m).padStart(2, "0")} ${period}`;
+}
+
+// Build hours display from frontmatter or config defaults
+const defaultHoursMap: Record<string, { open: string; close: string; closed?: boolean }> = {
+  monday: { open: "08:00", close: "17:00" },
+  tuesday: { open: "08:00", close: "17:00" },
+  wednesday: { open: "08:00", close: "17:00" },
+  thursday: { open: "08:00", close: "17:00" },
+  friday: { open: "08:00", close: "17:00" },
+  saturday: { open: "08:00", close: "12:00" },
+  sunday: { closed: true },
+};
+
+const hoursSource = opening_hours || defaultHoursMap;
+
+// Group weekdays with identical hours for display
+const weekdayEntries: { day: string; open: string; close: string }[] = [];
+for (const day of ["monday", "tuesday", "wednesday", "thursday", "friday"] as const) {
+  const entry = hoursSource[day];
+  if (entry && !entry.closed && entry.open && entry.close) {
+    weekdayEntries.push({ day, open: entry.open, close: entry.close });
+  }
+}
+
+const weekdayHours: { label: string; open: string; close: string }[] = [];
+let currentGroup: { open: string; close: string } | null = null;
+let groupDays: string[] = [];
+
+for (const entry of weekdayEntries) {
+  if (currentGroup && currentGroup.open === entry.open && currentGroup.close === entry.close) {
+    groupDays.push(entry.day);
+  } else {
+    if (currentGroup) {
+      weekdayHours.push({
+        label: groupDays.length >= 3 ? "Monday – Friday" : groupDays.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(" / "),
+        open: currentGroup.open,
+        close: currentGroup.close,
+      });
+    }
+    currentGroup = { open: entry.open, close: entry.close };
+    groupDays = [entry.day];
+  }
+}
+if (currentGroup) {
+  weekdayHours.push({
+    label: groupDays.length >= 3 ? "Monday – Friday" : groupDays.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(" / "),
+    open: currentGroup.open,
+    close: currentGroup.close,
+  });
+}
+
+const saturdayEntry = hoursSource.saturday;
+const sundayEntry = hoursSource.sunday;
+---
+
+<section class="py-12 border-t border-border">
+  <div class="container">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16">
+      <!-- Name & Address -->
+      <div>
+        <h3 class="h4 mb-4">Get in Touch</h3>
+        <div class="space-y-3">
+          <p class="font-semibold text-text-dark">
+            J Land Contracting
+          </p>
+          {city && state && (
+            <p class="text-text">
+              {county && <span>{county}, </span>}
+              {city}, {state}
+            </p>
+          )}
+          <a
+            href={`https://www.google.com/maps/place/${encodeURIComponent(formattedAddress)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors duration-200 text-sm"
+          >
+            <DynamicIcon icon="FaLocationDot" className="text-base" />
+            <span>{resolvedAddress}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Phone & Email -->
+      <div>
+        <h3 class="h4 mb-4">Contact Us</h3>
+        <div class="space-y-3">
+          <a
+            href={`tel:${phone.replace(/[^+\d]/g, "")}`}
+            class="flex items-center gap-3 group"
+          >
+            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200">
+              <DynamicIcon icon="FaPhone" className="text-sm" />
+            </span>
+            <span class="font-semibold text-text-dark group-hover:text-primary transition-colors duration-200">
+              {phone}
+            </span>
+          </a>
+          <a
+            href={`mailto:${email}`}
+            class="flex items-center gap-3 group"
+          >
+            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-200">
+              <DynamicIcon icon="FaEnvelope" className="text-sm" />
+            </span>
+            <span class="font-semibold text-text-dark group-hover:text-primary transition-colors duration-200">
+              {email}
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Business Hours -->
+      <div>
+        <h3 class="h4 mb-4">Business Hours</h3>
+        <ul class="space-y-2 text-sm">
+          {weekdayHours.map(wh => (
+            <li class="flex justify-between max-w-xs">
+              <span class="text-text">{wh.label}</span>
+              <span class="font-semibold text-text-dark">{to12h(wh.open)} – {to12h(wh.close)}</span>
+            </li>
+          ))}
+          {saturdayEntry && !saturdayEntry.closed && saturdayEntry.open && saturdayEntry.close && (
+            <li class="flex justify-between max-w-xs">
+              <span class="text-text">Saturday</span>
+              <span class="font-semibold text-text-dark">{to12h(saturdayEntry.open)} – {to12h(saturdayEntry.close)}</span>
+            </li>
+          )}
+          {saturdayEntry?.closed && (
+            <li class="flex justify-between max-w-xs">
+              <span class="text-text">Saturday</span>
+              <span class="font-semibold text-text-dark">Closed</span>
+            </li>
+          )}
+          {sundayEntry?.closed && (
+            <li class="flex justify-between max-w-xs">
+              <span class="text-text">Sunday</span>
+              <span class="font-semibold text-text-dark">Closed</span>
+            </li>
+          )}
+          {sundayEntry && !sundayEntry.closed && sundayEntry.open && sundayEntry.close && (
+            <li class="flex justify-between max-w-xs">
+              <span class="text-text">Sunday</span>
+              <span class="font-semibold text-text-dark">{to12h(sundayEntry.open)} – {to12h(sundayEntry.close)}</span>
+            </li>
+          )}
+        </ul>
+        {zip_codes && zip_codes.length > 0 && (
+          <p class="mt-3 text-sm text-text">Serving zip codes: {zip_codes.join(", ")}</p>
+        )}
+        <a
+          href={directionsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 mt-6 btn btn-primary text-sm"
+        >
+          <DynamicIcon icon="FaRoute" className="text-sm" />
+          Get Directions
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

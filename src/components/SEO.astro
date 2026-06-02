@@ -1,0 +1,46 @@
+---
+import { Seo } from "astro-seo-meta";
+import { Schema } from "astro-seo-schema";
+
+export interface SEOProps {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  keywords?: string[];
+  robots?: string;
+  themeColor?: string;
+  colorScheme?: "normal" | "light" | "dark" | "only light";
+  icon?: string;
+  facebook?: { image?: string; type?: string; url?: string };
+  twitter?: { image?: string; card?: string; site?: string };
+  schemaData?: any;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  keywords,
+  robots,
+  themeColor,
+  colorScheme,
+  icon,
+  facebook,
+  twitter,
+  schemaData,
+} = Astro.props as SEOProps;
+---
+
+<Seo
+  title={title}
+  description={description}
+  keywords={keywords}
+  robots={robots}
+  themeColor={themeColor}
+  colorScheme={colorScheme}
+  icon={icon}
+  facebook={facebook}
+  twitter={twitter}
+/>
+
+{schemaData && <Schema item={schemaData} />}

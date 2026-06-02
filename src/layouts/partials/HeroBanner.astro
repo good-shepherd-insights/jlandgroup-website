@@ -1,0 +1,164 @@
+---
+import Button from "@/components/Button.astro";
+import ImageMod from "@/components/ImageMod.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const homepage = await getListPage("homepage", "-index");
+
+const { banner } = homepage.data;
+---
+
+<style>
+  [data-hero] {
+    --parallax-offset: 0px;
+    background-size: cover, cover;
+    background-position:
+      center,
+      left center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+  @media (min-width: 1024px) {
+    [data-hero] {
+      background-size:
+        70% 140%,
+        cover;
+      background-position:
+        right calc(0% - var(--parallax-offset, 0px)),
+        left center;
+    }
+  }
+</style>
+
+<section
+  class="pt-40 pb-12 lg:pb-16 lg:pt-56!"
+  data-hero
+  style={`background-image: url('${banner.image}'), linear-gradient(59deg, rgb(147, 153, 145) 0%, rgb(214, 212, 199) 100%);`}
+>
+  <div class="container">
+    <div class="lg:max-w-[65%]">
+      <h1
+        data-editable="text"
+        data-prop="banner.title"
+        set:html={markdownify(banner.title)}
+        class="mb-4 lg:text-[100px] lg:leading-27.25 text-text-light max-lg:text-center"
+      />
+      <p
+        data-editable="text"
+        data-prop="banner.content"
+        set:html={markdownify(banner.content)}
+        class="mb-10 text-text-light text-xl max-lg:text-center"
+      />
+      <div
+        data-editable="text"
+        data-prop="banner.button_solid"
+        class="flex gap-6 flex-wrap max-lg:justify-center"
+      >
+        <Button data={banner.button_solid} />
+        <Button data={banner.button_outline} variant="outline" />
+      </div>
+
+      {
+        banner.satisfied_customers.enable && (
+          <div class="mt-10 md:mt-17">
+            <div
+              data-editable="array"
+              data-prop="banner.satisfied_customers.images"
+              class="flex flex-col lg:flex-row gap-5"
+            >
+              <div class="flex max-lg:mx-auto items-center">
+                {banner.satisfied_customers.images.map((image, i) => (
+                  <ImageMod
+                    class={`shrink-0 w-13.75 h-13.75 border-4 rounded-full border-body ${i === 0 && "translate-x-0"} last:-mr-13.75`}
+                    src={image}
+                    alt="customer-logo"
+                    width={55}
+                    height={55}
+                    style={{
+                      transform: `translateX(${-i * 20}px)`,
+                    }}
+                  />
+                ))}
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2 max-lg:justify-center">
+                  <p
+                    data-editable="text"
+                    data-prop="banner.satisfied_customers.count"
+                    class="text-h2 font-medium text-text-light"
+                  >
+                    {banner.satisfied_customers.count}
+                  </p>
+                  <img
+                    src="/images/verified-checkmark.png"
+                    alt="verified"
+                    class="w-6 h-6 object-contain"
+                  />
+                </div>
+                <p
+                  data-editable="text"
+                  data-prop="banner.satisfied_customers.label"
+                  set:html={markdownify(banner.satisfied_customers.label)}
+                  class="max-lg:text-center max-lg:mx-auto text-text-light lg:-mt-2"
+                />
+              </div>
+            </div>
+
+            <div class="mt-8 flex flex-wrap gap-8 items-center max-lg:justify-center">
+              <ImageMod
+                src="/images/badges/gaf-certified-plus.png"
+                class="h-21 w-auto object-contain"
+                alt="GAF Certified Plus"
+                width={810}
+                height={252}
+              />
+              <ImageMod
+                src="/images/badges/certainteed-shingle-master.png"
+                class="h-21 w-auto object-contain"
+                alt="CertainTeed Shingle Master"
+                width={810}
+                height={252}
+              />
+              <ImageMod
+                src="/images/badges/BBB-Accredited-Business.svg"
+                class="h-21 w-auto object-contain"
+                alt="BBB Accredited Business"
+                width={810}
+                height={252}
+              />
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const updateHeroParallax = () => {
+    const hero = document.querySelector("[data-hero]") as HTMLElement;
+    if (hero) {
+      const updateParallax = () => {
+        // Skip parallax if user prefers reduced motion or on mobile
+        const isReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        if (window.innerWidth >= 1024 && !isReducedMotion) {
+          const { top } = hero.getBoundingClientRect();
+          // Use a slightly smaller multiplier for smoother feel
+          const offset = Math.max(0, -top * 0.25);
+          hero.style.setProperty("--parallax-offset", `${offset}px`);
+        }
+      };
+
+      updateParallax();
+      window.addEventListener("scroll", updateParallax, { passive: true });
+      window.addEventListener("resize", updateParallax, { passive: true });
+    }
+  };
+
+  // Run on initial load and after view transitions
+  updateHeroParallax();
+  document.addEventListener("astro:page-load", updateHeroParallax);
+</script>

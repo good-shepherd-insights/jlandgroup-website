@@ -1,0 +1,286 @@
+---
+import BlogCard from "@/components/BlogCard.astro";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { sortByDate } from "@/lib/utils/sortFunctions";
+import { markdownify, plainify } from "@/lib/utils/textConverter";
+import CallToAction from "@/partials/CallToAction.astro";
+import FAQs from "@/partials/FAQs.astro";
+import HeroBanner from "@/partials/HeroBanner.astro";
+import Partners from "@/partials/Partners.astro";
+import OurExpertise from "@/partials/OurExpertise.astro";
+import Testimonial from "@/partials/Testimonial.astro";
+import WhatWeOffer from "@/partials/WhatWeOffer.astro";
+import WhyChooseUs from "@/partials/WhyChooseUs.astro";
+import config from "@/config/config.json";
+
+const homepage = await getListPage("homepage", "-index");
+const blogs = await getSinglePage("blogpage");
+const featuredBlogs = sortByDate(blogs);
+
+const { blog_section, why_choose_us } = homepage.data;
+
+const testimonialSection = await getListPage("testimonialSection", "testimonial");
+const testimonials = testimonialSection.data.testimonials || [];
+const totalReviews = testimonialSection.data.ratings?.total_reviews || testimonials.length.toString();
+
+const faqSection = await getListPage("faqsSection", "faqs");
+const faqItems = faqSection.data.faqs_list || [];
+
+const schemaData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${config.site.base_url}/#organization`,
+    "name": "J Land Contracting",
+    "alternateName": "J Land Roofing",
+    "description": "J Land Contracting delivers expert roofing solutions across the DMV with integrity and experience. Free inspections, insurance claim assistance, and professional roof replacements.",
+    "url": config.site.base_url,
+    "telephone": "(410) 292-0801",
+    "email": "info@jlandgroup.com",
+    "foundingDate": "2007",
+    "priceRange": "$$",
+    "paymentAccepted": ["Cash", "Credit Card", "Check"],
+    "currenciesAccepted": "USD",
+    "logo": `${config.site.base_url}/images/logo-jland.svg`,
+    "image": `${config.site.base_url}/images/og-image.png`,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "3636 Glenoble Court",
+      "addressLocality": "Jefferson",
+      "addressRegion": "MD",
+      "postalCode": "21755",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "39.3697",
+      "longitude": "-77.5475"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "08:00",
+        "closes": "12:00"
+      }
+    ],
+    "areaServed": [
+      {
+        "@type": "State",
+        "name": "Maryland"
+      },
+      {
+        "@type": "State",
+        "name": "Virginia"
+      },
+      {
+        "@type": "State",
+        "name": "District of Columbia"
+      },
+      {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": "39.3697",
+          "longitude": "-77.5475"
+        },
+        "geoRadius": "80467"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Roofing Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Roof Replacement",
+            "description": "Professional roof replacement services to ensure the durability and safety of your home."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Roof Renovation",
+            "description": "Professional roof renovation services to enhance the appearance and functionality of your home."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Commercial Roofing",
+            "description": "Professional commercial roofing services for businesses and commercial properties."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Damage Repairs",
+            "description": "Expert damage repair services to restore your roof after storm damage or accidents."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Free Inspection",
+            "description": "Schedule a free roof inspection to assess the condition of your roofing system."
+          }
+        }
+      ]
+    },
+    ...(testimonials.length > 0 ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": totalReviews,
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": testimonials.slice(0, 3).map((t) => ({
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": t.name
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": plainify(t.content)
+      }))
+    } : {}),
+    "sameAs": [
+      "https://facebook.com/jlandcontracting",
+      "https://www.linkedin.com/company/j-land-contracting",
+      "https://twitter.com/jlandcontracting"
+    ],
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "GAF Certified Plus",
+        "url": "https://gaf.com/certified-plus"
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "CertainTeed Shingle Master",
+        "url": "https://certainteed.com/shingle-master"
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "BBB Accredited Business"
+      }
+    ]
+  },
+  ...(faqItems.length > 0 ? [{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": plainify(faq.answer)
+      }
+    }))
+  }] : []),
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": config.site.base_url
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Home",
+        "url": config.site.base_url
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "About",
+        "url": `${config.site.base_url}/about`
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Services",
+        "url": `${config.site.base_url}/services`
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Appointment",
+        "url": `${config.site.base_url}/appointment`
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Contact",
+        "url": `${config.site.base_url}/contact`
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Blog",
+        "url": `${config.site.base_url}/blog`
+      }
+    ]
+  }
+];
+
+---
+
+<Base schemaData={schemaData}>
+  <HeroBanner />
+  <Partners />
+  <WhyChooseUs data={why_choose_us} />
+  <WhatWeOffer />
+  <OurExpertise />
+  <CallToAction />
+  <Testimonial />
+
+  {
+    blog_section.enable && (
+      <section class="section">
+        <div class="container">
+          <h2
+            
+            
+            class="h2 text-center"
+            set:html={markdownify(blog_section.title)}
+          />
+          <p
+            
+            
+            class="text-lg mt-6 mb-12 max-w-[80%] mx-auto text-center text-balance"
+            set:html={markdownify(blog_section.description)}
+          />
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {featuredBlogs.map((blog) => (
+              <BlogCard data={blog} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <FAQs />
+</Base>

@@ -1,0 +1,59 @@
+{
+  "site": {
+    "title": "Roofer - Roofing Service Astro Template",
+    "base_url": "https://roofer-astro.vercel.app",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.png",
+    "logo": "/images/logo.svg",
+    "footer_logo": "/images/footer-logo.svg",
+    "logo_width": "138",
+    "logo_height": "50",
+    "logo_text": "Roofer"
+  },
+
+  "settings": {
+    "sticky_header": true,
+    "pagination": 6
+  },
+
+  "announcement": {
+    "enable": true,
+    "content": "<span class='text-center block'>🎉 Get 20% off on all roofing services this summer! Limited time offer. <a href='/contact' class='underline'>Book Now</a> 🎉</span>",
+    "expire_days": 7
+  },
+
+  "params": {
+    "contact_form_action": "#",
+    "footer_description": "Welcome to a place of refinement and clean. This is Roofer, we made for home and office cleaning easy for you."
+  },
+
+  "contact_info": {
+    "address": "123 Street, City, State 12345",
+    "phone": "+123 456 7890",
+    "email": "info@roofer.com"
+  },
+
+  "google_map": {
+    "enable": true,
+    "embed_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.3340639823564!2d90.3639696760863!3d23.771115587979388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c1705e935263%3A0x864bebd8473f0e66!2sThemefisher!5e0!3m2!1sen!2sbd!4v1769657797889!5m2!1sen!2sbd"
+  },
+
+  "navigation_button": {
+    "enable": true,
+    "label": "Book A Free Consultation",
+    "link": "/contact",
+    "icon": "FaPhone"
+  },
+
+  "google_tag_manager": {
+    "enable": false,
+    "gtm_id": "GTM-XXXXXX"
+  },
+
+  "metadata": {
+    "meta_author": "themefisher",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "Roofer is a Astro template for roofing and solar services. 8 pages, SEO-ready. Simplify website building for your business."
+  }
+}

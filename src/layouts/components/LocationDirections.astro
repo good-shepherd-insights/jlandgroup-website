@@ -1,0 +1,115 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import DynamicIcon from "@/helpers/DynamicIcon";
+
+interface DirectionItem {
+  title: string;
+  description: string;
+  drive_time?: string;
+  distance?: string;
+}
+
+interface DirectionFromOther extends DirectionItem {
+  origin: string;
+}
+
+interface Directions {
+  from_dc?: DirectionItem;
+  from_baltimore?: DirectionItem;
+  from_other?: DirectionFromOther[];
+}
+
+interface Props {
+  city?: string;
+  state?: string;
+  geo?: {
+    latitude: string;
+    longitude: string;
+  };
+  directions?: Directions;
+}
+
+const {
+  city,
+  state,
+  geo,
+  directions,
+} = Astro.props;
+
+// Build Google Maps URLs
+// Use search/?api=1&query for precise coordinate-based place lookup
+const mapUrl = geo
+  ? `https://www.google.com/maps/search/?api=1&query=${geo.latitude},${geo.longitude}`
+  : `https://www.google.com/maps/place/${encodeURIComponent(`${city}, ${state}`)}`;
+
+// Use dir/?api=1 for navigation
+const directionsUrl = geo
+  ? `https://www.google.com/maps/dir/?api=1&destination=${geo.latitude},${geo.longitude}`
+  : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${city}, ${state}`)}`;
+
+// Flatten the structured `directions` object (per locationContactFields schema)
+// into an ordered list of items so the template can render uniformly.
+const directionItems: DirectionItem[] = [
+  ...(directions?.from_dc ? [directions.from_dc] : []),
+  ...(directions?.from_baltimore ? [directions.from_baltimore] : []),
+  ...(directions?.from_other ?? []),
+];
+
+const hasDirectionItems = directionItems.length > 0;
+const hasContent = hasDirectionItems || geo;
+---
+
+{
+  hasContent && (
+    <section class="section border-t border-border">
+      <div class="container">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="h2 text-center mb-4">
+            {city && state
+              ? `Directions to ${city}, ${state}`
+              : "Getting Here"}
+          </h2>
+
+          {hasDirectionItems && (
+            <div class="mt-8 space-y-8">
+              {directionItems.map((item) => (
+                <div class="prose prose-lg max-w-none text-text">
+                  <h3 class="h4" set:html={markdownify(item.title)} />
+                  {(item.drive_time || item.distance) && (
+                    <p class="text-text/60 text-sm">
+                      {[item.drive_time, item.distance].filter(Boolean).join(" • ")}
+                    </p>
+                  )}
+                  <p set:html={markdownify(item.description)} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div class="mt-10 flex flex-wrap gap-4 justify-center">
+            <a
+              href={directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 btn btn-primary"
+            >
+              <DynamicIcon icon="FaRoute" className="text-sm" />
+              Get Directions
+            </a>
+            {city && state && (
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 btn btn-outline border-primary text-primary hover:text-white"
+              >
+                <DynamicIcon icon="FaMapLocationDot" className="text-sm" />
+                View on Google Maps
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

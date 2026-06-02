@@ -1,0 +1,61 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const { data, id } = Astro.props;
+---
+
+<div
+  class="group relative flex flex-col h-full bg-white rounded-4xl overflow-hidden border border-border shadow-brand"
+>
+  {/* High-Impact Project Photo Area */}
+  <div class="relative h-64 overflow-hidden">
+    {
+      data.image && (
+        <ImageMod
+          src={data.image}
+          alt={data.title}
+          width={800}
+          height={500}
+          class="w-full h-full object-cover"
+        />
+      )
+    }
+    <div class="absolute inset-0 bg-linear-to-t from-dark/60 to-transparent">
+    </div>
+
+    </div>
+
+  {/* Conversion-Focused Content Area */}
+  <div class="p-10 flex flex-col grow bg-white">
+    <h3
+      class="h3 font-bold mb-4 text-text-dark tracking-tight"
+      set:html={markdownify(data.title)}
+    />
+    <p
+      class="mb-8 grow text-text text-base leading-relaxed"
+      set:html={markdownify(data.description)}
+    />
+
+    {/* High-Contrast CTA Button (Primary Gold) */}
+    <a
+      href={id ? `/services/${id}` : "#"}
+      class="flex items-center justify-center gap-3 w-full py-5 bg-primary text-dark rounded-2xl font-black uppercase tracking-widest text-sm transition-colors duration-300 hover:bg-dark hover:text-white shadow-lg"
+    >
+      {data.contact_form?.button_label || "Get Free Estimate"}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="3"
+          d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+      </svg>
+    </a>
+  </div>
+</div>

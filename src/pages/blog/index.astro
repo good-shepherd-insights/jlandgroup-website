@@ -1,0 +1,91 @@
+---
+import BlogCard from "@/components/BlogCard.astro";
+import Pagination from "@/components/Pagination.astro";
+import TitleCenter from "@/components/TitleCenter.astro";
+import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { sortByDate } from "@/lib/utils/sortFunctions";
+import { plainify } from "@/lib/utils/textConverter";
+
+const pageIndex = await getListPage("blogpage", "-index");
+if (pageIndex.data.draft) return Astro.redirect("/404");
+const posts = await getSinglePage("blogpage");
+const sortedPosts = sortByDate(posts);
+const totalPages: number = Math.ceil(posts.length / config.settings.pagination);
+const currentPosts = sortedPosts.slice(0, config.settings.pagination);
+
+const schemaData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": pageIndex.data.title,
+    "description": pageIndex.data.description,
+    "url": `${config.site.base_url}/blog`,
+    "publisher": {
+      "@type": "Organization",
+      "name": "J Land Contracting",
+      "url": config.site.base_url,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${config.site.base_url}/images/logo-jland.svg`
+      }
+    },
+    "blogPost": currentPosts.map(post => ({
+      "@type": "BlogPosting",
+      "headline": post.data.title,
+      ...(post.data.description && { "description": plainify(post.data.description) }),
+      "url": `${config.site.base_url}/blog/${post.id}`,
+      ...(post.data.date && { "datePublished": new Date(post.data.date).toISOString() }),
+      ...(post.data.image && {
+        "image": {
+          "@type": "ImageObject",
+          "url": `${config.site.base_url}${post.data.image}`
+        }
+      }),
+      "author": {
+        "@type": "Organization",
+        "name": "J Land Contracting",
+        "url": config.site.base_url
+      }
+    }))
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": config.site.base_url
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": `${config.site.base_url}/blog`
+      }
+    ]
+  }
+];
+
+---
+
+<Base {...pageIndex.data} schemaData={schemaData}>
+  <section class="section-lg">
+    <div class="container">
+      <TitleCenter
+        title={pageIndex.data.title}
+        description={pageIndex.data.description}
+        className="mb-16 xl:w-[60%]"
+        centerText
+      />
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-16">
+        {currentPosts.map((post) => <BlogCard data={post} />)}
+      </div>
+      <Pagination section={"blog"} currentPage={1} totalPages={totalPages} />
+    </div>
+  </section>
+</Base>

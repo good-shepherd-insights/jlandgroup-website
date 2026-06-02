@@ -1,0 +1,99 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import Button from "@/components/Button.astro";
+import LocationContent from "@/components/LocationContent.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+interface IntroData {
+  body?: string;
+  challenges_title?: string;
+  challenges_body?: string;
+  service_area_title?: string;
+  service_area_intro?: string;
+  service_area_neighborhoods?: { name: string; slug?: string }[];
+}
+
+interface Props {
+  title: string;
+  description: string;
+  city?: string;
+  state?: string;
+  county?: string;
+  intro_image?: string;
+  hero_image?: string;
+  experience?: { years: string; label: string } | null;
+  intro?: IntroData;
+}
+
+const {
+  title,
+  description,
+  city,
+  state,
+  county,
+  intro_image,
+  hero_image,
+  experience,
+  intro,
+} = Astro.props;
+
+const imageSrc = intro_image || hero_image;
+---
+
+<!-- Variation 3: Two-column — image left with badge, content right, body full-width below -->
+<section class="section-lg pb-0">
+  <div class="container flex max-lg:flex-col gap-16 items-center">
+    {
+      imageSrc && (
+        <div class="lg:w-[50%] relative">
+          <ImageMod
+            class="rounded-xl w-full object-cover lg:h-120"
+            src={imageSrc}
+            height={800}
+            width={900}
+            alt={city && state ? `${city}, ${state}` : "Location"}
+            format="webp"
+          />
+          {
+            experience && (
+              <div class="absolute -bottom-8 -left-6 lg:-left-8 bg-secondary backdrop-blur-md p-5 border-4 border-primary rounded-2xl shadow-md max-w-55 text-center">
+                <h3 class="h1 mb-2 text-text-light" set:html={experience.years} />
+                <p class="text-text-light text-2xl" set:html={markdownify(experience.label)} />
+              </div>
+            )
+          }
+        </div>
+      )
+    }
+
+    <div class={imageSrc ? "lg:w-[50%]" : "lg:w-[80%] mx-auto"}>
+      {city && state && (
+        <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-2">{city}, {state}</p>
+      )}
+      {county && (
+        <p class="text-sm text-text/60 mb-4">{county}</p>
+      )}
+      <h2 class="text-h1" set:html={markdownify(title)} />
+      <p class="text-lg mt-4" set:html={markdownify(description)} />
+      <div class="mt-6">
+        <Button data={{ enable: true, label: "Schedule Free Inspection", link: "/appointment", icon: "FaPhone" }} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="lg:w-[80%] mx-auto">
+      <LocationContent
+        body={intro?.body}
+        challenges_title={intro?.challenges_title}
+        challenges_body={intro?.challenges_body}
+        service_area_title={intro?.service_area_title}
+        service_area_intro={intro?.service_area_intro}
+        service_area_neighborhoods={intro?.service_area_neighborhoods}
+        city={city}
+      />
+    </div>
+  </div>
+</section>
