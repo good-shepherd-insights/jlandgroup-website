@@ -44,6 +44,7 @@ intro:
     - name: "New Market and Mount Airy"
       slug: "mount-airy-md"
 
+services_section_title: "Our Roofing Services in Frederick, MD"
 services:
   - slug: roof-replacement
     title_override: "Roof Replacement in Frederick, MD"
