@@ -25,7 +25,7 @@
     "aos": "^2.3.4",
     "astro": "6.0.2",
     "astro-auto-import": "^0.5.1",
-    "astro-seo": "^1.1.0",
+    "astro-seo-meta": "^6.0.0",
     "astro-seo-schema": "^6.0.0",
     "astro-swiper": "^1.4.0",
     "date-fns": "^4.1.0",
