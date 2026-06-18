@@ -6,8 +6,8 @@ image: "/images/expertise2.jpg"
 draft: false
 
 experience:
-  years: "27"
-  label: "Years of Experience"
+  years: "Founded"
+  label: "2010"
 
 our_values:
   enable: true
@@ -26,7 +26,7 @@ our_values:
 why_choose_us:
   enable: true
   title: "Why homeowners choose J Land."
-  description: "For over 27 years, we've been the roofing company DMV homeowners call when they want the job done right — and done honestly."
+  description: "Founded in 2010, we're the roofing company DMV homeowners call when they want the job done right — and done honestly."
   image: "/images/why-choose-us.jpg"
   features:
     - "**Full-Service Support**: From free inspections and claim assistance to roof replacements and home upgrades — we handle it all."

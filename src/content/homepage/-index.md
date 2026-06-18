@@ -41,12 +41,12 @@ partners:
 blog_section:
   enable: true
   title: "Our latest news"
-  description: "Roofing tips, storm preparedness guides, and insurance claim advice from our 27 years of experience serving DMV homeowners."
+  description: "Roofing tips, storm preparedness guides, and insurance claim advice from J Land Contracting, founded in 2010."
 
 why_choose_us:
   enable: true
   title: "Reasons to choose our roofing services."
-  description: "We have been providing expert roofing solutions for over 27 years and we are proud to be leaders in the industry. Our team consists of skilled & highly qualified roofing professionals."
+  description: "Founded in 2010, we provide expert roofing solutions and are proud to be leaders in the industry. Our team consists of skilled & highly qualified roofing professionals."
   image: "/images/why-choose-us.jpg"
   features:
     - "**Affordable Prices**: From free inspections, claim assistance, Roof replacements and home upgrades."
@@ -68,8 +68,8 @@ our_expertise:
   title: "Taking care of the roof of your house."
   description: "Your building is your most important asset. Make sure it’s protected. Storm damage can be latent, causing problems that plague you for years to come and we may have a solution to save you."
   experience:
-    years: "27"
-    label: "Years of Experience"
+    years: "Founded"
+    label: "2010"
   images:
     - "/images/expertise1.png"
     - "/images/expertise2.jpg"
@@ -81,5 +81,4 @@ our_expertise:
       description: "We handle all communications with your insurance provider so you never have to navigate the claims process alone."
     - title: "Quality Materials"
       description: "We use only the highest quality materials from manufacturers like GAF and CertainTeed for all our roofing projects."
-
 ---
