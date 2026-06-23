@@ -21,19 +21,8 @@
       "url": "/contact"
     },
     {
-      "name": "Resources",
-      "url": "#",
-      "hasChildren": true,
-      "children": [
-        {
-          "name": "Blog",
-          "url": "/blog"
-        },
-        {
-          "name": "Appointment",
-          "url": "/appointment"
-        }
-      ]
+      "name": "Book Inspection",
+      "url": "/appointment"
     }
   ],
   "footer": [
@@ -54,24 +43,24 @@
       "title": "Services",
       "children": [
         {
-          "name": "Commercial Roofing",
-          "url": "/services/commercial-roofing"
+          "name": "Free Inspection",
+          "url": "/services/free-inspection"
         },
         {
-          "name": "Damage Repairs",
+          "name": "Storm Damage Repairs",
           "url": "/services/damage-repairs"
-        },
-        {
-          "name": "Roof Renovation",
-          "url": "/services/roof-renovation"
         },
         {
           "name": "Roof Replacement",
           "url": "/services/roof-replacement"
         },
         {
-          "name": "Free Inspection",
-          "url": "/services/free-inspection"
+          "name": "Roof Renovation",
+          "url": "/services/roof-renovation"
+        },
+        {
+          "name": "Commercial Roofing",
+          "url": "/services/commercial-roofing"
         }
       ]
     },
@@ -93,10 +82,6 @@
         {
           "name": "Privacy Policy",
           "url": "/privacy-policy"
-        },
-        {
-          "name": "Elements",
-          "url": "/elements"
         }
       ]
     }

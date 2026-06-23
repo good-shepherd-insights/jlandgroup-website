@@ -1,11 +1,11 @@
 ---
 enable: true
-title: "See What Our Clients Say"
-description: "We are proud of the trust we've built with our community. Here is what some of our {totalReviews}+ satisfied customers have to say about our roofing and restoration services."
+title: "What customers say"
+description: "Feedback from homeowners who worked with J Land Contracting."
 ratings:
-  enable: true
+  enable: false
   label: "Average Rating"
-  total_reviews: "124"
+  total_reviews: ""
 
 # Testimonials
 testimonials:
@@ -13,7 +13,7 @@ testimonials:
     designation: "Homeowner, Frederick, MD"
     location_slug: "frederick-md"
     avatar: "/images/avatar/jland-contracting-google-review-customer-gene-buckalew.png"
-    content: "Jland Contracting did a professional and noteworthy job of replacing my storm damaged roofing and siding. There were no ‘games’ played with the inspection and interaction with my home insurer. I was given a complete review of the damaged areas as well as a specific description of the work to be completed and the scheduled work days. The crew were respectful of our property and worked diligently throughout the job. I highly recommend JLand Contracting and will gladly refer them to anyone I know."
+    content: "Jland Contracting did a professional and noteworthy job of replacing my storm damaged roofing and siding. There were no 'games' played with the inspection and interaction with my home insurer. I was given a complete review of the damaged areas as well as a specific description of the work to be completed and the scheduled work days. The crew were respectful of our property and worked diligently throughout the job. I highly recommend JLand Contracting and will gladly refer them to anyone I know."
 
   - name: "Leah Walker"
     designation: "Homeowner, Urbana, MD"
