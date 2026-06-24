@@ -155,7 +155,7 @@ if (overrideTestimonials) {
 
 const locationSameAs = (config.social || [])
   .filter((s: { url: string }) => s.url && s.url.trim() !== "")
-  .map((s: { url: string }) => s.url);
+  .map((s: { url: string }) => s.url.trim());
 
 const schemaData = [
   ...(geo ? [{
