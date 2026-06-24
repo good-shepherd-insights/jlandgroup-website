@@ -153,6 +153,10 @@ if (overrideTestimonials) {
     : allTestimonials;
 }
 
+const locationSameAs = (config.social || [])
+  .filter((s: { url: string }) => s.url && s.url.trim() !== "")
+  .map((s: { url: string }) => s.url);
+
 const schemaData = [
   ...(geo ? [{
     "@context": "https://schema.org",
@@ -204,9 +208,7 @@ const schemaData = [
         }
       }))
     },
-    "sameAs": (config.social || [])
-      .filter((s: { url: string; platform: string }) => s.url && s.url.trim() !== "" && s.platform !== "Google Business")
-      .map((s: { url: string }) => s.url)
+    ...(locationSameAs.length > 0 ? { "sameAs": locationSameAs } : {})
   }] : []),
   ...(effectiveFaqs.length > 0 ? [{
     "@context": "https://schema.org",
