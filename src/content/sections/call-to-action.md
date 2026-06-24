@@ -1,11 +1,11 @@
 ---
 enable: true
-title: "Not sure if your roof qualifies for an insurance claim?"
+title: "Not sure what the storm did to your roof?"
 image: "/images/call-to-action.png"
-description: "Most storm damage is covered by homeowner's insurance — but the window to file is limited. Schedule a free inspection and we'll assess the damage, document everything, and handle the claim process on your behalf."
+description: "Some storm damage may be covered by homeowner's insurance. We can inspect the roof, document what we find, and help you understand the next step before small damage turns into a bigger problem."
 button:
   enable: true
-  label: "Book A Free Consultation"
+  label: "Book a Free Inspection"
   link: "/appointment"
   icon: "FaPhone" # Icon name from react-icons
 ---

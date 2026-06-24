@@ -1,15 +1,15 @@
 {
   "site": {
-    "title": "J Land Contracting - Professional Roofing Services",
+    "title": "J Land Contracting - Roofing Services",
     "base_url": "https://jlandgroup.com",
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/images/favicon.svg",
-    "logo": "/images/logo-jland.svg",
-    "footer_logo": "/images/logo-jland.svg",
-    "logo_width": "50",
-    "logo_height": "50",
-    "logo_text": "J LAND CONTRACTING"
+    "logo": "/images/jland-group-logo.png",
+    "footer_logo": "/images/jland-group-logo.png",
+    "logo_width": "216",
+    "logo_height": "60",
+    "logo_text": ""
   },
   "settings": {
     "sticky_header": true,
@@ -17,12 +17,12 @@
   },
   "announcement": {
     "enable": true,
-    "content": "<span class='text-center block'><a href=\"tel:(410) 292-0801\">📞 Trusted local roofers. Call for a free estimate: (410) 292-0801 📞</a></span>",
+    "content": "<span class='text-center block'><a href='tel:(410) 292-0801'>Call J Land Contracting for a free roof inspection: (410) 292-0801</a></span>",
     "expire_days": 7
   },
   "params": {
     "contact_form_action": "#",
-    "footer_description": "J Land Contracting delivers expert roofing solutions across the DMV — with the integrity your family deserves and the experience your insurance claim demands."
+    "footer_description": "roofing serving all of Maryland with roof inspections, storm damage repairs, insurance communication, and roof replacement."
   },
   "contact_info": {
     "address": "3636 Glenoble Court, Jefferson, MD 21755",
@@ -35,7 +35,7 @@
   },
   "navigation_button": {
     "enable": true,
-    "label": "Book A Free Consultation",
+    "label": "Book a Free Inspection",
     "link": "/contact",
     "icon": "FaPhone"
   },
@@ -46,12 +46,13 @@
   "metadata": {
     "meta_author": "J Land Contracting",
     "meta_image": "/images/og-image.png",
-    "meta_description": "J Land Contracting delivers expert roofing solutions across the DMV with integrity and experience. Free inspections, insurance claim assistance, and professional roof replacements."
+    "meta_description": "roofing serving all of Maryland — inspections, storm damage repair, insurance communication support, and roof replacement from JLand Group."
   },
   "social": [
-    { "platform": "Facebook", "url": "https://facebook.com/jlandcontracting", "icon": "FaFacebook" },
-    { "platform": "LinkedIn", "url": "https://linkedin.com/company/jlandcontracting", "icon": "FaLinkedin" },
-    { "platform": "X (Twitter)", "url": "https://x.com/jlandgroup", "icon": "FaXTwitter" },
-    { "platform": "Google Business", "url": "https://g.page/jlandcontracting", "icon": "FaGoogle" }
+    {
+      "platform": "Google Business",
+      "url": "https://share.google/t5XRHNMXFF4V58J2P",
+      "icon": "FaGoogle"
+    }
   ]
 }
