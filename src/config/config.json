@@ -21,7 +21,7 @@
     "expire_days": 7
   },
   "params": {
-    "contact_form_action": "#",
+    "contact_form_action": "https://formsubmit.co/info@jlandgroup.com",
     "footer_description": "J Land Contracting delivers expert roofing solutions across the DMV — with the integrity your family deserves and the experience your insurance claim demands."
   },
   "contact_info": {

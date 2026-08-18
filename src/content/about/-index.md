@@ -1,12 +1,12 @@
 ---
 title: "Our Story"
 meta_title: "About | J Land Contracting"
-description: "At J Land Contracting, we started with a simple belief — that homeowners in the DMV deserve a roofing company they can trust and believe.<br><br>We're a small, locally rooted business based in Frederick, MD, and we're proud of that. It means every client gets our full attention, honest answers, and a team that genuinely cares about the outcome — not just the invoice.<br><br>Over the years, we've built a reputation with over 1500+ local clients — an honor we don't take lightly, because it comes directly from the communities we serve.<br><br>What sets us apart isn't just the quality of our roofwork. It's the way we show up for our clients when things get complicated. When storm damage hits and your insurance company feels impossible to deal with, we step in. We help assess the damage, communicate with your insurer, and coordinate every step of the repair — so you're never left navigating it alone.<br><br>Building roofs. Serving with integrity. That's not just our tagline — it's how we operate, every single job."
+description: "At J Land Contracting, we started with a simple belief — that homeowners in the DMV deserve a roofing company they can trust and believe.<br><br>Founded in 2010, we're a small, locally rooted business based in Jefferson, MD, and we're proud of that. It means every client gets our full attention, honest answers, and a team that genuinely cares about the outcome — not just the invoice.<br><br>Over the years, we've built a reputation with over 1500+ local clients — an honor we don't take lightly, because it comes directly from the communities we serve.<br><br>What sets us apart isn't just the quality of our roofwork. It's the way we show up for our clients when things get complicated. When storm damage hits and your insurance company feels impossible to deal with, we step in. We help assess the damage, communicate with your insurer, and coordinate every step of the repair — so you're never left navigating it alone.<br><br>Building roofs. Serving with integrity. That's not just our tagline — it's how we operate, every single job."
 image: "/images/expertise2.jpg"
 draft: false
 
 experience:
-  years: "27"
+  years: "15"
   label: "Years of Experience"
 
 our_values:
@@ -26,7 +26,7 @@ our_values:
 why_choose_us:
   enable: true
   title: "Why homeowners choose J Land."
-  description: "For over 27 years, we've been the roofing company DMV homeowners call when they want the job done right — and done honestly."
+  description: "Founded in 2010, we've been the roofing company Maryland homeowners call when they want the job done right — and done honestly."
   image: "/images/why-choose-us.jpg"
   features:
     - "**Full-Service Support**: From free inspections and claim assistance to roof replacements and home upgrades — we handle it all."

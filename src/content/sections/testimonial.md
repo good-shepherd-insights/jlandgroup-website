@@ -5,7 +5,7 @@ description: "We are proud of the trust we've built with our community. Here is 
 ratings:
   enable: true
   label: "Average Rating"
-  total_reviews: "124"
+  total_reviews: "43"
 
 # Testimonials
 testimonials:
