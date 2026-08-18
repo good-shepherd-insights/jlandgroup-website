@@ -41,12 +41,12 @@ partners:
 blog_section:
   enable: true
   title: "Our latest news"
-  description: "Roofing tips, storm preparedness guides, and insurance claim advice from our 27 years of experience serving DMV homeowners."
+  description: "Roofing tips, storm preparedness guides, and insurance claim advice from our years of experience serving Maryland homeowners."
 
 why_choose_us:
   enable: true
   title: "Reasons to choose our roofing services."
-  description: "We have been providing expert roofing solutions for over 27 years and we are proud to be leaders in the industry. Our team consists of skilled & highly qualified roofing professionals."
+  description: "Founded in 2010, we have been providing expert roofing solutions for over 15 years and we are proud to be leaders in the industry. Our team consists of skilled & highly qualified roofing professionals."
   image: "/images/why-choose-us.jpg"
   features:
     - "**Affordable Prices**: From free inspections, claim assistance, Roof replacements and home upgrades."
@@ -68,7 +68,7 @@ our_expertise:
   title: "Taking care of the roof of your house."
   description: "Your building is your most important asset. Make sure it’s protected. Storm damage can be latent, causing problems that plague you for years to come and we may have a solution to save you."
   experience:
-    years: "27"
+    years: "15"
     label: "Years of Experience"
   images:
     - "/images/expertise1.png"

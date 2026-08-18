@@ -114,6 +114,13 @@ if (pageIndex.data.draft) return Astro.redirect("/404");
             method="POST"
             class="bg-dark px-10 py-12 rounded-2xl"
           >
+            <!-- FormSubmit delivery configuration - do not remove -->
+            <input type="hidden" name="_subject" value="New website lead - J Land Contracting" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_next" value="https://jlandgroup.com/thank-you/" />
+            <input type="hidden" name="form_source" value="Contact Page" />
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
             <fieldset class="mb-8">
               <label for="name" class="sr-only" aria-label="Full Name"></label>
               <input

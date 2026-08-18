@@ -1,0 +1,34 @@
+---
+import Base from "@/layouts/Base.astro";
+import config from "@/config/config.json";
+---
+
+<Base
+  title="Thank You — We Received Your Request"
+  description="Thanks for contacting J Land Contracting. We received your request and will call you shortly."
+  noindex={true}
+>
+  <section class="section-lg text-center">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="sm:col-10 md:col-8 lg:col-6">
+          <span class="text-[6rem] block font-bold text-text-dark">✓</span>
+          <h1 class="h2 mb-4">Thank you — we got your request</h1>
+          <div class="content">
+            <p>
+              A member of the J Land Contracting team will reach out shortly to
+              schedule your free inspection.
+            </p>
+            <p>
+              Need us sooner? Call us directly at{" "}
+              <a href={`tel:${config.contact_info.phone.replace(/[^0-9+]/g, "")}`}>
+                {config.contact_info.phone}
+              </a>.
+            </p>
+          </div>
+          <a href="/" class="btn btn-primary mt-8">Back to home</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

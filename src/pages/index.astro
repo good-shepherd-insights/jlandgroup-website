@@ -140,28 +140,10 @@ const schemaData = [
         }
       ]
     },
-    ...(testimonials.length > 0 ? {
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5",
-        "reviewCount": totalReviews,
-        "bestRating": "5",
-        "worstRating": "1"
-      },
-      "review": testimonials.slice(0, 3).map((t) => ({
-        "@type": "Review",
-        "author": {
-          "@type": "Person",
-          "name": t.name
-        },
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5",
-          "bestRating": "5"
-        },
-        "reviewBody": plainify(t.content)
-      }))
-    } : {}),
+    // NOTE: Self-published aggregateRating/review markup for your own business
+    // violates Google's structured-data policy (self-serving reviews) and is
+    // ignored or penalized. Ratings must come from Google Business Profile.
+    // Removed 2026-08-18.
     "sameAs": [
       "https://facebook.com/jlandcontracting",
       "https://www.linkedin.com/company/j-land-contracting",
