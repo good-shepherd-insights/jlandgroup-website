@@ -1,7 +1,7 @@
 ---
 title: "Our Story"
 meta_title: "About | J Land Contracting"
-description: "At J Land Contracting, we started with a simple belief — that homeowners in the DMV deserve a roofing company they can trust and believe.<br><br>Founded in 2010, we're a small, locally rooted business based in Jefferson, MD, and we're proud of that. It means every client gets our full attention, honest answers, and a team that genuinely cares about the outcome — not just the invoice.<br><br>Over the years, we've built a reputation with over 1500+ local clients — an honor we don't take lightly, because it comes directly from the communities we serve.<br><br>What sets us apart isn't just the quality of our roofwork. It's the way we show up for our clients when things get complicated. When storm damage hits and your insurance company feels impossible to deal with, we step in. We help assess the damage, communicate with your insurer, and coordinate every step of the repair — so you're never left navigating it alone.<br><br>Building roofs. Serving with integrity. That's not just our tagline — it's how we operate, every single job."
+description: "At J Land Contracting, we started with a simple belief — that Maryland homeowners deserve a roofing company they can trust and believe.<br><br>Founded in 2010, we're a small, locally rooted business based in Jefferson, MD, and we're proud of that. It means every client gets our full attention, honest answers, and a team that genuinely cares about the outcome — not just the invoice.<br><br>Over the years, we've built a reputation with over 1500+ local clients — an honor we don't take lightly, because it comes directly from the communities we serve.<br><br>What sets us apart isn't just the quality of our roofwork. It's the way we show up for our clients when things get complicated. When storm damage hits and your insurance company feels impossible to deal with, we step in. We help assess the damage, communicate with your insurer, and coordinate every step of the repair — so you're never left navigating it alone.<br><br>Building roofs. Serving with integrity. That's not just our tagline — it's how we operate, every single job."
 image: "/images/expertise2.jpg"
 draft: false
 
@@ -14,7 +14,7 @@ our_values:
   image: "/images/our-values.png"
   values:
     - title: "Our Mission"
-      description: "To be the roofing company DMV homeowners trust most — by showing up honestly, communicating clearly, and doing the job right every time."
+      description: "To be the roofing company Maryland homeowners trust most — by showing up honestly, communicating clearly, and doing the job right every time."
       icon: "FaBullseye" # Icons from react-icons
     - title: "Our Vision"
       description: "A community where no homeowner has to navigate roof damage or insurance claims alone — and every family has a roof they can rely on."

@@ -49,6 +49,6 @@ Many homeowners in Frederick County don't realize that storm damage repairs are 
 
 ## Expected Results
 
-Your roof restored to pre-storm condition — or better. You'll have complete claim documentation, material warranties, and the confidence of working with a team that has handled hundreds of storm damage repairs across Frederick County, Montgomery County, and the greater DMV.
+Your roof restored to pre-storm condition — or better. You'll have complete claim documentation, material warranties, and the confidence of working with a team that has handled hundreds of storm damage repairs across Frederick, Montgomery, and Carroll Counties.
 
 We've helped homeowners from Downtown Frederick to the farmlands outside Burkittsville recover from storm damage without the stress of navigating insurance alone. When the next storm hits — and in Frederick County, it will — we're the local team that shows up and gets it done.

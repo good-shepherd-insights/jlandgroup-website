@@ -19,7 +19,7 @@ contact_form:
 
 A roof inspection is the single most important step you can take to protect your home — and it shouldn't cost you anything. At J Land Contracting, our free roof inspections are thorough, honest, and designed to give you the information you need to make smart decisions about your roof.
 
-We inspect residential and commercial roofs throughout Frederick County and the DMV. Whether you've noticed a leak in your Jefferson home, your Urbana townhome's roof is getting older, or a recent storm has you concerned about your property in Middletown, we'll come to you, examine the roof surface and underlying structure, and give you a straightforward report.
+We inspect residential and commercial roofs throughout Frederick County and across Maryland. Whether you've noticed a leak in your Jefferson home, your Urbana townhome's roof is getting older, or a recent storm has you concerned about your property in Middletown, we'll come to you, examine the roof surface and underlying structure, and give you a straightforward report.
 
 **What our free inspection covers:**
 

@@ -1,7 +1,7 @@
 ---
 title: "Commercial Roofing"
 meta_title: "Commercial Roofing Frederick MD | J Land Contracting"
-description: "Commercial roofing services in Frederick, MD and across the DMV. J Land Contracting handles flat roofs, TPO, EPDM, and built-up systems for businesses — with project management and insurance claim support."
+description: "Commercial roofing services in Frederick, MD and across Maryland. J Land Contracting handles flat roofs, TPO, EPDM, and built-up systems for businesses — with project management and insurance claim support."
 image: "/images/services/commercial-roofing.png"
 date: 2026-01-28T05:00:00Z
 draft: false
@@ -19,7 +19,7 @@ contact_form:
 
 Commercial roofing demands a different approach than residential work — different materials, different building codes, different timelines, and different risk factors. At J Land Contracting, we bring the same integrity and insurance expertise to commercial projects that we're known for in our residential work across Frederick County.
 
-We service flat roofs, low-slope systems, TPO, EPDM, modified bitumen, and built-up roofing across the DMV. Whether you manage a retail property near the Francis Scott Key Mall, an office building along the I-270 corridor, a warehouse in the Frederick Corporate Center, or a multi-unit residential complex anywhere in Frederick County, we assess your roof's condition and recommend the right solution for your building type and budget.
+We service flat roofs, low-slope systems, TPO, EPDM, modified bitumen, and built-up roofing across Maryland. Whether you manage a retail property near the Francis Scott Key Mall, an office building along the I-270 corridor, a warehouse in the Frederick Corporate Center, or a multi-unit residential complex anywhere in Frederick County, we assess your roof's condition and recommend the right solution for your building type and budget.
 
 **Commercial roofing systems we service in Frederick:**
 

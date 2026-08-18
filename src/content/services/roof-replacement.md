@@ -19,7 +19,7 @@ contact_form:
 
 A full roof replacement is one of the most important investments you'll make in your home — and it's one you shouldn't have to navigate alone. At J Land Contracting, based right here in Jefferson, we manage the entire process from initial inspection through final cleanup, so you never have to wonder what comes next.
 
-We work with homeowners across Frederick County and the greater DMV to replace roofs that have reached the end of their useful life or sustained damage beyond repair. Whether you're in a newer development off I-270 in Urbana, an older neighborhood near Downtown Frederick, or a rural property outside Middletown, we assess the situation honestly and give you a straight recommendation — no upselling, no pressure.
+We work with homeowners across Frederick County and across Maryland to replace roofs that have reached the end of their useful life or sustained damage beyond repair. Whether you're in a newer development off I-270 in Urbana, an older neighborhood near Downtown Frederick, or a rural property outside Middletown, we assess the situation honestly and give you a straight recommendation — no upselling, no pressure.
 
 Common signs your Frederick home may need a roof replacement:
 
@@ -50,4 +50,4 @@ If your roof is 15–20 years old or showing visible signs of deterioration, a r
 
 A new roof installed by J Land Contracting means genuine protection for your home and family — through every Frederick summer storm and winter freeze. You'll receive clear documentation of all work performed, manufacturer warranties on materials from brands like GAF and CertainTeed (we're GAF Certified Plus and CertainTeed Shingle Master certified), and the confidence of knowing the job was done right — not just done fast.
 
-We've completed over 1,500 roofing projects across Frederick County and the DMV. When your neighbors in Urbana, Walkersville, and Mount Airy need a roof replacement they can trust, they call J Land. We'd like to earn that same trust from you.
+We've completed over 1,500 roofing projects across Frederick County and across Maryland. When your neighbors in Urbana, Walkersville, and Mount Airy need a roof replacement they can trust, they call J Land. We'd like to earn that same trust from you.

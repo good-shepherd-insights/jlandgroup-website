@@ -22,7 +22,7 @@
   },
   "params": {
     "contact_form_action": "https://formsubmit.co/info@jlandgroup.com",
-    "footer_description": "J Land Contracting delivers expert roofing solutions across the DMV — with the integrity your family deserves and the experience your insurance claim demands."
+    "footer_description": "J Land Contracting delivers expert roofing solutions across Maryland — with the integrity your family deserves and the experience your insurance claim demands."
   },
   "contact_info": {
     "address": "3636 Glenoble Court, Jefferson, MD 21755",
@@ -46,7 +46,7 @@
   "metadata": {
     "meta_author": "J Land Contracting",
     "meta_image": "/images/og-image.png",
-    "meta_description": "J Land Contracting delivers expert roofing solutions across the DMV with integrity and experience. Free inspections, insurance claim assistance, and professional roof replacements."
+    "meta_description": "J Land Contracting delivers expert roofing solutions across Maryland with integrity and experience. Free inspections, insurance claim assistance, and professional roof replacements."
   },
   "social": [
     { "platform": "Facebook", "url": "https://facebook.com/jlandcontracting", "icon": "FaFacebook" },

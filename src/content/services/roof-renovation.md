@@ -19,7 +19,7 @@ contact_form:
 
 Roof renovation is the middle ground between a minor patch and a full replacement. It's for roofs that still have structural life left but need real attention — new shingles in worn areas, updated flashing around chimneys and vents, improved attic ventilation, or a combination of targeted repairs that add years to your roof's lifespan.
 
-At J Land Contracting, based in Jefferson, we start every renovation with a thorough inspection so we can tell you exactly what your roof needs — and what it doesn't. We won't recommend a full replacement if a renovation will do the job. That's the kind of honesty that's earned us the trust of over 1,500 homeowners across Frederick County and the DMV.
+At J Land Contracting, based in Jefferson, we start every renovation with a thorough inspection so we can tell you exactly what your roof needs — and what it doesn't. We won't recommend a full replacement if a renovation will do the job. That's the kind of honesty that's earned us the trust of over 1,500 homeowners across Frederick County and across Maryland.
 
 Roof renovation is often the right call for Frederick homes when:
 
