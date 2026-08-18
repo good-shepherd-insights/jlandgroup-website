@@ -81,7 +81,7 @@ const schemaData = [
             <div class="h-full flex flex-col">
               <h6 class="mb-2" set:html={"Call Us"} />
               <a
-                href={`tel:${config.contact_info.phone}`}
+                href={`tel:${config.contact_info.phone.replace(/[^+\d]/g, "")}`}
                 class="mb-6"
                 set:html={markdownify(config.contact_info.phone)}
               />

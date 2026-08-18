@@ -71,7 +71,7 @@ const { footer } = menu;
                 Call us:
               </h3>
               <a
-                href={`tel:${config.contact_info.phone}`}
+                href={`tel:${config.contact_info.phone.replace(/[^+\d]/g, "")}`}
                 class="text-text-light font-semibold hover:text-text-dark transition-colors duration-300"
               >
                 {config.contact_info.phone}
