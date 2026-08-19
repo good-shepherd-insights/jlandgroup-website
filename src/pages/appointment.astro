@@ -7,6 +7,7 @@ import { getListPage } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import FAQs from "@/partials/FAQs.astro";
 
+import LeadForm from "@/layouts/components/LeadForm.astro";
 const pageIndex = await getListPage("appointmentpage", "-index");
 if (pageIndex.data.draft) return Astro.redirect("/404");
 
@@ -132,110 +133,7 @@ const schemaData = [
         </div>
       </div>
       <div class="lg:w-[55%]">
-        <form
-          
-          
-          action={config.params.contact_form_action}
-          method="POST"
-          class=""
-        >
-          <!-- FormSubmit delivery configuration - do not remove -->
-          <input type="hidden" name="_subject" value="New website lead - J Land Contracting" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value="https://jlandgroup.com/thank-you/" />
-          <input type="hidden" name="form_source" value="Appointment Page" />
-          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
-          <div class="lg:flex gap-4">
-            <fieldset class="mb-6 w-full">
-              <label
-                for="first-name"
-                class="text-text-dark font-semibold"
-                aria-label="First Name">First Name</label
-              >
-              <input
-                id="first-name"
-                name="first-name"
-                class="form-input bg-light text-text-dark placeholder:text-text-dark/40 border border-border mt-2"
-                placeholder="First Name"
-                type="text"
-                required
-              />
-            </fieldset>
-
-            <fieldset class="mb-6 w-full">
-              <label
-                for="last-name"
-                class="text-text-dark font-semibold"
-                aria-label="Last Name">Last Name</label
-              >
-              <input
-                id="last-name"
-                name="last-name"
-                class="form-input bg-light text-text-dark placeholder:text-text-dark/40 border border-border mt-2"
-                placeholder="Last Name"
-                type="text"
-                required
-              />
-            </fieldset>
-          </div>
-
-          <div class="lg:flex gap-4">
-            <fieldset class="mb-6 w-full">
-              <label
-                for="email"
-                class="text-text-dark font-semibold"
-                aria-label="email">Email</label
-              >
-              <input
-                id="email"
-                name="email"
-                class="form-input bg-light text-text-dark placeholder:text-text-dark/40 border border-border mt-2"
-                placeholder="your.email@example.com"
-                type="email"
-                required
-              />
-            </fieldset>
-
-            <fieldset class="mb-6 w-full">
-              <label
-                for="phone"
-                class="text-text-dark font-semibold"
-                aria-label="Phone Number">Phone Number</label
-              >
-              <input
-                id="phone"
-                name="phone"
-                class="form-input bg-light text-text-dark placeholder:text-text-dark/40 border border-border mt-2"
-                placeholder="01234567890"
-                type="text"
-                required
-              />
-            </fieldset>
-          </div>
-
-          <fieldset class="mb-6 w-full">
-            <label
-              for="message"
-              class="text-text-dark font-semibold"
-              aria-label="How Can We Help?">How Can We Help?</label
-            >
-            <textarea
-              id="message"
-              name="message"
-              class="form-input bg-light text-text-dark placeholder:text-text-dark/40 border border-border mt-2"
-              placeholder="Type your message here..."
-              rows={8}
-              required></textarea>
-          </fieldset>
-
-          <button
-            class="btn btn-primary hover:bg-secondary text-body w-full"
-            type="submit"
-          >
-            Book Appointment
-          </button>
-        </form>
+        <LeadForm formSource="Appointment Page" />
       </div>
     </div>
   </section>

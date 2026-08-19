@@ -14,6 +14,7 @@ import { getSinglePage, getListPage } from "@/lib/contentParser.astro";
 import { markdownify, plainify } from "@/lib/utils/textConverter";
 import CallToAction from "@/partials/CallToAction.astro";
 
+import LeadForm from "@/layouts/components/LeadForm.astro";
 export async function getStaticPaths() {
   const locations = await getSinglePage("locationpage");
 
@@ -434,55 +435,7 @@ const robotsDirective = robots
               />
             </div>
             <div class="w-[90%] md:w-[70%] lg:w-[55%]">
-              <form
-                action={config.params.contact_form_action}
-                method="POST"
-                class="bg-dark px-10 py-12 rounded-2xl"
-              >
-                <!-- FormSubmit delivery configuration - do not remove -->
-                <input type="hidden" name="_subject" value="New website lead - J Land Contracting" />
-                <input type="hidden" name="_template" value="table" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_next" value="https://jlandgroup.com/thank-you/" />
-                <input type="hidden" name="form_source" value="Location Page" />
-                <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
-                <fieldset class="mb-8">
-                  <label for="loc-name" class="sr-only" aria-label="Full Name" />
-                  <input
-                    id="loc-name"
-                    name="name"
-                    class="form-input"
-                    placeholder="Full Name"
-                    type="text"
-                    required
-                  />
-                </fieldset>
-                <fieldset class="mb-8">
-                  <label for="loc-phone" class="sr-only" aria-label="Phone Number" />
-                  <input
-                    id="loc-phone"
-                    name="phone"
-                    class="form-input"
-                    placeholder="Phone Number"
-                    type="tel"
-                    required
-                  />
-                </fieldset>
-                <fieldset class="mb-8">
-                  <label for="loc-service" class="sr-only" aria-label="Service You Need" />
-                  <input
-                    id="loc-service"
-                    name="service_needed"
-                    class="form-input"
-                    placeholder="Service You Need"
-                    type="text"
-                    required
-                  />
-                </fieldset>
-                <button class="btn btn-primary w-full" type="submit">
-                  {contact_form.button_label}
-                </button>
-              </form>
+              <LeadForm formSource="Location Page" />
             </div>
           </div>
 

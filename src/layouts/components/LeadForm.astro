@@ -1,0 +1,167 @@
+---
+// Shared lead-capture form used on contact, appointment, service and location pages.
+// Field names and option values mirror the AccuLynx "Create New Lead" form so a
+// submission can be entered into AccuLynx without re-interpretation:
+//   First Name / Last Name / Phone / Email / Street / City / State / Zip
+//   Job Category  -> Residential | Commercial | Property Management
+//   Work Type     -> Inspection | Insurance | New | Repair | Retail | Service | Warranty
+//   Lead Source   -> "Web to Lead Form"
+//   Insurance Company, Date of Loss, Claim Filed, Notes
+import config from "@/config/config.json";
+
+interface Props {
+  formSource: string;      // which page the lead came from
+  buttonLabel?: string;
+  className?: string;
+}
+
+const { formSource, buttonLabel = "Request My Free Inspection", className = "" } = Astro.props;
+
+const workTypes = [
+  "Free Inspection",
+  "Roof Replacement",
+  "Roof Repair",
+  "Storm / Hail Damage",
+  "Insurance Claim",
+  "Commercial Roofing",
+  "Roof Renovation",
+  "Siding",
+  "Gutters",
+  "Other / Not Sure",
+];
+
+const insuranceCompanies = [
+  "AAA", "Allstate", "American Family", "Farm Bureau", "Farmers",
+  "Liberty Mutual", "Nationwide", "Safeco", "State Farm", "Travelers",
+  "USAA", "Other", "Not sure",
+];
+
+const states = ["MD", "PA", "WV", "VA", "DC", "DE"];
+---
+
+<form
+  action={config.params.contact_form_action}
+  method="POST"
+  class={`bg-dark px-6 md:px-10 py-10 md:py-12 rounded-2xl ${className}`}
+>
+  {/* FormSubmit delivery configuration - do not remove */}
+  <input type="hidden" name="_subject" value="New website lead - J Land Contracting" />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_next" value="https://jlandgroup.com/thank-you/" />
+  <input type="hidden" name="Lead Source" value="Web to Lead Form" />
+  <input type="hidden" name="Page" value={formSource} />
+  <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <fieldset>
+      <label for="first-name" class="sr-only">First Name</label>
+      <input id="first-name" name="First Name" class="form-input" placeholder="First Name *" type="text" autocomplete="given-name" required />
+    </fieldset>
+
+    <fieldset>
+      <label for="last-name" class="sr-only">Last Name</label>
+      <input id="last-name" name="Last Name" class="form-input" placeholder="Last Name *" type="text" autocomplete="family-name" required />
+    </fieldset>
+
+    <fieldset>
+      <label for="phone" class="sr-only">Phone Number</label>
+      <input id="phone" name="Phone" class="form-input" placeholder="Phone Number *" type="tel" autocomplete="tel" required />
+    </fieldset>
+
+    <fieldset>
+      <label for="email" class="sr-only">Email Address</label>
+      <input id="email" name="Email" class="form-input" placeholder="Email Address *" type="email" autocomplete="email" required />
+    </fieldset>
+  </div>
+
+  <fieldset class="mt-6">
+    <label for="street" class="sr-only">Property Street Address</label>
+    <input id="street" name="Street" class="form-input" placeholder="Property Street Address *" type="text" autocomplete="address-line1" required />
+  </fieldset>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6">
+    <fieldset class="sm:col-span-1">
+      <label for="city" class="sr-only">City</label>
+      <input id="city" name="City" class="form-input" placeholder="City *" type="text" autocomplete="address-level2" required />
+    </fieldset>
+
+    <fieldset>
+      <label for="state" class="sr-only">State</label>
+      <select id="state" name="State" class="form-input" required>
+        {states.map((s) => <option value={s} selected={s === "MD"}>{s}</option>)}
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <label for="zip" class="sr-only">Zip Code</label>
+      <input id="zip" name="Zip" class="form-input" placeholder="Zip *" type="text" inputmode="numeric" autocomplete="postal-code" required />
+    </fieldset>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+    <fieldset>
+      <label for="work-type" class="sr-only">What do you need?</label>
+      <select id="work-type" name="Work Type" class="form-input" required>
+        <option value="" disabled selected>What do you need? *</option>
+        {workTypes.map((t) => <option value={t}>{t}</option>)}
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <label for="job-category" class="sr-only">Property Type</label>
+      <select id="job-category" name="Job Category" class="form-input">
+        <option value="Residential" selected>Residential</option>
+        <option value="Commercial">Commercial</option>
+        <option value="Property Management">Property Management</option>
+      </select>
+    </fieldset>
+  </div>
+
+  <div class="mt-8 pt-8 border-t border-border/20">
+    <p class="text-text-light/70 mb-6 text-sm">
+      Storm or insurance claim? These help us prepare — skip them if they don't apply.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <fieldset>
+        <label for="insurance" class="sr-only">Insurance Company</label>
+        <select id="insurance" name="Insurance Company" class="form-input">
+          <option value="" selected>Insurance company (optional)</option>
+          {insuranceCompanies.map((c) => <option value={c}>{c}</option>)}
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <label for="date-of-loss" class="form-label sr-only">Date of damage</label>
+        <input id="date-of-loss" name="Date of Loss" class="form-input" placeholder="Date of damage (optional)" type="text"
+          onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" />
+      </fieldset>
+    </div>
+
+    <fieldset class="mt-6">
+      <label class="flex items-center gap-3 text-text-light/80 cursor-pointer">
+        <input type="checkbox" name="Claim Filed" value="Yes" class="w-5 h-5 rounded border-border/40" />
+        <span>I have already filed an insurance claim</span>
+      </label>
+    </fieldset>
+  </div>
+
+  <fieldset class="mt-8">
+    <label for="notes" class="sr-only">Tell us about the project</label>
+    <textarea
+      id="notes"
+      name="Notes"
+      rows="5"
+      class="form-input"
+      placeholder="Tell us what's going on — leaks, missing shingles, storm damage, or anything else we should know before we come out."
+    ></textarea>
+  </fieldset>
+
+  <button class="btn btn-primary w-full mt-8" type="submit">{buttonLabel}</button>
+
+  <p class="text-text-light/50 text-sm mt-6 text-center">
+    We'll call you back to schedule. No obligation, and we'll tell you honestly if
+    your roof doesn't need work.
+  </p>
+</form>
