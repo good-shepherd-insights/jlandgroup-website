@@ -34,7 +34,7 @@ const schemaData = [
       "name": "J Land Contracting",
       "url": config.site.base_url,
       "logo": `${config.site.base_url}/images/logo-jland.svg`,
-      "foundingDate": "2007",
+      "foundingDate": "2010",
       "foundingLocation": {
         "@type": "Place",
         "name": "Frederick, MD"
@@ -76,7 +76,7 @@ if (pageIndex.data.draft) return Astro.redirect("/404");
 >
   <section class="section-lg pb-0">
     <div class="container flex max-lg:flex-col gap-16 items-center">
-      <TitleCenter title={title} description={description} />
+      <TitleCenter title={title} description={description} as="h1" />
 
       {
         image && (
