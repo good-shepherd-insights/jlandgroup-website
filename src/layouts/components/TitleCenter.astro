@@ -1,15 +1,17 @@
 ---
 import { markdownify } from "@/lib/utils/textConverter";
 
-const { title, description, centerText, className } = Astro.props;
+const { title, description, centerText, className, as } = Astro.props;
+
+// Pages whose hero heading is the page title pass as="h1". Everything else stays an
+// h2 section heading. Styling is unchanged either way — `text-h1` carries the look.
+const Heading = as === "h1" ? "h1" : "h2";
 ---
 
 <div
   class={`lg:w-[80%] xl:w-[60%] ${centerText ? "text-center mx-auto" : "max-lg:text-center"} ${className}`}
 >
-  <h2
-    
-    
+  <Heading
     class="text-h1"
     set:html={markdownify(title)}
   />

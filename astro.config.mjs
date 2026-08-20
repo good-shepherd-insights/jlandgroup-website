@@ -59,7 +59,10 @@ export default defineConfig({
   fonts: fontsConfig,
   integrations: [
     react(),
-    sitemap(),
+    // Pre-production design templates are noindex'd; keep them out of the sitemap too.
+    sitemap({
+      filter: (page) => !page.includes("/designs"),
+    }),
     AutoImport({
       imports: [
         "@/shortcodes/Button",

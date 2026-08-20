@@ -10,10 +10,11 @@ const designs = await getSinglePage("designpage");
 const sortedDesigns = sortByDate(designs);
 ---
 
-<Base {...pageIndex.data}>
+<Base {...pageIndex.data} robots="noindex, nofollow">
   <section class="section-lg">
     <div class="container">
       <TitleCenter
+        as="h1"
         title={pageIndex.data.title}
         description={pageIndex.data.description}
         centerText
