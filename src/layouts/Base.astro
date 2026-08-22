@@ -32,6 +32,10 @@ export interface Props {
   articlePublishedTime?: string;
 }
 // destructure frontmatter
+// LeadConnector chat widget is suppressed on the booking page so that page has no
+// competing consent-collecting surface (carrier A2P attestation).
+const isBookingPage = Astro.url.pathname.replace(/\/$/, "") === "/appointment";
+
 const { title, meta_title, description, image, keywords, canonical, robots, schemaData, ogType, articlePublishedTime } =
   Astro.props;
 ---
@@ -191,5 +195,18 @@ const { title, meta_title, description, image, keywords, canonical, robots, sche
         stickyNavInit();
       });
     </script>
+
+    {
+      /* LeadConnector (GoHighLevel) chat widget. Excluded from /appointment. */
+      !isBookingPage && (
+        <script
+          src="https://widgets.leadconnectorhq.com/loader.js"
+          data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
+          data-widget-id="6a89ed1707754ad08a6527be"
+          data-source="WEB_USER"
+          is:inline
+        />
+      )
+    }
   </body>
 </html>
