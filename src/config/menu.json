@@ -95,6 +95,10 @@
           "url": "/privacy-policy"
         },
         {
+          "name": "Terms of Service",
+          "url": "/terms-of-service"
+        },
+        {
           "name": "Blog",
           "url": "/blog"
         }

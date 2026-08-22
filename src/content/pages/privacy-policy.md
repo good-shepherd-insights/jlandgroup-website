@@ -26,6 +26,28 @@ We use the information we collect to:
 
 We do not sell, rent, or share your personal information with third parties for marketing purposes.
 
+#### Text Messaging (SMS) and Mobile Information
+
+If you provide your mobile number and give consent, we may send you text messages
+about your inquiry, inspection, appointment, or project, and — where you have
+separately agreed — occasional promotional messages.
+
+- **Consent is optional.** Agreeing to receive text messages is never a condition of
+  purchasing any product or service from us.
+- **Separate consent.** Consent for service-related messages and consent for
+  promotional messages are collected as two separate, independent checkboxes.
+  Neither is pre-ticked.
+- **Frequency.** Message frequency varies depending on your project and inquiry.
+- **Rates.** Message and data rates may apply, depending on your mobile carrier plan.
+- **Opting out.** Reply **STOP** to any message to stop receiving texts from us.
+  Reply **HELP** for assistance, or call us at (410) 292-0801.
+- **Carriers.** Mobile carriers are not liable for delayed or undelivered messages.
+
+**We do not sell, rent, or share mobile numbers or SMS consent with third parties or
+affiliates for their own marketing purposes.** Mobile information collected for text
+messaging is used only to deliver the messages you consented to receive, and is
+shared only with the messaging providers who deliver those messages on our behalf.
+
 #### Communication with Insurance Providers
 
 If you request our assistance with an insurance claim, we may share relevant damage documentation and repair estimates with your insurance company on your behalf. We will only share information necessary to process your claim and will not disclose personal information beyond what is required.
