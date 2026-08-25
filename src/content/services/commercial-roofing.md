@@ -2,7 +2,7 @@
 title: "Commercial Roofing"
 meta_title: "Commercial Roofing Frederick MD | J Land Contracting"
 description: "Commercial roofing services in Frederick, MD and across Maryland. J Land Contracting handles flat roofs, TPO, EPDM, and built-up systems for businesses — with project management and insurance claim support."
-image: "/images/services/commercial-roofing.png"
+image: "/images/work/tpo-03.jpg"
 date: 2026-01-28T05:00:00Z
 draft: false
 

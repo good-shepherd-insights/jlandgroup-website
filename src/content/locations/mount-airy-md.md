@@ -2,7 +2,7 @@
 title: "Local Roofing Experts in Mount Airy"
 meta_title: "Roofing Contractor in Mount Airy MD | J Land Contracting"
 description: "Roofing services in Mount Airy, MD — roof replacement, storm damage repair, free inspections, and insurance claim support across the Frederick, Carroll, Howard, and Montgomery county lines."
-image: "/images/banner.png"
+image: "/images/work/metal-01.jpg"
 draft: false
 
 city: "Mount Airy"
@@ -19,9 +19,9 @@ population: "~9,500"
 hero:
   title: "Roofing Contractor in Mount Airy, MD"
   subtitle: "Free inspections, storm damage repair, and roof replacements across Mount Airy and the four-county line."
-  image: "/images/banner.png"
+  image: "/images/work/metal-01.jpg"
 
-intro_image: "/images/banner.png"
+intro_image: "/images/work/metal-01.jpg"
 
 intro:
   body: "Mount Airy has a quirk almost no other town in Maryland has: it sits where four counties meet. Frederick, Carroll, Howard, and Montgomery all touch here, and the town itself spans more than one of them.\n\nFor a homeowner that usually does not matter. For a roofing job it can matter a lot — permits, inspections, and requirements are set at the county level, so two houses a few streets apart can be under different rules.\n\nWe work in all four of those counties, which means we are not learning your county's process on your job."

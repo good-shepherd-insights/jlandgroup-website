@@ -2,7 +2,7 @@
 title: "Local Roofing Experts in Urbana"
 meta_title: "Roofing Contractor in Urbana MD | J Land Contracting"
 description: "Roofing services in Urbana, MD — roof replacement, storm damage repair, free inspections, and insurance claim help for Villages of Urbana and Urbana Highlands homeowners."
-image: "/images/banner.png"
+image: "/images/work/metal-01.jpg"
 draft: false
 
 city: "Urbana"
@@ -19,9 +19,9 @@ population: "~12,000"
 hero:
   title: "Roofing Contractor in Urbana, MD"
   subtitle: "Free inspections, storm damage repair, and roof replacements across Villages of Urbana, Urbana Highlands, and the I-270 corridor."
-  image: "/images/banner.png"
+  image: "/images/work/metal-01.jpg"
 
-intro_image: "/images/banner.png"
+intro_image: "/images/work/metal-01.jpg"
 
 intro:
   body: "Urbana grew fast, and that shapes the roofing work here more than the weather does.\n\nMost of Urbana went up in a compressed window — large planned communities built in waves by a handful of builders. That means whole streets share the same roof, installed the same year, with the same materials. When one house on a street needs a roof, the neighbors usually do too, and they usually find out one storm later.\n\nWe have worked across Villages of Urbana, Urbana Highlands, and the older sections near Urbana Pike. We can often tell you what is under your shingles before we get on the ladder, because we have already been on the identical roof three doors down."

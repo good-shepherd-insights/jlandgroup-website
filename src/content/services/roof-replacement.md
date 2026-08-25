@@ -2,7 +2,7 @@
 title: "Roof Replacement"
 meta_title: "Roof Replacement Frederick MD | J Land Contracting"
 description: "Professional roof replacement in Frederick, MD and across Frederick County. J Land Contracting handles insurance claims, material selection, and contractor coordination — from inspection to final cleanup."
-image: "/images/services/roof-replacement.png"
+image: "/images/work/siding-05.jpg"
 date: 2026-01-28T05:00:00Z
 draft: false
 

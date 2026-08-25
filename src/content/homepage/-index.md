@@ -1,9 +1,9 @@
 ---
 # Banner
 banner:
-  title: "Building Roofs. Serving with <span class='bg-light px-4 pt-0 pb-3.5 rounded-xl text-secondary inline-block mx-2 shadow-sm align-middle' style='clip-path: inset(8px 4px 0 4px round 12px);'>Integrity.</span>"
-  content: "From handling insurance communications to coordinating with trusted, vetted contractors — we take care of it all."
-  image: "/images/banner.png"
+  title: "Built right. Backed by <strong>integrity.</strong>"
+  content: "Roofing, siding and commercial systems across Maryland — with the insurance claim handled for you."
+  image: "/images/work/metal-01.jpg"
   satisfied_customers:
     enable: true
     count: "1,500+"
@@ -18,7 +18,7 @@ banner:
     enable: true
     label: "Book A Free Consultation"
     link: "/appointment"
-    icon: "FaPhone" # Icon name from react-icons
+    icon: "" # Icon name from react-icons
   button_outline:
     enable: true
     label: "Explore Our Services"
@@ -47,7 +47,7 @@ why_choose_us:
   enable: true
   title: "Reasons to choose our roofing services."
   description: "Founded in 2010, we have been providing expert roofing solutions for over 15 years and we are proud to be leaders in the industry. Our team consists of skilled & highly qualified roofing professionals."
-  image: "/images/why-choose-us.jpg"
+  image: "/images/work/siding-03.jpg"
   features:
     - "**Affordable Prices**: From free inspections, claim assistance, Roof replacements and home upgrades."
     - "**Expert Engineers**: Our experienced, knowledgeable team is here to guide you through every step of the process."
@@ -71,9 +71,9 @@ our_expertise:
     years: "15"
     label: "Years of Experience"
   images:
-    - "/images/expertise1.png"
-    - "/images/expertise2.jpg"
-    - "/images/expertise3.jpg"
+    - "/images/work/tpo-04.jpg"
+    - "/images/work/siding-07.jpg"
+    - "/images/work/metal-03.jpg"
   skills:
     - title: "Certified Expertise"
       description: "Our team consists of certified roofing professionals with extensive experience in the industry."

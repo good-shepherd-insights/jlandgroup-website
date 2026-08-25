@@ -2,7 +2,7 @@
 title: "Storm Damage Repairs"
 meta_title: "Storm Damage Roof Repair Frederick MD | J Land Contracting"
 description: "Storm damage roof repair in Frederick, MD and Frederick County. J Land Contracting documents the damage, coordinates with your insurance company, and manages the full repair — from emergency tarp to final inspection."
-image: "/images/services/damage-repairs.png"
+image: "/images/work/metal-04.jpg"
 date: 2026-01-28T05:00:00Z
 draft: false
 

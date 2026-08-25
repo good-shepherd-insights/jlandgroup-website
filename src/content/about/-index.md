@@ -2,7 +2,7 @@
 title: "Our Story"
 meta_title: "About | J Land Contracting"
 description: "At J Land Contracting, we started with a simple belief — that Maryland homeowners deserve a roofing company they can trust and believe.<br><br>Founded in 2010, we're a small, locally rooted business based in Jefferson, MD, and we're proud of that. It means every client gets our full attention, honest answers, and a team that genuinely cares about the outcome — not just the invoice.<br><br>Over the years, we've built a reputation with over 1500+ local clients — an honor we don't take lightly, because it comes directly from the communities we serve.<br><br>What sets us apart isn't just the quality of our roofwork. It's the way we show up for our clients when things get complicated. When storm damage hits and your insurance company feels impossible to deal with, we step in. We help assess the damage, communicate with your insurer, and coordinate every step of the repair — so you're never left navigating it alone.<br><br>Building roofs. Serving with integrity. That's not just our tagline — it's how we operate, every single job."
-image: "/images/expertise2.jpg"
+image: "/images/work/siding-07.jpg"
 draft: false
 
 experience:
@@ -11,7 +11,7 @@ experience:
 
 our_values:
   enable: true
-  image: "/images/our-values.png"
+  image: "/images/work/siding-11.jpg"
   values:
     - title: "Our Mission"
       description: "To be the roofing company Maryland homeowners trust most — by showing up honestly, communicating clearly, and doing the job right every time."
@@ -27,7 +27,7 @@ why_choose_us:
   enable: true
   title: "Why homeowners choose J Land."
   description: "Founded in 2010, we've been the roofing company Maryland homeowners call when they want the job done right — and done honestly."
-  image: "/images/why-choose-us.jpg"
+  image: "/images/work/siding-03.jpg"
   features:
     - "**Full-Service Support**: From free inspections and claim assistance to roof replacements and home upgrades — we handle it all."
     - "**Insurance Expertise**: We manage the entire insurance claim process on your behalf, so you never deal with adjusters alone."

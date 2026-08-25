@@ -1,164 +1,149 @@
 ---
 import Button from "@/components/Button.astro";
-import ImageMod from "@/components/ImageMod.astro";
 import { getListPage } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 
 const homepage = await getListPage("homepage", "-index");
-
 const { banner } = homepage.data;
 ---
 
 <style>
-  [data-hero] {
-    --parallax-offset: 0px;
-    background-size: cover, cover;
-    background-position:
-      center,
-      left center;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
+  .hero { position: relative; min-height: 92vh; display: flex; align-items: center; overflow: hidden; }
+  @media (max-width: 640px) { .hero { min-height: 78vh; } }
+
+  .hero__media {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 0;
   }
-  @media (min-width: 1024px) {
-    [data-hero] {
-      background-size:
-        70% 140%,
-        cover;
-      background-position:
-        right calc(0% - var(--parallax-offset, 0px)),
-        left center;
-    }
+  /* Dark, even wash so white type stays legible over any frame of the footage. */
+  .hero__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(10,10,12,.72) 0%, rgba(10,10,12,.55) 45%, rgba(10,10,12,.82) 100%);
   }
+  .hero__inner { position: relative; z-index: 2; width: 100%; text-align: center; }
+
+  /* The supplied logo file has solid boxes baked in, which read as a pasted
+     screenshot over video. Use the monogram mark and typeset the wordmark. */
+  .hero__brand {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.15rem; margin: 0 auto 2.5rem;
+  }
+  .hero__mark { width: clamp(56px, 6.5vw, 84px); height: auto; display: block; }
+  .hero__wordmark { text-align: left; line-height: 1; }
+  .hero__name {
+    display: block; color: #fff; font-weight: 600;
+    font-size: clamp(1.5rem, 3.1vw, 2.5rem);
+    letter-spacing: .11em;
+  }
+  .hero__tag {
+    display: block; margin-top: .45rem;
+    color: rgba(255,255,255,.7); font-weight: 300;
+    font-size: clamp(.66rem, 1.05vw, .85rem);
+    letter-spacing: .3em; text-transform: uppercase;
+  }
+  @media (max-width: 640px) {
+    .hero__brand { gap: .85rem; margin-bottom: 1.75rem; }
+  }
+
+  .hero__title {
+    color: #fff;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    font-size: clamp(2rem, 5.2vw, 4rem);
+    margin: 0 auto 1.25rem;
+    max-width: 20ch;
+  }
+  .hero__title strong { font-weight: 600; }
+
+  .hero__sub {
+    color: rgba(255,255,255,.82);
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0 auto 2.5rem;
+  }
+
+  .hero__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  .hero__meta {
+    margin-top: 3.25rem;
+    display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap;
+    color: rgba(255,255,255,.72);
+    font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 400;
+  }
+  .hero__meta span { position: relative; }
+  .hero__meta span + span::before {
+    content: ""; position: absolute; left: -1.25rem; top: 50%;
+    width: 1px; height: 12px; transform: translateY(-50%);
+    background: rgba(255,255,255,.28);
+  }
+
+  /* Respect reduced-motion and save mobile data: poster only, no video. */
+  @media (prefers-reduced-motion: reduce) { .hero__media--video { display: none; } }
 </style>
 
-<section
-  class="pt-40 pb-12 lg:pb-16 lg:pt-56!"
-  data-hero
-  style={`background-image: url('${banner.image}'), linear-gradient(59deg, rgb(147, 153, 145) 0%, rgb(214, 212, 199) 100%);`}
->
-  <div class="container">
-    <div class="lg:max-w-[65%]">
-      <h1
-        data-editable="text"
-        data-prop="banner.title"
-        set:html={markdownify(banner.title)}
-        class="mb-4 lg:text-[100px] lg:leading-27.25 text-text-light max-lg:text-center"
-      />
-      <p
-        data-editable="text"
-        data-prop="banner.content"
-        set:html={markdownify(banner.content)}
-        class="mb-10 text-text-light text-xl max-lg:text-center"
-      />
-      <div
-        data-editable="text"
-        data-prop="banner.button_solid"
-        class="flex gap-6 flex-wrap max-lg:justify-center"
-      >
+<section class="hero">
+  <img class="hero__media" src="/video/hero-poster.jpg" alt="" aria-hidden="true" />
+  <video
+    class="hero__media hero__media--video"
+    autoplay muted loop playsinline preload="none"
+    poster="/video/hero-poster.jpg"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <source src="/video/hero.mp4" type="video/mp4" />
+  </video>
+
+  <div class="hero__scrim"></div>
+
+  <div class="hero__inner">
+    <div class="container">
+      <div class="hero__brand">
+        <img
+          class="hero__mark"
+          src="/images/logo-mark.png"
+          alt="JLand Group"
+          width="249" height="245"
+          fetchpriority="high"
+        />
+        <div class="hero__wordmark">
+          <span class="hero__name">JLAND GROUP</span>
+          <span class="hero__tag">Contracting &amp; Restoration</span>
+        </div>
+      </div>
+
+      <h1 class="hero__title" data-editable="text" data-prop="banner.title" set:html={markdownify(banner.title)} />
+      <p class="hero__sub" data-editable="text" data-prop="banner.content" set:html={markdownify(banner.content)} />
+
+      <div class="hero__actions">
         <Button data={banner.button_solid} />
         <Button data={banner.button_outline} variant="outline" />
       </div>
 
-      {
-        banner.satisfied_customers.enable && (
-          <div class="mt-10 md:mt-17">
-            <div
-              data-editable="array"
-              data-prop="banner.satisfied_customers.images"
-              class="flex flex-col lg:flex-row gap-5"
-            >
-              <div class="flex max-lg:mx-auto items-center">
-                {banner.satisfied_customers.images.map((image, i) => (
-                  <ImageMod
-                    class={`shrink-0 w-13.75 h-13.75 border-4 rounded-full border-body ${i === 0 && "translate-x-0"} last:-mr-13.75`}
-                    src={image}
-                    alt="customer-logo"
-                    width={55}
-                    height={55}
-                    style={{
-                      transform: `translateX(${-i * 20}px)`,
-                    }}
-                  />
-                ))}
-              </div>
-              <div class="flex flex-col">
-                <div class="flex items-center gap-2 max-lg:justify-center">
-                  <p
-                    data-editable="text"
-                    data-prop="banner.satisfied_customers.count"
-                    class="text-h2 font-medium text-text-light"
-                  >
-                    {banner.satisfied_customers.count}
-                  </p>
-                  <img
-                    src="/images/verified-checkmark.png"
-                    alt="verified"
-                    class="w-6 h-6 object-contain"
-                  />
-                </div>
-                <p
-                  data-editable="text"
-                  data-prop="banner.satisfied_customers.label"
-                  set:html={markdownify(banner.satisfied_customers.label)}
-                  class="max-lg:text-center max-lg:mx-auto text-text-light lg:-mt-2"
-                />
-              </div>
-            </div>
-
-            <div class="mt-8 flex flex-wrap gap-8 items-center max-lg:justify-center">
-              <ImageMod
-                src="/images/badges/gaf-certified-plus.png"
-                class="h-21 w-auto object-contain"
-                alt="GAF Certified Plus"
-                width={810}
-                height={252}
-              />
-              <ImageMod
-                src="/images/badges/certainteed-shingle-master.png"
-                class="h-21 w-auto object-contain"
-                alt="CertainTeed Shingle Master"
-                width={810}
-                height={252}
-              />
-              <ImageMod
-                src="/images/badges/BBB-Accredited-Business.svg"
-                class="h-21 w-auto object-contain"
-                alt="BBB Accredited Business"
-                width={810}
-                height={252}
-              />
-            </div>
-          </div>
-        )
-      }
+      <div class="hero__meta">
+        <span>Roofing</span>
+        <span>Siding</span>
+        <span>Metal &amp; TPO</span>
+        <span>Insurance Claims</span>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
-  const updateHeroParallax = () => {
-    const hero = document.querySelector("[data-hero]") as HTMLElement;
-    if (hero) {
-      const updateParallax = () => {
-        // Skip parallax if user prefers reduced motion or on mobile
-        const isReducedMotion = window.matchMedia(
-          "(prefers-reduced-motion: reduce)",
-        ).matches;
-        if (window.innerWidth >= 1024 && !isReducedMotion) {
-          const { top } = hero.getBoundingClientRect();
-          // Use a slightly smaller multiplier for smoother feel
-          const offset = Math.max(0, -top * 0.25);
-          hero.style.setProperty("--parallax-offset", `${offset}px`);
-        }
-      };
-
-      updateParallax();
-      window.addEventListener("scroll", updateParallax, { passive: true });
-      window.addEventListener("resize", updateParallax, { passive: true });
-    }
-  };
-
-  // Run on initial load and after view transitions
-  updateHeroParallax();
-  document.addEventListener("astro:page-load", updateHeroParallax);
+  // Only fetch the video once the hero is on screen and the device is not on a
+  // small/metered viewport. Saves ~2.3MB for mobile visitors.
+  document.addEventListener("astro:page-load", () => {
+    const v = document.querySelector<HTMLVideoElement>(".hero__media--video");
+    if (!v) return;
+    const small = window.matchMedia("(max-width: 768px)").matches;
+    const saveData = (navigator as any).connection?.saveData;
+    if (small || saveData) { v.remove(); return; }
+    v.preload = "auto";
+    v.load();
+    v.play().catch(() => {});
+  });
 </script>

@@ -5,11 +5,11 @@
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/images/favicon.svg",
-    "logo": "/images/logo-jland.svg",
+    "logo": "/images/logo-mark.png",
     "footer_logo": "/images/logo-jland.svg",
-    "logo_width": "50",
-    "logo_height": "50",
-    "logo_text": "J LAND CONTRACTING"
+    "logo_width": "44",
+    "logo_height": "44",
+    "logo_text": "JLAND GROUP"
   },
   "settings": {
     "sticky_header": true,
@@ -17,7 +17,7 @@
   },
   "announcement": {
     "enable": true,
-    "content": "<span class='text-center block'><a href=\"tel:+14102920801\">📞 Trusted local roofers. Call for a free estimate: (410) 292-0801 📞</a></span>",
+    "content": "<span class='text-center block'><a href=\"tel:+14102920801\">Trusted local roofers &mdash; call for a free estimate: (410) 292-0801</a></span>",
     "expire_days": 7
   },
   "params": {
@@ -37,7 +37,7 @@
     "enable": true,
     "label": "Book A Free Consultation",
     "link": "/contact",
-    "icon": "FaPhone"
+    "icon": ""
   },
   "google_tag_manager": {
     "enable": false,
@@ -49,9 +49,25 @@
     "meta_description": "J Land Contracting delivers expert roofing solutions across Maryland with integrity and experience. Free inspections, insurance claim assistance, and professional roof replacements."
   },
   "social": [
-    { "platform": "Facebook", "url": "https://facebook.com/jlandcontracting", "icon": "FaFacebook" },
-    { "platform": "LinkedIn", "url": "https://linkedin.com/company/jlandcontracting", "icon": "FaLinkedin" },
-    { "platform": "X (Twitter)", "url": "https://x.com/jlandgroup", "icon": "FaXTwitter" },
-    { "platform": "Google Business", "url": "https://g.page/jlandcontracting", "icon": "FaGoogle" }
+    {
+      "platform": "Facebook",
+      "url": "https://facebook.com/jlandcontracting",
+      "icon": "FaFacebook"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://linkedin.com/company/jlandcontracting",
+      "icon": "FaLinkedin"
+    },
+    {
+      "platform": "X (Twitter)",
+      "url": "https://x.com/jlandgroup",
+      "icon": "FaXTwitter"
+    },
+    {
+      "platform": "Google Business",
+      "url": "https://g.page/jlandcontracting",
+      "icon": "FaGoogle"
+    }
   ]
 }

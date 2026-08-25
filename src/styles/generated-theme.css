@@ -6,19 +6,19 @@
 
 @theme {
   /* === Colors === */
-  --color-primary: #E1A356;
-  --color-secondary: #5F5F57;
-  --color-body: #fff;
-  --color-border: #eaeaea;
-  --color-light: #F4F4EB;
-  --color-dark: #040404;
-  --color-text: #434338;
-  --color-text-dark: #34342b;
-  --color-text-light: #fff;
+  --color-primary: #3F4A56;
+  --color-secondary: #1C1F23;
+  --color-body: #FFFFFF;
+  --color-border: #E6E8EA;
+  --color-light: #F5F6F7;
+  --color-dark: #111315;
+  --color-text: #4A5158;
+  --color-text-dark: #16191C;
+  --color-text-light: #FFFFFF;
 
   /* === Font Families === */
   --font-primary: Inter, sans-serif;
-  --font-secondary: Plus Jakarta Sans, sans-serif;
+  --font-secondary: Inter, sans-serif;
 
   /* === Font Sizes === */
   --text-base: 16px;

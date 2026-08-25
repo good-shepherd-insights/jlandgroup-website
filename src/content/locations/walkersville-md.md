@@ -2,7 +2,7 @@
 title: "Local Roofing Experts in Walkersville"
 meta_title: "Roofing Contractor in Walkersville MD | J Land Contracting"
 description: "Roofing services in Walkersville, MD — roof replacement, hail and storm damage repair, free inspections, and insurance claim support across Glade Valley and Woodsboro."
-image: "/images/banner.png"
+image: "/images/work/metal-01.jpg"
 draft: false
 
 city: "Walkersville"
@@ -19,9 +19,9 @@ population: "~6,000"
 hero:
   title: "Roofing Contractor in Walkersville, MD"
   subtitle: "Free inspections, hail and storm damage repair, and full roof replacements across Walkersville, Woodsboro, and Glade Valley."
-  image: "/images/banner.png"
+  image: "/images/work/metal-01.jpg"
 
-intro_image: "/images/banner.png"
+intro_image: "/images/work/metal-01.jpg"
 
 intro:
   body: "Walkersville sits north of Frederick in open farm country, and that openness is the whole story for roofs here.\n\nThere is very little between a Walkersville roof and the weather. No ridge breaking the wind, limited mature tree cover across the newer developments, and long flat approaches that let storms arrive at full strength. When hail comes through the Glade Valley, it lands hard and it lands on everything.\n\nWe have worked across Walkersville, Woodsboro, and out toward Libertytown. If a storm came through your area, we will come look at it for free and tell you honestly whether there is a claim worth filing."

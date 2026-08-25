@@ -2,7 +2,7 @@
 title: "Roof Renovation"
 meta_title: "Roof Renovation Frederick MD | J Land Contracting"
 description: "Roof renovation and restoration services in Frederick, MD. J Land Contracting extends the life of your existing roof with targeted repairs, updated flashing, and improved ventilation — with honest assessments and insurance claim support."
-image: "/images/services/roof-renovation.png"
+image: "/images/work/metal-02.jpg"
 date: 2026-01-28T05:00:00Z
 draft: false
 

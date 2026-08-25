@@ -2,7 +2,7 @@
 title: "Free Roof Inspection"
 meta_title: "Free Roof Inspection Frederick MD | J Land Contracting"
 description: "Schedule a free roof inspection in Frederick, MD. J Land Contracting assesses storm damage, identifies hidden issues, and helps determine if your roof qualifies for an insurance claim — no cost, no obligation."
-image: "/images/services/free-inspection.png"
+image: "/images/work/siding-09.jpg"
 date: 2026-01-29T05:00:00Z
 draft: false
 

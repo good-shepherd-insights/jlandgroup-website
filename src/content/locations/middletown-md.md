@@ -2,7 +2,7 @@
 title: "Local Roofing Experts in Middletown"
 meta_title: "Roofing Contractor in Middletown MD | J Land Contracting"
 description: "Roofing services in Middletown, MD — roof replacement, wind and storm damage repair, free inspections, and insurance claim support throughout the Middletown Valley."
-image: "/images/banner.png"
+image: "/images/work/metal-01.jpg"
 draft: false
 
 city: "Middletown"
@@ -19,9 +19,9 @@ population: "~4,500"
 hero:
   title: "Roofing Contractor in Middletown, MD"
   subtitle: "Middletown Valley roofing — free inspections, wind and hail damage repair, and full replacements. We are ten minutes away in Jefferson."
-  image: "/images/banner.png"
+  image: "/images/work/metal-01.jpg"
 
-intro_image: "/images/banner.png"
+intro_image: "/images/work/metal-01.jpg"
 
 intro:
   body: "Middletown sits in the valley between Catoctin Mountain and South Mountain, and anyone who has lived here through a February knows what that means. The valley funnels wind.\n\nWe are based in Jefferson, on the other side of the ridge, which makes Middletown one of the closest towns we serve. We have worked on the older homes along Main Street and the newer developments spreading out toward Myersville, and the roofing problems in each are completely different.\n\nIf something came off your roof in a wind event, we can usually look at it within a day or two."

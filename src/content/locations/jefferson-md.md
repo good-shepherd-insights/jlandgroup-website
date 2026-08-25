@@ -2,7 +2,7 @@
 title: "Local Roofing Experts in Jefferson"
 meta_title: "Roofing Contractor in Jefferson MD | J Land Contracting"
 description: "J Land Contracting is based in Jefferson, MD. Roof replacement, storm damage repair, free inspections, and insurance claim support from a contractor who actually lives here."
-image: "/images/banner.png"
+image: "/images/work/metal-01.jpg"
 draft: false
 
 city: "Jefferson"
@@ -19,9 +19,9 @@ population: "~2,000"
 hero:
   title: "Roofing Contractor in Jefferson, MD"
   subtitle: "This is our home town. Free inspections, storm damage repair, and full roof replacements — from neighbors, not strangers."
-  image: "/images/banner.png"
+  image: "/images/work/metal-01.jpg"
 
-intro_image: "/images/banner.png"
+intro_image: "/images/work/metal-01.jpg"
 
 intro:
   body: "Jefferson is where our office is. Not a satellite address, not a mailbox — our actual home base on Glenoble Court.\n\nThat matters more than it sounds. When you call us about a roof in Jefferson, you are not waiting on a crew driving up from somewhere else. We know which streets flood, which roofs came off in the 2019 wind event, and which subdivisions were built by which builder in which year — because we have been on them.\n\nIf your roof needs looking at, we can usually be there the same week."
