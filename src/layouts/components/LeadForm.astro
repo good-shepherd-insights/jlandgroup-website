@@ -48,11 +48,13 @@ const states = ["MD", "PA", "WV", "VA", "DC", "DE"];
   {/* FormSubmit delivery configuration - do not remove */}
   <input type="hidden" name="_subject" value="New website lead - J Land Contracting" />
   <input type="hidden" name="_template" value="table" />
-  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_captcha" value="true" />
   <input type="hidden" name="_next" value="https://jlandgroup.com/thank-you/" />
   <input type="hidden" name="Lead Source" value="Web to Lead Form" />
   <input type="hidden" name="Page" value={formSource} />
   <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+  <input type="text" name="website" class="lf-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  <input type="hidden" name="lf_t" value="" />
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <fieldset>
@@ -98,7 +100,7 @@ const states = ["MD", "PA", "WV", "VA", "DC", "DE"];
 
     <fieldset>
       <label for="zip" class="sr-only">Zip Code</label>
-      <input id="zip" name="Zip" class="form-input" placeholder="Zip *" type="text" inputmode="numeric" autocomplete="postal-code" required />
+      <input id="zip" name="Zip" class="form-input" placeholder="Zip *" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" title="5-digit ZIP code" autocomplete="postal-code" required />
     </fieldset>
   </div>
 
@@ -168,3 +170,34 @@ const states = ["MD", "PA", "WV", "VA", "DC", "DE"];
     your roof doesn't need work.
   </p>
 </form>
+
+<style>
+  .lf-hp { position:absolute; left:-9999px; width:1px; height:1px; opacity:0; }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll<HTMLFormElement>('form[action*="formsubmit"]').forEach((f) => {
+      const t = f.querySelector<HTMLInputElement>('input[name="lf_t"]');
+      if (t) t.value = String(Date.now());
+
+      f.addEventListener("submit", (e) => {
+        const hp = f.querySelector<HTMLInputElement>('input[name="website"]');
+        if (hp && hp.value) { e.preventDefault(); return; }
+
+        // Real people take longer than 3 seconds to fill this in.
+        const started = Number(t?.value || 0);
+        if (started && Date.now() - started < 3000) { e.preventDefault(); return; }
+
+        // Every bot submission we received used the same string for both names.
+        const fn = f.querySelector<HTMLInputElement>('input[name="First Name"]')?.value.trim().toLowerCase();
+        const ln = f.querySelector<HTMLInputElement>('input[name="Last Name"]')?.value.trim().toLowerCase();
+        if (fn && ln && fn === ln) {
+          e.preventDefault();
+          alert("Please enter your first and last name.");
+          return;
+        }
+      });
+    });
+  });
+</script>
