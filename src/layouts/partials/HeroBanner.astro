@@ -2,9 +2,12 @@
 import Button from "@/components/Button.astro";
 import { getListPage } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
+import config from "@/config/config.json";
 
 const homepage = await getListPage("homepage", "-index");
 const { banner } = homepage.data;
+const phone = config.contact_info?.phone;
+const telHref = "tel:+1" + (phone || "").replace(/\D/g, "");
 ---
 
 <style>
@@ -58,6 +61,17 @@ const { banner } = homepage.data;
 
   .hero__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
+  /* Daniel, 2026-08-26: phone below the consultation button, larger and bolder. */
+  .hero__tel {
+    display: block; width: fit-content; margin: 1.5rem auto 0;
+    color: #fff; text-decoration: none;
+    font-size: clamp(1.5rem, 2.6vw, 2.05rem);
+    font-weight: 700; letter-spacing: .012em;
+    text-shadow: 0 2px 18px rgba(0,0,0,.55);
+    transition: opacity .18s ease;
+  }
+  .hero__tel:hover { opacity: .85; }
+
   .hero__meta {
     margin: 2.75rem auto 0; max-width: 78rem;
     display: flex; gap: .6rem 2rem; justify-content: center; flex-wrap: wrap;
@@ -102,6 +116,8 @@ const { banner } = homepage.data;
         <Button data={banner.button_solid} />
         <Button data={banner.button_outline} variant="outline" />
       </div>
+
+      <a class="hero__tel" href={telHref}>{phone}</a>
 
       <div class="hero__meta">
         <span>Roofing</span>

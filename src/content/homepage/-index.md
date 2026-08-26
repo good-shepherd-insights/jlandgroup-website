@@ -20,7 +20,7 @@ banner:
     link: "/appointment"
     icon: "" # Icon name from react-icons
   button_outline:
-    enable: false
+    enable: true
     label: "Explore Our Services"
     link: "/services"
     icon: ""

@@ -15,9 +15,7 @@ export interface NavigationLink {
 }
 
 const { main }: { main: NavigationLink[] } = menu;
-const { contact_info } = config;
 const { pathname } = Astro.url;
-const telHref = "tel:+1" + (contact_info?.phone || "").replace(/\D/g, "");
 ---
 
 <style>
@@ -27,7 +25,11 @@ const telHref = "tel:+1" + (contact_info?.phone || "").replace(/\D/g, "");
      `absolute` at scroll < 250). That suits a transparent bar; this is a solid
      brand band 300px tall, and overlaying it swallowed the hero headline.
      Keep it in normal flow. */
-  .masthead { position: relative !important; background: #fff; border-bottom: 1px solid rgba(15, 17, 21, 0.08); }
+  .masthead {
+    position: relative !important;
+    background: #0e0f12;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+  }
 
   .masthead__brand { display: flex; justify-content: center; padding: 2rem 1rem 1.35rem; }
   .masthead__logo {
@@ -41,22 +43,28 @@ const telHref = "tel:+1" + (contact_info?.phone || "").replace(/\D/g, "");
     gap: 1rem; padding: 0 1rem 1rem;
   }
 
-  .masthead__nav { display: flex; align-items: center; justify-content: center; gap: .35rem; }
-
-  .masthead__tel {
-    position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
-    font-size: .9rem; font-weight: 500; letter-spacing: .01em;
-    color: rgba(15, 17, 21, .72); white-space: nowrap;
+  .masthead__nav { display: flex; align-items: center; justify-content: center; gap: .35rem 1.15rem; }
+  .masthead__nav :global(.nav-link) {
+    color: rgba(255,255,255,.86);
+    font-size: clamp(1rem, 1.15vw, 1.125rem);
+    font-weight: 500;
+    letter-spacing: .085em;
+    text-transform: uppercase;
+    padding: .55rem .5rem;
+    transition: color .18s ease;
   }
-  .masthead__tel:hover { color: rgba(15, 17, 21, 1); }
+  .masthead__nav :global(.nav-link:hover),
+  .masthead__nav :global(.nav-link.active) { color: #fff; }
+  .masthead__nav :global(.nav-dropdown-list) { background: #14161a; }
+  .masthead__nav :global(.nav-dropdown-link) { color: rgba(255,255,255,.82); }
+  .masthead__nav :global(.nav-dropdown-link:hover) { color: #fff; }
 
   /* Mobile: logo stays centred, tabs collapse behind the toggle. */
-  .masthead__toggle { display: none; }
+  .masthead__toggle { display: none; color: #fff; }
   @media (max-width: 1023px) {
     .masthead__brand { padding: 1.35rem 1rem .95rem; }
-    .masthead__bar { justify-content: space-between; padding: 0 1.25rem .9rem; }
+    .masthead__bar { justify-content: flex-end; padding: 0 1.25rem .9rem; }
     .masthead__toggle { display: inline-flex; cursor: pointer; align-items: center; }
-    .masthead__tel { position: static; transform: none; }
     .masthead__nav { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 0; }
     #nav-toggle:checked ~ .masthead__nav { display: flex; padding-bottom: .75rem; }
   }
@@ -77,7 +85,7 @@ const telHref = "tel:+1" + (contact_info?.phone || "").replace(/\D/g, "");
 
   <div class="masthead__bar container">
     <input id="nav-toggle" type="checkbox" class="hidden" />
-    <label for="nav-toggle" class="masthead__toggle text-text-dark" aria-label="Menu">
+    <label for="nav-toggle" class="masthead__toggle" aria-label="Menu">
       <svg id="show-button" class="h-6 fill-current block" viewBox="0 0 20 20">
         <title>Menu Open</title>
         <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
@@ -144,6 +152,5 @@ const telHref = "tel:+1" + (contact_info?.phone || "").replace(/\D/g, "");
       }
     </ul>
 
-    <a class="masthead__tel" href={telHref}>{contact_info?.phone}</a>
   </div>
 </header>
