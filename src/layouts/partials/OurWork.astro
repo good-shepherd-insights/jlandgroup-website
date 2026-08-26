@@ -1,0 +1,83 @@
+---
+// Daniel, 2026-08-26: "put the photos that i placed organized with residential in
+// one section and commercial in another below residential."
+// Residential first, commercial underneath. Photos come from public/images/work,
+// thumbnails from the matching -sm files.
+const residential = [
+  ...Array.from({ length: 13 }, (_, i) => `siding-${String(i + 1).padStart(2, "0")}`),
+  ...Array.from({ length: 5 }, (_, i) => `metal-${String(i + 1).padStart(2, "0")}`),
+  ...Array.from({ length: 2 }, (_, i) => `interior-${String(i + 1).padStart(2, "0")}`),
+];
+const commercial = Array.from({ length: 11 }, (_, i) => `tpo-${String(i + 1).padStart(2, "0")}`);
+
+const groups = [
+  { key: "residential", title: "Residential", blurb: "Roofing, siding, gutters and interior restoration on homes across Maryland.", shots: residential },
+  { key: "commercial", title: "Commercial", blurb: "Flat and low-slope systems — TPO, PVC, EPDM and modified bitumen.", shots: commercial },
+];
+---
+
+<section class="work">
+  <div class="container">
+    <h2 class="work__lead">Our Work</h2>
+    {groups.map((g) => (
+      <div class="work__group">
+        <div class="work__head">
+          <h3 class="work__title">{g.title}</h3>
+          <p class="work__blurb">{g.blurb}</p>
+        </div>
+        <ul class="work__grid">
+          {g.shots.map((n) => (
+            <li class="work__cell">
+              <img
+                src={`/images/work/${n}-sm.jpg`}
+                alt={`JLand Group ${g.title.toLowerCase()} project`}
+                width="800" height="600" loading="lazy" decoding="async"
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .work { background: #f6f6f7; padding: 4.5rem 0 5rem; }
+  .work__lead {
+    text-align: center; margin: 0 0 3rem;
+    font-size: clamp(1.9rem, 3.4vw, 2.75rem); font-weight: 600; letter-spacing: -0.01em;
+    color: #14161a;
+  }
+  .work__group + .work__group { margin-top: 4rem; }
+
+  .work__head { margin-bottom: 1.6rem; }
+  .work__title {
+    margin: 0 0 .4rem; font-size: clamp(1.15rem, 1.7vw, 1.4rem); font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase; color: #14161a;
+  }
+  .work__title::after {
+    content: ""; display: block; width: 46px; height: 2px; margin-top: .7rem; background: #14161a;
+  }
+  .work__blurb { margin: .9rem 0 0; color: rgba(20,22,26,.66); font-size: 1rem; max-width: 60ch; }
+
+  .work__grid {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: .75rem;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  }
+  .work__cell {
+    margin: 0; overflow: hidden; border-radius: 3px; background: #e6e6e8;
+    aspect-ratio: 4 / 3;
+  }
+  .work__cell img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .35s ease;
+  }
+  .work__cell:hover img { transform: scale(1.04); }
+
+  @media (max-width: 640px) {
+    .work { padding: 3.25rem 0 3.75rem; }
+    .work__grid { grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+    .work__group + .work__group { margin-top: 3rem; }
+  }
+</style>
