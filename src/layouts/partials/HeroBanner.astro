@@ -19,31 +19,34 @@ const { banner } = homepage.data;
   .hero__scrim {
     position: absolute; inset: 0; z-index: 1;
     background:
-      linear-gradient(180deg, rgba(10,10,12,.72) 0%, rgba(10,10,12,.55) 45%, rgba(10,10,12,.82) 100%);
+      linear-gradient(180deg, rgba(10,10,12,.78) 0%, rgba(10,10,12,.42) 46%, rgba(10,10,12,.88) 100%),
+      radial-gradient(120% 80% at 50% 42%, rgba(0,0,0,0) 38%, rgba(8,8,10,.55) 100%);
+  }
+  /* Soft hand-off into the section below instead of a hard edge. */
+  .hero::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 120px;
+    z-index: 1; pointer-events: none;
+    background: linear-gradient(180deg, rgba(10,10,12,0) 0%, var(--hero-fade, #0b0b0d) 100%);
   }
   .hero__inner { position: relative; z-index: 2; width: 100%; text-align: center; }
 
-  /* The supplied logo file has solid boxes baked in, which read as a pasted
-     screenshot over video. Use the monogram mark and typeset the wordmark. */
-  .hero__brand {
-    display: flex; align-items: center; justify-content: center;
-    gap: 1.15rem; margin: 0 auto 2.5rem;
+  /* Daniel's supplied lockup, used as-is. Large and centred at the top of the
+     hero — it is the first thing on the page. */
+  .hero__brand { margin: 0 auto 2.75rem; display: block; }
+  .hero__logo {
+    display: block; margin: 0 auto; height: auto;
+    width: min(clamp(320px, 46vw, 620px), 88vw);
+    filter: drop-shadow(0 10px 34px rgba(0,0,0,.55));
   }
-  .hero__mark { width: clamp(56px, 6.5vw, 84px); height: auto; display: block; }
-  .hero__wordmark { text-align: left; line-height: 1; }
-  .hero__name {
-    display: block; color: #fff; font-weight: 600;
-    font-size: clamp(1.5rem, 3.1vw, 2.5rem);
-    letter-spacing: .11em;
+  @media (max-width: 768px) {
+    /* Give the lockup room to breathe under the sticky header, and keep it
+       inside the text column instead of running to the screen edges. */
+    .hero { padding-block: 3.5rem 2.5rem; min-height: 88vh; }
+    .hero__brand { margin: 0 auto 2.25rem; }
+    .hero__logo { width: min(78vw, 330px); }
   }
-  .hero__tag {
-    display: block; margin-top: .45rem;
-    color: rgba(255,255,255,.7); font-weight: 300;
-    font-size: clamp(.66rem, 1.05vw, .85rem);
-    letter-spacing: .3em; text-transform: uppercase;
-  }
-  @media (max-width: 640px) {
-    .hero__brand { gap: .85rem; margin-bottom: 1.75rem; }
+  @media (max-width: 400px) {
+    .hero__logo { width: 74vw; }
   }
 
   .hero__title {
@@ -94,7 +97,6 @@ const { banner } = homepage.data;
     aria-hidden="true"
     tabindex="-1"
   >
-    <source src="/video/hero-v2.mp4" type="video/mp4" />
   </video>
 
   <div class="hero__scrim"></div>
@@ -103,16 +105,12 @@ const { banner } = homepage.data;
     <div class="container">
       <div class="hero__brand">
         <img
-          class="hero__mark"
-          src="/images/logo-mark.png"
-          alt="JLand Group"
-          width="249" height="245"
+          class="hero__logo"
+          src="/images/logo-jland-group.png"
+          alt="JLand Group — Contracting &amp; Restoration"
+          width="991" height="245"
           fetchpriority="high"
         />
-        <div class="hero__wordmark">
-          <span class="hero__name">JLAND GROUP</span>
-          <span class="hero__tag">Contracting &amp; Restoration</span>
-        </div>
       </div>
 
       <h1 class="hero__title" data-editable="text" data-prop="banner.title" set:html={markdownify(banner.title)} />
@@ -139,11 +137,25 @@ const { banner } = homepage.data;
   document.addEventListener("astro:page-load", () => {
     const v = document.querySelector<HTMLVideoElement>(".hero__media--video");
     if (!v) return;
+
+    // Someone who has asked their phone to save data gets the poster only.
+    // Everyone else gets the loop — phones included, on a lighter encode.
+    if ((navigator as any).connection?.saveData) { v.remove(); return; }
+
     const small = window.matchMedia("(max-width: 768px)").matches;
-    const saveData = (navigator as any).connection?.saveData;
-    if (small || saveData) { v.remove(); return; }
+    const src = small ? "/video/hero-mobile-v2.mp4" : "/video/hero-v2.mp4";
+
+    const source = document.createElement("source");
+    source.src = src;
+    source.type = "video/mp4";
+    v.appendChild(source);
+
     v.preload = "auto";
     v.load();
-    v.play().catch(() => {});
+    v.play().catch(() => {
+      // iOS refuses autoplay until the element is genuinely muted+inline; retry once.
+      v.muted = true;
+      v.play().catch(() => {});
+    });
   });
 </script>
