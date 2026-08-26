@@ -12,7 +12,7 @@
     "logo_text": "JLAND GROUP"
   },
   "settings": {
-    "sticky_header": true,
+    "sticky_header": false,
     "pagination": 6
   },
   "announcement": {

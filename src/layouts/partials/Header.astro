@@ -23,12 +23,16 @@ const telHref = "tel:+1" + (contact_info?.phone || "").replace(/\D/g, "");
 <style>
   /* Brand first, navigation underneath. Daniel, 2026-08-26: the logo belongs at
      the very top and all the tabs below it. */
-  .masthead { background: #fff; border-bottom: 1px solid rgba(15, 17, 21, 0.08); }
+  /* The theme floats .header over the hero (its script adds Tailwind's
+     `absolute` at scroll < 250). That suits a transparent bar; this is a solid
+     brand band 300px tall, and overlaying it swallowed the hero headline.
+     Keep it in normal flow. */
+  .masthead { position: relative !important; background: #fff; border-bottom: 1px solid rgba(15, 17, 21, 0.08); }
 
-  .masthead__brand { display: flex; justify-content: center; padding: 1.6rem 1rem 1.1rem; }
+  .masthead__brand { display: flex; justify-content: center; padding: 2rem 1rem 1.35rem; }
   .masthead__logo {
     display: block; height: auto;
-    width: min(clamp(260px, 34vw, 460px), 82vw);
+    width: min(clamp(300px, 44vw, 620px), 88vw);
   }
 
   .masthead__bar {
@@ -49,7 +53,7 @@ const telHref = "tel:+1" + (contact_info?.phone || "").replace(/\D/g, "");
   /* Mobile: logo stays centred, tabs collapse behind the toggle. */
   .masthead__toggle { display: none; }
   @media (max-width: 1023px) {
-    .masthead__brand { padding: 1.15rem 1rem .85rem; }
+    .masthead__brand { padding: 1.35rem 1rem .95rem; }
     .masthead__bar { justify-content: space-between; padding: 0 1.25rem .9rem; }
     .masthead__toggle { display: inline-flex; cursor: pointer; align-items: center; }
     .masthead__tel { position: static; transform: none; }
