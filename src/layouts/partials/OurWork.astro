@@ -3,12 +3,11 @@
 // one section and commercial in another below residential."
 // Residential first, commercial underneath. Photos come from public/images/work,
 // thumbnails from the matching -sm files.
-const residential = [
-  ...Array.from({ length: 13 }, (_, i) => `siding-${String(i + 1).padStart(2, "0")}`),
-  ...Array.from({ length: 5 }, (_, i) => `metal-${String(i + 1).padStart(2, "0")}`),
-  ...Array.from({ length: 2 }, (_, i) => `interior-${String(i + 1).padStart(2, "0")}`),
-];
-const commercial = Array.from({ length: 11 }, (_, i) => `tpo-${String(i + 1).padStart(2, "0")}`);
+// Three each. Daniel, 2026-08-26: "leave only 2 or 3 of the best ones".
+// These six are the shots already used as feature images elsewhere on the site,
+// so they were picked as the strongest before I got here.
+const residential = ["siding-07", "metal-03", "metal-01"];
+const commercial = ["tpo-03", "tpo-04", "tpo-08"];
 
 const groups = [
   { key: "residential", title: "Residential", blurb: "Roofing, siding, gutters and interior restoration on homes across Maryland.", shots: residential },
@@ -63,7 +62,7 @@ const groups = [
   .work__grid {
     list-style: none; margin: 0; padding: 0;
     display: grid; gap: .75rem;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
   .work__cell {
     margin: 0; overflow: hidden; border-radius: 3px; background: #e6e6e8;
@@ -77,7 +76,7 @@ const groups = [
 
   @media (max-width: 640px) {
     .work { padding: 3.25rem 0 3.75rem; }
-    .work__grid { grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+    .work__grid { grid-template-columns: 1fr; gap: .6rem; }
     .work__group + .work__group { margin-top: 3rem; }
   }
 </style>

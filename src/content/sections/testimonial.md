@@ -4,8 +4,8 @@ title: "See What Our Clients Say"
 description: "We are proud of the trust we've built with our community. Here is what some of our {totalReviews}+ satisfied customers have to say about our roofing and restoration services."
 ratings:
   enable: true
-  label: "Average Rating"
-  total_reviews: "43"
+  label: "5-Star Google Reviews"
+  total_reviews: "45"
 
 # Testimonials
 testimonials:
