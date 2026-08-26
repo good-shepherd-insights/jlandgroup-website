@@ -16,13 +16,13 @@
     "pagination": 6
   },
   "announcement": {
-    "enable": true,
+    "enable": false,
     "content": "<span class='text-center block'><a href=\"tel:+14102920801\">Trusted local roofers &mdash; call for a free estimate: (410) 292-0801</a></span>",
     "expire_days": 7
   },
   "params": {
     "contact_form_action": "https://formsubmit.co/info@jlandgroup.com",
-    "footer_description": "J Land Contracting delivers expert roofing solutions across Maryland — with the integrity your family deserves and the experience your insurance claim demands."
+    "footer_description": "J Land Contracting delivers expert roofing solutions across Maryland \u2014 with the integrity your family deserves and the experience your insurance claim demands."
   },
   "contact_info": {
     "address": "3636 Glenoble Court, Jefferson, MD 21755",
@@ -34,7 +34,7 @@
     "embed_url": "https://maps.google.com/maps?q=3636%20Glenoble%20Court,%20Jefferson,%20MD%2021755&t=&z=13&ie=UTF8&iwloc=&output=embed"
   },
   "navigation_button": {
-    "enable": true,
+    "enable": false,
     "label": "Book A Free Consultation",
     "link": "/contact",
     "icon": ""

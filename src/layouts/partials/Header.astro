@@ -1,6 +1,4 @@
 ---
-import Button from "@/components/Button.astro";
-import Logo from "@/components/Logo.astro";
 import config from "@/config/config.json";
 import menu from "@/config/menu.json";
 
@@ -17,22 +15,65 @@ export interface NavigationLink {
 }
 
 const { main }: { main: NavigationLink[] } = menu;
-const { navigation_button } = config;
+const { contact_info } = config;
 const { pathname } = Astro.url;
+const telHref = "tel:+1" + (contact_info?.phone || "").replace(/\D/g, "");
 ---
 
-<header class={`header z-30 w-full`}>
-  <nav class="navbar container">
-    <!-- logo -->
-    <div class="order-0">
-      <Logo />
-    </div>
-    <!-- navbar toggler -->
+<style>
+  /* Brand first, navigation underneath. Daniel, 2026-08-26: the logo belongs at
+     the very top and all the tabs below it. */
+  .masthead { background: #fff; border-bottom: 1px solid rgba(15, 17, 21, 0.08); }
+
+  .masthead__brand { display: flex; justify-content: center; padding: 1.6rem 1rem 1.1rem; }
+  .masthead__logo {
+    display: block; height: auto;
+    width: min(clamp(260px, 34vw, 460px), 82vw);
+  }
+
+  .masthead__bar {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    gap: 1rem; padding: 0 1rem 1rem;
+  }
+
+  .masthead__nav { display: flex; align-items: center; justify-content: center; gap: .35rem; }
+
+  .masthead__tel {
+    position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+    font-size: .9rem; font-weight: 500; letter-spacing: .01em;
+    color: rgba(15, 17, 21, .72); white-space: nowrap;
+  }
+  .masthead__tel:hover { color: rgba(15, 17, 21, 1); }
+
+  /* Mobile: logo stays centred, tabs collapse behind the toggle. */
+  .masthead__toggle { display: none; }
+  @media (max-width: 1023px) {
+    .masthead__brand { padding: 1.15rem 1rem .85rem; }
+    .masthead__bar { justify-content: space-between; padding: 0 1.25rem .9rem; }
+    .masthead__toggle { display: inline-flex; cursor: pointer; align-items: center; }
+    .masthead__tel { position: static; transform: none; }
+    .masthead__nav { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 0; }
+    #nav-toggle:checked ~ .masthead__nav { display: flex; padding-bottom: .75rem; }
+  }
+</style>
+
+<header class="masthead header z-30 w-full">
+  <div class="masthead__brand">
+    <a href="/" aria-label="JLand Group — home">
+      <img
+        class="masthead__logo"
+        src="/images/logo-jland-group.png"
+        alt="JLand Group — Contracting &amp; Restoration"
+        width="991" height="245"
+        fetchpriority="high"
+      />
+    </a>
+  </div>
+
+  <div class="masthead__bar container">
     <input id="nav-toggle" type="checkbox" class="hidden" />
-    <label
-      for="nav-toggle"
-      class="order-3 cursor-pointer flex items-center lg:hidden text-text-dark lg:order-1"
-    >
+    <label for="nav-toggle" class="masthead__toggle text-text-dark" aria-label="Menu">
       <svg id="show-button" class="h-6 fill-current block" viewBox="0 0 20 20">
         <title>Menu Open</title>
         <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
@@ -44,28 +85,19 @@ const { pathname } = Astro.url;
           transform="rotate(45 10 10)"></polygon>
       </svg>
     </label>
-    <!-- /navbar toggler -->
-    <ul
-      id="nav-menu"
-      class="navbar-nav order-3 hidden w-full pb-6 lg:order-1 lg:flex lg:w-auto lg:space-x-2 lg:pb-0"
-    >
+
+    <ul id="nav-menu" class="masthead__nav navbar-nav">
       {
         main.map((menu) => (
           <>
             {menu.hasChildren ? (
               <li class="nav-item nav-dropdown group relative">
-                <input
-                  type="checkbox"
-                  id={`submenu-${menu.name}`}
-                  class="peer hidden lg:hidden"
-                />
+                <input type="checkbox" id={`submenu-${menu.name}`} class="peer hidden lg:hidden" />
                 <label
                   for={`submenu-${menu.name}`}
                   class={`nav-link inline-flex items-center ${
                     menu.children?.map(({ url }) => url).includes(pathname) ||
-                    menu.children
-                      ?.map(({ url }) => `${url}/`)
-                      .includes(pathname)
+                    menu.children?.map(({ url }) => `${url}/`).includes(pathname)
                       ? "active"
                       : ""
                   }`}
@@ -82,9 +114,7 @@ const { pathname } = Astro.url;
                         href={child.url}
                         aria-label={child.name}
                         class={`nav-dropdown-link block ${
-                          (pathname === `${child.url}/` ||
-                            pathname === child.url) &&
-                          "active"
+                          (pathname === `${child.url}/` || pathname === child.url) && "active"
                         }`}
                       >
                         {child.name}
@@ -98,8 +128,7 @@ const { pathname } = Astro.url;
                 <a
                   href={menu.url}
                   class={`nav-link block ${
-                    (pathname === `${menu.url}/` || pathname === menu.url) &&
-                    "active"
+                    (pathname === `${menu.url}/` || pathname === menu.url) && "active"
                   }`}
                 >
                   {menu.name}
@@ -109,22 +138,8 @@ const { pathname } = Astro.url;
           </>
         ))
       }
-      {
-        navigation_button.enable && (
-          <li class="mt-4 inline-block lg:hidden">
-            <Button
-              data={navigation_button}
-              className="btn btn-primary p-3.5"
-            />
-          </li>
-        )
-      }
     </ul>
-    <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
-      <Button
-        data={navigation_button}
-        className="btn btn-primary p-3.5 hidden lg:inline-block text-base"
-      />
-    </div>
-  </nav>
+
+    <a class="masthead__tel" href={telHref}>{contact_info?.phone}</a>
+  </div>
 </header>

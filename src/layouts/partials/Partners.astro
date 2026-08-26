@@ -1,33 +1,53 @@
 ---
-// Partners.astro - Grayscale partner/brand logo strips component
+// Carrier strip. Was six logos hotlinked from cdn.brandfetch.io — every one of
+// them broke on the live site (the CDN stopped serving them), so the homepage
+// showed six broken-image icons. Set as type instead: nothing to break, no
+// third-party dependency, and it does not use carrier trademarks in a way that
+// implies they endorse JLand.
 import { getListPage } from "@/lib/contentParser.astro";
 
 const homepage = await getListPage("homepage", "-index");
 const { partners } = homepage.data;
+const names = (partners || []).map((p: { name: string }) =>
+  p.name.replace(/\s+Insurance$/i, "")
+);
 ---
 
-{partners && partners.length > 0 ? (
-  <section class="py-6 sm:py-8 bg-[#323034]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6">
-      <div
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-8 items-center justify-items-center"
-      >
-        {
-          partners.map((p: { name: string; logo: string }) => (
-            <div
-              class="flex items-center justify-center h-12 sm:h-16 w-24 sm:w-32"
-            >
-              <img
-                src={p.logo}
-                alt={p.name}
-                class="h-8 sm:h-12 w-auto object-contain filter grayscale opacity-60 hover:opacity-100 transition-opacity duration-300"
-                style="filter: grayscale(100%) brightness(200%);"
-                loading="lazy"
-              />
-            </div>
-          ))
-        }
-      </div>
+{names.length > 0 ? (
+  <section class="carriers">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <p class="carriers__lead">We work with every major carrier</p>
+      <ul class="carriers__list">
+        {names.map((n: string) => <li>{n}</li>)}
+      </ul>
     </div>
   </section>
 ) : null}
+
+<style>
+  .carriers { background: #323034; padding: 2.25rem 0; }
+  .carriers__lead {
+    text-align: center; margin: 0 0 1.1rem;
+    color: rgba(255,255,255,.55);
+    font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; font-weight: 500;
+  }
+  .carriers__list {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: .55rem 2.25rem;
+  }
+  .carriers__list li {
+    position: relative;
+    color: rgba(255,255,255,.86);
+    font-size: clamp(.92rem, 1.35vw, 1.08rem);
+    font-weight: 500; letter-spacing: .04em;
+  }
+  .carriers__list li + li::before {
+    content: ""; position: absolute; left: -1.125rem; top: 50%;
+    width: 1px; height: 13px; transform: translateY(-50%);
+    background: rgba(255,255,255,.24);
+  }
+  @media (max-width: 640px) {
+    .carriers__list { gap: .5rem 1.4rem; }
+    .carriers__list li + li::before { left: -.7rem; }
+  }
+</style>

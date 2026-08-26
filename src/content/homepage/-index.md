@@ -1,8 +1,8 @@
 ---
 # Banner
 banner:
-  title: "Built right. Backed by <strong>integrity.</strong>"
-  content: "Roofing, siding and commercial systems across Maryland — with the insurance claim handled for you."
+  title: "Built with <strong>moral excellence,</strong> advancing"
+  content: ""
   image: "/images/work/metal-01.jpg"
   satisfied_customers:
     enable: true
@@ -20,7 +20,7 @@ banner:
     link: "/appointment"
     icon: "" # Icon name from react-icons
   button_outline:
-    enable: true
+    enable: false
     label: "Explore Our Services"
     link: "/services"
     icon: ""
@@ -29,7 +29,7 @@ partners:
     logo: "https://cdn.brandfetch.io/idVducn8DJ/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1668074337186"
   - name: Allstate Insurance
     logo: "https://cdn.brandfetch.io/idy9-2iz_S/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1689946273103"
-  - name: Statefarm Insurance
+  - name: State Farm Insurance
     logo: "https://cdn.brandfetch.io/idzveZQJ1Y/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1667664725320"
   - name: Progressive Insurance
     logo: "https://cdn.brandfetch.io/idFDF9ze43/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1698221441834"

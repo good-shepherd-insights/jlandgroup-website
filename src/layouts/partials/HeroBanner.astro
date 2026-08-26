@@ -8,8 +8,8 @@ const { banner } = homepage.data;
 ---
 
 <style>
-  .hero { position: relative; min-height: 92vh; display: flex; align-items: center; overflow: hidden; }
-  @media (max-width: 640px) { .hero { min-height: 78vh; } }
+  .hero { position: relative; min-height: 78vh; display: flex; align-items: center; overflow: hidden; }
+  @media (max-width: 640px) { .hero { min-height: 70vh; } }
 
   .hero__media {
     position: absolute; inset: 0; width: 100%; height: 100%;
@@ -30,23 +30,10 @@ const { banner } = homepage.data;
   }
   .hero__inner { position: relative; z-index: 2; width: 100%; text-align: center; }
 
-  /* Daniel's supplied lockup, used as-is. Large and centred at the top of the
-     hero — it is the first thing on the page. */
-  .hero__brand { margin: 0 auto 2.75rem; display: block; }
-  .hero__logo {
-    display: block; margin: 0 auto; height: auto;
-    width: min(clamp(320px, 46vw, 620px), 88vw);
-    filter: drop-shadow(0 10px 34px rgba(0,0,0,.55));
-  }
   @media (max-width: 768px) {
     /* Give the lockup room to breathe under the sticky header, and keep it
        inside the text column instead of running to the screen edges. */
     .hero { padding-block: 3.5rem 2.5rem; min-height: 88vh; }
-    .hero__brand { margin: 0 auto 2.25rem; }
-    .hero__logo { width: min(78vw, 330px); }
-  }
-  @media (max-width: 400px) {
-    .hero__logo { width: 74vw; }
   }
 
   .hero__title {
@@ -72,16 +59,21 @@ const { banner } = homepage.data;
   .hero__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
   .hero__meta {
-    margin-top: 3.25rem;
-    display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap;
-    color: rgba(255,255,255,.72);
-    font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 400;
+    margin: 2.75rem auto 0; max-width: 78rem;
+    display: flex; gap: .6rem 2rem; justify-content: center; flex-wrap: wrap;
+    color: rgba(255,255,255,.74);
+    font-size: clamp(.7rem, 1.05vw, .8rem);
+    letter-spacing: .13em; text-transform: uppercase; font-weight: 400;
   }
   .hero__meta span { position: relative; }
   .hero__meta span + span::before {
-    content: ""; position: absolute; left: -1.25rem; top: 50%;
-    width: 1px; height: 12px; transform: translateY(-50%);
+    content: ""; position: absolute; left: -1rem; top: 50%;
+    width: 1px; height: 11px; transform: translateY(-50%);
     background: rgba(255,255,255,.28);
+  }
+  @media (max-width: 640px) {
+    .hero__meta { gap: .5rem 1.4rem; margin-top: 2.25rem; }
+    .hero__meta span + span::before { left: -.7rem; }
   }
 
   /* Respect reduced-motion and save mobile data: poster only, no video. */
@@ -103,18 +95,8 @@ const { banner } = homepage.data;
 
   <div class="hero__inner">
     <div class="container">
-      <div class="hero__brand">
-        <img
-          class="hero__logo"
-          src="/images/logo-jland-group.png"
-          alt="JLand Group — Contracting &amp; Restoration"
-          width="991" height="245"
-          fetchpriority="high"
-        />
-      </div>
-
       <h1 class="hero__title" data-editable="text" data-prop="banner.title" set:html={markdownify(banner.title)} />
-      <p class="hero__sub" data-editable="text" data-prop="banner.content" set:html={markdownify(banner.content)} />
+      {banner.content && <p class="hero__sub" data-editable="text" data-prop="banner.content" set:html={markdownify(banner.content)} />}
 
       <div class="hero__actions">
         <Button data={banner.button_solid} />
@@ -124,8 +106,11 @@ const { banner } = homepage.data;
       <div class="hero__meta">
         <span>Roofing</span>
         <span>Siding</span>
-        <span>Metal &amp; TPO</span>
-        <span>Insurance Claims</span>
+        <span>Gutters</span>
+        <span>Commercial / TPO / PVC / EPDM / Metal</span>
+        <span>Windows &amp; Doors</span>
+        <span>Restoration</span>
+        <span>Contracting</span>
       </div>
     </div>
   </div>
