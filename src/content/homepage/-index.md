@@ -1,7 +1,7 @@
 ---
 # Banner
 banner:
-  title: "Built with <strong>moral excellence,</strong> advancing"
+  title: "Built with <strong>moral excellence,</strong><br />Advancing with <strong>integrity</strong>"
   content: ""
   image: "/images/work/metal-01.jpg"
   satisfied_customers:

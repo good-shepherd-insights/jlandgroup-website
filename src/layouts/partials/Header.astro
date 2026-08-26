@@ -34,6 +34,7 @@ const { pathname } = Astro.url;
   .masthead__brand { display: flex; justify-content: center; padding: 2rem 1rem 1.35rem; }
   .masthead__logo {
     display: block; height: auto;
+    filter: drop-shadow(0 3px 16px rgba(0,0,0,.7));
     width: min(clamp(300px, 44vw, 620px), 88vw);
   }
 
@@ -75,7 +76,7 @@ const { pathname } = Astro.url;
     <a href="/" aria-label="JLand Group — home">
       <img
         class="masthead__logo"
-        src="/images/logo-jland-group.png"
+        src="/images/logo-jland-group-v3.png"
         alt="JLand Group — Contracting &amp; Restoration"
         width="991" height="245"
         fetchpriority="high"
