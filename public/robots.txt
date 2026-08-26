@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 
 Disallow: /api/*
+Disallow: /designs/
 
 Sitemap: https://jlandgroup.com/sitemap-index.xml

@@ -1,22 +1,16 @@
 ---
 import { markdownify } from "@/lib/utils/textConverter";
 
-const { title, description, centerText, className } = Astro.props;
+// Renders the page title. This was an <h2> on every page that used it, which
+// left 16 of 28 built pages with no <h1> at all — including all five service
+// pages. Defaults to h1 now; pass tag="h2" where the page already has one.
+const { title, description, centerText, className, tag = "h1" } = Astro.props;
+const Heading = tag;
 ---
 
 <div
   class={`lg:w-[80%] xl:w-[60%] ${centerText ? "text-center mx-auto" : "max-lg:text-center"} ${className}`}
 >
-  <h2
-    
-    
-    class="text-h1"
-    set:html={markdownify(title)}
-  />
-  <p
-    
-    
-    class="text-lg mt-6"
-    set:html={markdownify(description)}
-  />
+  <Heading class="text-h1" set:html={markdownify(title)} />
+  <p class="text-lg mt-6" set:html={markdownify(description)} />
 </div>

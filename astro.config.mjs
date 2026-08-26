@@ -59,7 +59,7 @@ export default defineConfig({
   fonts: fontsConfig,
   integrations: [
     react(),
-    sitemap(),
+    sitemap({ filter: (page) => !page.includes("/designs") }),
     AutoImport({
       imports: [
         "@/shortcodes/Button",
