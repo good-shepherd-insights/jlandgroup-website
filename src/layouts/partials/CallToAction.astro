@@ -39,53 +39,8 @@ const { image, title, description, button } = sectionData.data;
     </div>
   </div>
 
-  <!-- Daniel, 2026-08-27: the two flat-roofing drone clips on loop, in place of the
-       still that was here. Same treatment as the hero - poster first, phones get a
-       lighter encode, save-data and reduced-motion never fetch the video at all. -->
-  <div class="mt-8 relative z-10 cta-media">
-    <img class="cta-media__poster" src="/video/flat-roof-poster-v1.jpg" alt="" aria-hidden="true" />
-    <video
-      class="cta-media__video"
-      autoplay muted loop playsinline preload="none"
-      poster="/video/flat-roof-poster-v1.jpg"
-      aria-hidden="true"
-      tabindex="-1"
-    ></video>
-  </div>
 </section>
 
-<style>
-  .cta-media { position: relative; width: 100%; height: 450px; overflow: hidden; }
-  .cta-media__poster,
-  .cta-media__video {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: top;
-  }
-  .cta-media__video { z-index: 1; }
-  @media (prefers-reduced-motion: reduce) { .cta-media__video { display: none; } }
-  @media (max-width: 640px) { .cta-media { height: 300px; } }
-</style>
 
-<script>
-  document.addEventListener("astro:page-load", () => {
-    const v = document.querySelector<HTMLVideoElement>(".cta-media__video");
-    if (!v) return;
-    if ((navigator as any).connection?.saveData) { v.remove(); return; }
 
-    const small = window.matchMedia("(max-width: 768px)").matches;
-    const source = document.createElement("source");
-    source.src = small ? "/video/flat-roof-mobile-v1.mp4" : "/video/flat-roof-v1.mp4";
-    source.type = "video/mp4";
-    v.appendChild(source);
 
-    // Only start fetching once the band is actually near the viewport.
-    const start = () => { v.preload = "auto"; v.load(); v.play().catch(() => { v.muted = true; v.play().catch(() => {}); }); };
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver((es) => {
-        if (es.some((e) => e.isIntersecting)) { io.disconnect(); start(); }
-      }, { rootMargin: "300px" });
-      io.observe(v);
-    } else { start(); }
-  });
-</script>

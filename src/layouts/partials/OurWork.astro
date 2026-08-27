@@ -5,8 +5,8 @@
 // thumbnails from the matching -sm files.
 // Daniel's own job photos, three per section. He sends the albums; these are the
 // picks. Residential and Commercial 2026-08-27, Metal added the same night.
-const residential = ["residential-01", "residential-02", "residential-03"];
-const commercial = ["commercial-01", "commercial-02", "commercial-03"];
+const residential = Array.from({ length: 10 }, (_, i) => `residential-${String(i + 1).padStart(2, "0")}`);
+const commercial = Array.from({ length: 6 }, (_, i) => `commercial-${String(i + 1).padStart(2, "0")}`);
 const metal = ["metal-01", "metal-02", "metal-03"];
 
 const groups = [

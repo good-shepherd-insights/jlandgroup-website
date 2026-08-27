@@ -15,6 +15,14 @@ const { footer } = menu;
     width: min(clamp(320px, 52vw, 720px), 88vw);
   }
   .footer__brand { display: flex; justify-content: center; width: 100%; }
+  /* Daniel, 2026-08-27: centre everything in the orange band and take the info up a size. */
+  .masthead-none {}
+  footer .container { text-align: center; }
+  footer h3 { text-align: center; }
+  footer ul { list-style: none; padding-left: 0; }
+  footer li { text-align: center; }
+  footer .footer__contact,
+  footer .footer__contact * { text-align: center; }
 </style>
 
 <footer class="section pb-15 relative text-white overflow-hidden">
@@ -57,7 +65,7 @@ const { footer } = menu;
           {
             footer.map((section) => (
               <div>
-                <h3 class="text-text-light mb-6 opacity-80 uppercase text-lg tracking-wider">
+                <h3 class="text-text-light mb-6 opacity-80 uppercase text-xl tracking-wider text-center">
                   {section.title}
                 </h3>
                 <ul class="space-y-5">
@@ -65,7 +73,7 @@ const { footer } = menu;
                     <li>
                       <a
                         href={item.url}
-                        class="text-text-light font-semibold text-xl hover:text-text-dark transition-colors duration-300"
+                        class="text-text-light font-semibold text-2xl hover:text-text-dark transition-colors duration-300"
                       >
                         {item.name}
                       </a>
@@ -80,13 +88,13 @@ const { footer } = menu;
           <div class="space-y-8">
             <div>
               <h3
-                class="text-text-light mb-2 opacity-80 text-lg tracking-wider"
+                class="text-text-light mb-2 opacity-80 text-xl tracking-wider text-center"
               >
                 Call us:
               </h3>
               <a
                 href={`tel:${config.contact_info.phone.replace(/[^+\d]/g, "")}`}
-                class="text-text-light font-semibold text-xl hover:text-text-dark transition-colors duration-300"
+                class="text-text-light font-semibold text-2xl hover:text-text-dark transition-colors duration-300"
               >
                 {config.contact_info.phone}
               </a>
@@ -94,13 +102,13 @@ const { footer } = menu;
 
             <div>
               <h3
-                class="text-text-light mb-2 opacity-80 text-lg tracking-wider"
+                class="text-text-light mb-2 opacity-80 text-xl tracking-wider text-center"
               >
                 E-mail:
               </h3>
               <a
                 href={`mailto:${config.contact_info.email}`}
-                class="text-text-light font-semibold text-xl hover:text-text-dark transition-colors duration-300"
+                class="text-text-light font-semibold text-2xl hover:text-text-dark transition-colors duration-300"
               >
                 {config.contact_info.email}
               </a>
@@ -108,13 +116,13 @@ const { footer } = menu;
 
             <div>
               <h3
-                class="text-text-light mb-2 opacity-80 text-lg tracking-wider"
+                class="text-text-light mb-2 opacity-80 text-xl tracking-wider text-center"
               >
                 Address:
               </h3>
               <a
                 href={`https://www.google.com/maps/place/${encodeURIComponent(config.contact_info.address)}`}
-                class="text-text-light font-semibold hover:text-text-dark text-xl leading-relaxed"
+                class="text-text-light font-semibold hover:text-text-dark text-2xl leading-relaxed text-center"
                 target="_blank"
                 rel="noopener noreferrer"
               >
