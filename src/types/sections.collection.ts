@@ -13,6 +13,7 @@ export const ctaSection = defineCollection({
     title: z.string(),
     description: z.string(),
     image: z.string(),
+    damageImage: z.string().optional(),
     button: button,
   }),
 });

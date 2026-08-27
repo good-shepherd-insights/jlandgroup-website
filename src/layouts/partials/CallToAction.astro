@@ -1,46 +1,138 @@
 ---
+// Daniel, 2026-08-27: "center the letters make it pop" and run the damage
+// photography across the whole page. Full-bleed band, everything centred.
 import Button from "@/components/Button.astro";
-import ImageMod from "@/components/ImageMod.astro";
 import { getListPage } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 
 const sectionData = await getListPage("ctaSection", "call-to-action");
 if (!sectionData.data.enable) return null;
-const { image, title, description, button } = sectionData.data;
+const { title, description, button, damageImage } = sectionData.data;
+const bg = damageImage || "/images/footer-bg.png";
+// Mobile-weight twin, if one was shipped alongside (…-sm-v1.jpg).
+const bgSmall = bg.replace(/-v(\d+)\.jpg$/, "-sm-v$1.jpg");
+const hasSmall = bgSmall !== bg;
 ---
 
-<section class="section pb-0 relative z-10 text-white overflow-hidden">
-  <!-- Background Image -->
-  <div class="absolute inset-0 z-0 bottom-0">
-    <img
-      src="/images/footer-bg.png"
-      alt=""
-      class="w-full h-full object-cover opacity-100 pointer-events-none"
-      aria-hidden="true"
-    />
-  </div>
+<section class="ctaband text-white">
+  <img
+    class="ctaband__bg"
+    src={bg}
+    srcset={hasSmall ? `${bgSmall} 1100w, ${bg} 2000w` : undefined}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="low"
+    decoding="async"
+    alt=""
+    aria-hidden="true"
+  />
+  <div class="ctaband__scrim" aria-hidden="true"></div>
 
-  <div class="container relative z-10">
-    <div
-      
-      
-      class="flex max-lg:flex-col max-lg:text-center gap-12 lg:gap-6 items-center lg:items-end"
-    >
-      <div class="flex-1">
-        <h2 set:html={markdownify(title)} class="h1 mb-6 text-text-light" />
-        <p set:html={markdownify(description)} class="text-balance text-lg" />
-      </div>
-      <div class="shrink-0">
-        <Button
-          className="block bg-secondary hover:bg-white border-b-4 border-primary/35"
-          data={button}
-        />
-      </div>
+  <div class="ctaband__inner">
+    <h2 set:html={markdownify(title)} class="ctaband__title" />
+    <p set:html={markdownify(description)} class="ctaband__copy" />
+    <div class="ctaband__cta">
+      <Button
+        className="block bg-secondary hover:bg-white border-b-4 border-primary/35"
+        data={button}
+      />
     </div>
   </div>
-
 </section>
 
+<style>
+  /* Full bleed. Do NOT use width:100vw here - 100vw includes the scrollbar, so it
+     overflows by ~8px each side and puts a horizontal scrollbar on the whole page.
+     This section already sits at the top level of <main>, so 100% is edge to edge. */
+  .ctaband {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    padding: clamp(4rem, 8vw, 7.5rem) 1.25rem;
+    overflow: hidden;
+    background: #0e0f12;
+  }
 
+  .ctaband__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+  }
 
+  /* Dark scrim so the type pops off the photograph at any brightness. */
+  .ctaband__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    /* One layer only. Two stacked gradients multiply their alphas and the band
+       goes almost solid black - that is what happened on the first pass. */
+    background: radial-gradient(
+      ellipse 90% 80% at 50% 50%,
+      rgba(12, 13, 16, 0.42) 0%,
+      rgba(12, 13, 16, 0.58) 55%,
+      rgba(12, 13, 16, 0.76) 100%
+    );
+  }
 
+  .ctaband__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 68rem;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1.25rem, 2.4vw, 2rem);
+  }
+
+  .ctaband__title {
+    margin: 0;
+    font-size: clamp(2.1rem, 5.1vw, 4.1rem);
+    line-height: 1.06;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    color: #fff;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+  }
+
+  .ctaband__copy {
+    margin: 0;
+    max-width: 60ch;
+    font-size: clamp(1.05rem, 1.65vw, 1.45rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.92);
+    text-wrap: pretty;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  .ctaband__cta { margin-top: clamp(0.25rem, 1vw, 0.75rem); }
+
+  /* The theme's "secondary" is #1C1F23 - near black, and it vanishes against a dark
+     storm photo. Invert it here: solid white plate, dark label. Same two colours the
+     button already uses, just the other way round. */
+  .ctaband__cta :global(a) {
+    font-size: clamp(1.02rem, 1.3vw, 1.2rem);
+    font-weight: 700;
+    background: #fff;
+    color: #1c1f23;
+    border-bottom-color: rgba(0, 0, 0, 0.28);
+    padding-inline: clamp(1.6rem, 2.6vw, 2.4rem);
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.42);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+  .ctaband__cta :global(a:hover) {
+    background: #f2f3f5;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  @media (max-width: 640px) {
+    .ctaband { padding-inline: 1rem; }
+  }
+</style>
