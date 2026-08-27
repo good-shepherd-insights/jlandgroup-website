@@ -7,25 +7,36 @@ import { markdownify } from "@/lib/utils/textConverter";
 
 const sectionData = await getListPage("ctaSection", "call-to-action");
 if (!sectionData.data.enable) return null;
-const { title, description, button, damageImage } = sectionData.data;
-const bg = damageImage || "/images/footer-bg.png";
+const { title, description, button, damageImages, damageImage } = sectionData.data;
+
+// Daniel picked A (wind) and H (hail) on 2026-08-27 — the band carries both, split
+// down the middle. Falls back to a single image, then to the old footer art.
+const panels =
+  damageImages && damageImages.length
+    ? damageImages
+    : damageImage
+      ? [damageImage]
+      : ["/images/footer-bg.png"];
+
 // Mobile-weight twin, if one was shipped alongside (…-sm-v1.jpg).
-const bgSmall = bg.replace(/-v(\d+)\.jpg$/, "-sm-v$1.jpg");
-const hasSmall = bgSmall !== bg;
+const small = (src) => src.replace(/-v(\d+)\.jpg$/, "-sm-v$1.jpg");
 ---
 
 <section id="insurance" class="ctaband text-white">
-  <img
-    class="ctaband__bg"
-    src={bg}
-    srcset={hasSmall ? `${bgSmall} 1100w, ${bg} 2000w` : undefined}
-    sizes="100vw"
-    loading="eager"
-    fetchpriority="low"
-    decoding="async"
-    alt=""
-    aria-hidden="true"
-  />
+  <div class="ctaband__panels" aria-hidden="true">
+    {panels.map((src) => (
+      <img
+        class="ctaband__bg"
+        src={src}
+        srcset={small(src) !== src ? `${small(src)} 700w, ${src} 1200w` : undefined}
+        sizes={panels.length > 1 ? "50vw" : "100vw"}
+        loading="eager"
+        fetchpriority="low"
+        decoding="async"
+        alt=""
+      />
+    ))}
+  </div>
   <div class="ctaband__scrim" aria-hidden="true"></div>
 
   <div class="ctaband__inner">
@@ -53,14 +64,33 @@ const hasSmall = bgSmall !== bg;
     background: #0e0f12;
   }
 
-  .ctaband__bg {
+  /* One panel or two, side by side. Two panels stack on a phone - at 390px a half
+     is ~195px wide and a landscape photo squeezed into that reads as nothing. */
+  .ctaband__panels {
     position: absolute;
     inset: 0;
+    z-index: 0;
+    display: flex;
+    gap: 2px;
+    background: #0e0f12;
+  }
+
+  .ctaband__bg {
+    flex: 1 1 0;
+    /* Both min-* are required. Without min-height:0 the images refuse to shrink
+       below their intrinsic height and the column split comes out ~85/15. */
+    min-width: 0;
+    min-height: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    z-index: 0;
+  }
+
+  @media (max-width: 640px) {
+    .ctaband__panels { flex-direction: column; }
+    /* Belt and braces: pin the halves so a phone always shows both damage types. */
+    .ctaband__bg { height: 50%; }
   }
 
   /* Dark scrim so the type pops off the photograph at any brightness. */

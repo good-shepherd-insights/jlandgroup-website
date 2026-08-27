@@ -14,6 +14,7 @@ export const ctaSection = defineCollection({
     description: z.string(),
     image: z.string(),
     damageImage: z.string().optional(),
+    damageImages: z.array(z.string()).optional(),
     button: button,
   }),
 });
