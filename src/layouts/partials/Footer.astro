@@ -7,6 +7,15 @@ import menu from "@/config/menu.json";
 const { footer } = menu;
 ---
 
+<style>
+  /* Daniel, 2026-08-27: the small mark plus "JLAND GROUP" text is replaced by the
+     full lockup, and the strapline underneath it is gone. */
+  .footer__logo {
+    display: block; height: auto;
+    width: min(clamp(240px, 30vw, 420px), 84vw);
+  }
+</style>
+
 <footer class="section pb-15 relative text-white overflow-hidden">
   <!-- Background Image -->
   <div class="absolute inset-0 z-0 bottom-0">
@@ -25,16 +34,20 @@ const { footer } = menu;
     <div
       class="flex gap-6 flex-wrap justify-center max-md:text-center md:justify-between items-baseline"
     >
-      <Logo src={config.site.footer_logo} className="text-white" />
-      <p
-        class="text-lg max-w-xl lg:mr-40 text-balance"
-        set:html={config.params.footer_description}
-      />
+      <a href="/" aria-label="JLand Group — home">
+        <img
+          class="footer__logo"
+          src="/images/logo-jland-group-v4.png"
+          alt="JLand Group — Contracting &amp; Restoration"
+          width="1982" height="490"
+          loading="lazy"
+        />
+      </a>
     </div>
   </div>
 
   <!-- Main Content -->
-  <div class="relative z-10 container py-16 lg:py-20 lg:pl-[30vw]">
+  <div class="relative z-10 container py-16 lg:py-20">
     <!-- Right: Text + Menus -->
     <div class="space-y-10 lg:space-y-12">
       <div class="border-t border-white/20 pt-8 lg:pt-10">
@@ -43,7 +56,7 @@ const { footer } = menu;
           {
             footer.map((section) => (
               <div>
-                <h3 class="text-text-light mb-6 opacity-80 uppercase text-sm tracking-wider">
+                <h3 class="text-text-light mb-6 opacity-80 uppercase text-base tracking-wider">
                   {section.title}
                 </h3>
                 <ul class="space-y-5">
@@ -51,7 +64,7 @@ const { footer } = menu;
                     <li>
                       <a
                         href={item.url}
-                        class="text-text-light font-semibold hover:text-text-dark transition-colors duration-300"
+                        class="text-text-light font-semibold text-lg hover:text-text-dark transition-colors duration-300"
                       >
                         {item.name}
                       </a>
@@ -66,13 +79,13 @@ const { footer } = menu;
           <div class="space-y-8">
             <div>
               <h3
-                class="text-text-light mb-2 opacity-80 text-sm tracking-wider"
+                class="text-text-light mb-2 opacity-80 text-base tracking-wider"
               >
                 Call us:
               </h3>
               <a
                 href={`tel:${config.contact_info.phone.replace(/[^+\d]/g, "")}`}
-                class="text-text-light font-semibold hover:text-text-dark transition-colors duration-300"
+                class="text-text-light font-semibold text-lg hover:text-text-dark transition-colors duration-300"
               >
                 {config.contact_info.phone}
               </a>
@@ -80,13 +93,13 @@ const { footer } = menu;
 
             <div>
               <h3
-                class="text-text-light mb-2 opacity-80 text-sm tracking-wider"
+                class="text-text-light mb-2 opacity-80 text-base tracking-wider"
               >
                 E-mail:
               </h3>
               <a
                 href={`mailto:${config.contact_info.email}`}
-                class="text-text-light font-semibold hover:text-text-dark transition-colors duration-300"
+                class="text-text-light font-semibold text-lg hover:text-text-dark transition-colors duration-300"
               >
                 {config.contact_info.email}
               </a>
@@ -94,13 +107,13 @@ const { footer } = menu;
 
             <div>
               <h3
-                class="text-text-light mb-2 opacity-80 text-sm tracking-wider"
+                class="text-text-light mb-2 opacity-80 text-base tracking-wider"
               >
                 Address:
               </h3>
               <a
                 href={`https://www.google.com/maps/place/${encodeURIComponent(config.contact_info.address)}`}
-                class="text-text-light font-semibold hover:text-text-dark text-[15px] leading-relaxed"
+                class="text-text-light font-semibold hover:text-text-dark text-lg leading-relaxed"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -113,18 +126,4 @@ const { footer } = menu;
     </div>
   </div>
 
-  <!-- Desktop: Banner image out of container (left 45%) -->
-  <div class="absolute lg:bottom-0 left-0 md:-left-40 w-[40vw] z-5">
-    <div class="relative h-full rounded-lg shadow-lg flex items-end">
-      <ImageMod
-        height={700}
-        width={800}
-        src="/images/work/tpo-06.jpg"
-        alt=""
-        class="w-full h-full object-cover object-bottom pointer-events-none"
-        aria-hidden="true"
-        loading={"lazy"}
-      />
-    </div>
-  </div>
 </footer>
