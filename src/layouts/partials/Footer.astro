@@ -11,9 +11,10 @@ const { footer } = menu;
   /* Daniel, 2026-08-27: the small mark plus "JLAND GROUP" text is replaced by the
      full lockup, and the strapline underneath it is gone. */
   .footer__logo {
-    display: block; height: auto;
-    width: min(clamp(240px, 30vw, 420px), 84vw);
+    display: block; margin: 0 auto; height: auto;
+    width: min(clamp(320px, 52vw, 720px), 88vw);
   }
+  .footer__brand { display: flex; justify-content: center; width: 100%; }
 </style>
 
 <footer class="section pb-15 relative text-white overflow-hidden">
@@ -32,7 +33,7 @@ const { footer } = menu;
 
   <div class="container relative z-10">
     <div
-      class="flex gap-6 flex-wrap justify-center max-md:text-center md:justify-between items-baseline"
+      class="footer__brand"
     >
       <a href="/" aria-label="JLand Group — home">
         <img
@@ -56,7 +57,7 @@ const { footer } = menu;
           {
             footer.map((section) => (
               <div>
-                <h3 class="text-text-light mb-6 opacity-80 uppercase text-base tracking-wider">
+                <h3 class="text-text-light mb-6 opacity-80 uppercase text-lg tracking-wider">
                   {section.title}
                 </h3>
                 <ul class="space-y-5">
@@ -64,7 +65,7 @@ const { footer } = menu;
                     <li>
                       <a
                         href={item.url}
-                        class="text-text-light font-semibold text-lg hover:text-text-dark transition-colors duration-300"
+                        class="text-text-light font-semibold text-xl hover:text-text-dark transition-colors duration-300"
                       >
                         {item.name}
                       </a>
@@ -79,13 +80,13 @@ const { footer } = menu;
           <div class="space-y-8">
             <div>
               <h3
-                class="text-text-light mb-2 opacity-80 text-base tracking-wider"
+                class="text-text-light mb-2 opacity-80 text-lg tracking-wider"
               >
                 Call us:
               </h3>
               <a
                 href={`tel:${config.contact_info.phone.replace(/[^+\d]/g, "")}`}
-                class="text-text-light font-semibold text-lg hover:text-text-dark transition-colors duration-300"
+                class="text-text-light font-semibold text-xl hover:text-text-dark transition-colors duration-300"
               >
                 {config.contact_info.phone}
               </a>
@@ -93,13 +94,13 @@ const { footer } = menu;
 
             <div>
               <h3
-                class="text-text-light mb-2 opacity-80 text-base tracking-wider"
+                class="text-text-light mb-2 opacity-80 text-lg tracking-wider"
               >
                 E-mail:
               </h3>
               <a
                 href={`mailto:${config.contact_info.email}`}
-                class="text-text-light font-semibold text-lg hover:text-text-dark transition-colors duration-300"
+                class="text-text-light font-semibold text-xl hover:text-text-dark transition-colors duration-300"
               >
                 {config.contact_info.email}
               </a>
@@ -107,13 +108,13 @@ const { footer } = menu;
 
             <div>
               <h3
-                class="text-text-light mb-2 opacity-80 text-base tracking-wider"
+                class="text-text-light mb-2 opacity-80 text-lg tracking-wider"
               >
                 Address:
               </h3>
               <a
                 href={`https://www.google.com/maps/place/${encodeURIComponent(config.contact_info.address)}`}
-                class="text-text-light font-semibold hover:text-text-dark text-lg leading-relaxed"
+                class="text-text-light font-semibold hover:text-text-dark text-xl leading-relaxed"
                 target="_blank"
                 rel="noopener noreferrer"
               >
