@@ -50,7 +50,13 @@ const { title, meta_title, description, image, keywords, canonical, robots, sche
       )
     }
     <!-- favicon -->
-    <link rel="shortcut icon" href={config.site.favicon} />
+    <!-- Google's results icon prefers a root /favicon.ico and a large raster icon;
+         it was 404 and the apple-touch icon was still the theme's orange placeholder,
+         so search showed a generic mark instead of ours. Keep all four. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href={config.site.favicon} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-jland-v1.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192-jland-v1.png" />
     <!-- theme meta -->
     <meta name="theme-name" content="roofer-astro" />
     <meta name="msapplication-TileColor" content="#000000" />
@@ -135,7 +141,7 @@ const { title, meta_title, description, image, keywords, canonical, robots, sche
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="J Land Contracting" />
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-v2.png" />
 
     <ClientRouter />
 
