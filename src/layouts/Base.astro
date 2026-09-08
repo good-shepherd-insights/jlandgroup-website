@@ -55,7 +55,12 @@ const { title, meta_title, description, image, keywords, canonical, robots, sche
          so search showed a generic mark instead of ours. Keep all four. -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href={config.site.favicon} />
+    <!-- Google prefers a square favicon that is a multiple of 48px. The 32px one is
+         kept for browser tabs, but 48/96/144/192 are what the crawler should pick. -->
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-jland-v1.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/images/icon-48-jland-v1.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/icon-96-jland-v1.png" />
+    <link rel="icon" type="image/png" sizes="144x144" href="/images/icon-144-jland-v1.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192-jland-v1.png" />
     <!-- theme meta -->
     <meta name="theme-name" content="roofer-astro" />
