@@ -61,6 +61,19 @@ const telHref = "tel:+1" + (phone || "").replace(/\D/g, "");
 
   .hero__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
+  /* Daniel, 2026-09-23: on the phone the motto sat right on top of the two
+     buttons and read as one crunched block. Bigger motto, real air under it.
+     This block MUST stay after the base .hero__title/.hero__actions rules —
+     same specificity, so source order is what decides. */
+  @media (max-width: 768px) {
+    .hero__title {
+      font-size: clamp(2rem, 7.2vw, 2.35rem);
+      line-height: 1.14;
+      margin-bottom: 2.9rem;
+    }
+    .hero__actions { gap: 1.15rem; }
+  }
+
   /* Daniel, 2026-08-26: phone below the consultation button, larger and bolder. */
   .hero__tel {
     display: block; width: fit-content; margin: 1.9rem auto 0;
